@@ -173,6 +173,7 @@ func hit(damage, stop):
 func shoot():
     var shootter = BulletShootter.instance()
     shootter.position = Vector2.UP*5
+    shootter.rotation = dir
     shootter.player_rotation = jump_turn
     add_child(shootter)
 

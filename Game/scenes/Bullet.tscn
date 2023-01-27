@@ -8,10 +8,11 @@ radius = 4.12311
 
 [node name="Bullet" type="KinematicBody2D"]
 modulate = Color( 1, 0.27, 0.27, 1 )
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -2, 0 )
+position = Vector2( -2, -27 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 
