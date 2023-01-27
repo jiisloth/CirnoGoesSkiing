@@ -92,20 +92,50 @@ func _physics_process(delta):
         slide = slide * 0.98*delta*60
         slide += Vector2(slidespeed,0).rotated(pre_movedir)
     
-    $Shadow.rotation = dir
-    $Character/Board.rotation = dir
     velocity = Vector2(movespeed,0).rotated(movedir) + slide
     move_and_slide(velocity, Vector2.UP)
         
 
 func _process(delta):
-    animate()
+    animate(delta)
+
+var breath = 0
     
-func animate():
-    if is_on_ground():
-        $Shadow/Particles2D.emitting = true
+func animate(delta):
+    var animation_dir = 12 - round(((dir)/TAU) * 12)
+    if animation_dir == 12:
+        animation_dir = 0
+    $Shadow.frame_coords.x = animation_dir
+    $Character/Feet.frame_coords.x = animation_dir
+    $Character/Torso.frame_coords.x = animation_dir
+    $Character/Head.frame_coords.x = animation_dir
+    if movespeed > 2:
+        $Character/Head.frame_coords.y = 0
+    if movespeed < -2:
+        $Character/Head.frame_coords.y = 1
+    
+    breath += delta*1.2
+    if breath > TAU:
+        breath -= TAU
+    
+    if sin(breath) > 0.2:
+        $Character/Head.position.y = -9
     else:
-        $Shadow/Particles2D.emitting = false
+        $Character/Head.position.y = -10
+        
+    if sin(breath) > 0.3:
+        $Character/Torso.position.y = -9
+    else:
+        $Character/Torso.position.y = -10
+        
+    
+    
+    if is_on_ground():
+        $Particles2D.rotation = dir
+        $Particles2D.emitting = true
+    else:
+        $Particles2D.emitting = false
+        
    
 func is_on_ground():
     if height == 0:

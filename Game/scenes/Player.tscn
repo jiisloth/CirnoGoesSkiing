@@ -1,13 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://img/pixelart/shadow.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.gd" type="Script" id=2]
+[ext_resource path="res://img/pixelart/feet.png" type="Texture" id=3]
+[ext_resource path="res://img/pixelart/torso.png" type="Texture" id=4]
+[ext_resource path="res://img/pixelart/head.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 2.0
 
 [sub_resource type="ParticlesMaterial" id=2]
 emission_shape = 2
-emission_box_extents = Vector3( 30, 5, 1 )
+emission_box_extents = Vector3( 25, 4, 1 )
 flag_disable_z = true
 direction = Vector3( 0, 0, 0 )
 gravity = Vector3( 0, 0, 0 )
@@ -22,15 +26,9 @@ script = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Shadow" type="Sprite" parent="."]
-self_modulate = Color( 0.356863, 0.356863, 0.356863, 0.631373 )
-position = Vector2( 0, -5.36442e-07 )
-scale = Vector2( 1, 0.21875 )
-texture = ExtResource( 1 )
-
-[node name="Particles2D" type="Particles2D" parent="Shadow"]
-position = Vector2( 0, 2.45231e-06 )
-scale = Vector2( 1, 4.57143 )
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 0, 7.95808e-13 )
+scale = Vector2( 1, 1 )
 z_index = -1
 z_as_relative = false
 amount = 26
@@ -39,12 +37,31 @@ randomness = 0.12
 local_coords = false
 process_material = SubResource( 2 )
 
-[node name="Character" type="Node2D" parent="."]
-
-[node name="Board" type="Sprite" parent="Character"]
-position = Vector2( 0, -1 )
-scale = Vector2( 1, 0.21875 )
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.294118 )
+position = Vector2( 0, -30 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
+hframes = 12
+
+[node name="Character" type="Node2D" parent="."]
+scale = Vector2( 3, 3 )
+
+[node name="Feet" type="Sprite" parent="Character"]
+position = Vector2( 0, -10 )
+texture = ExtResource( 3 )
+hframes = 12
+
+[node name="Torso" type="Sprite" parent="Character"]
+position = Vector2( 0, -10 )
+texture = ExtResource( 4 )
+hframes = 12
+
+[node name="Head" type="Sprite" parent="Character"]
+position = Vector2( 0, -10 )
+texture = ExtResource( 5 )
+hframes = 12
+vframes = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
