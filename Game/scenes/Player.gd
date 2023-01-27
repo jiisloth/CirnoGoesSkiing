@@ -23,6 +23,21 @@ const turnspeed = 1.4
 
 var active_ramp = false
 
+var tricks = []
+var current_trick = trick.NONE
+var trick_tick = 0
+var trick_total = 0
+enum trick {
+    NONE,
+    MELON,
+    INDY,
+    NOSE
+   }
+
+signal start_trick
+signal add_trick
+signal end_jump
+
 func _physics_process(delta):
     var turn = 0
     if Input.is_action_pressed("left"):
@@ -51,17 +66,62 @@ func _physics_process(delta):
         pass #climb hill
     if Input.is_action_just_pressed("jump") and is_on_ground():
         jump_turn = 0
+        tricks = []
         lift = 3
         if active_ramp:
             lift += clamp(get_ground_height(active_ramp)*movespeed*movespeed*0.000005,0,5)
             active_ramp = false
-    if Input.is_action_pressed("jump"):
+    if Input.is_action_pressed("jump") and $Damaged.time_left <= 0:
         lift -= delta*gravity*0.5
     else:
         lift -= delta*gravity
     
+    #Tricks
+    if not is_on_ground() and $Damaged.time_left <= 0:
+        if Input.is_action_just_pressed("melon"):
+            if current_trick != trick.MELON:
+                add_trick()
+            current_trick = trick.MELON
+            emit_signal("start_trick")
+        if Input.is_action_just_pressed("indy"):
+            if current_trick != trick.INDY:
+                add_trick()
+            current_trick = trick.INDY
+            emit_signal("start_trick")
+        if Input.is_action_just_pressed("nose"):
+            if current_trick != trick.NOSE:
+                add_trick()
+            current_trick = trick.NOSE
+            emit_signal("start_trick")
+            
+        match current_trick:
+            trick.MELON:
+                if Input.is_action_pressed("melon"):
+                    trick_tick += delta
+                    trick_total += delta
+                else:
+                    add_trick()
+            trick.INDY:
+                if Input.is_action_pressed("indy"):
+                    trick_tick += delta
+                    trick_total += delta
+                else:
+                    add_trick()
+            trick.NOSE:
+                if Input.is_action_pressed("nose"):
+                    trick_tick += delta
+                    trick_total += delta
+                else:
+                    add_trick()
+            
+    
     if jump > 0 and max(jump + lift, 0) == 0:
+        emit_signal("end_jump")
         shoot()
+        tricks = []
+        current_trick = trick.NONE
+        trick_tick = 0
+        trick_total = 0
     jump = max(jump + lift, 0)
     var ground_height = 0
     if active_ramp:
@@ -86,7 +146,7 @@ func _physics_process(delta):
         look = dir - PI
     
     if is_on_ground():
-        var pull = sin(look)*1.2
+        var pull = sin(look)*1.6
         if angle_difference(movedir, dir) > PI/2.0:
             movedir += PI
             movespeed = -movespeed
@@ -112,7 +172,13 @@ func _physics_process(delta):
     
     velocity = Vector2(movespeed,0).rotated(movedir) + slide
     move_and_slide(velocity, Vector2.UP)
-        
+
+func add_trick():
+    emit_signal("add_trick")
+    if current_trick != trick.NONE:
+        tricks.append(Vector2(current_trick, trick_tick))
+        trick_tick = 0
+    current_trick = trick.NONE
 
 func _process(delta):
     animate(delta)
@@ -171,9 +237,12 @@ func hit(damage, stop):
 
 
 func shoot():
+    if $Damaged.time_left > 0:
+        return
     var shootter = BulletShootter.instance()
-    shootter.position = Vector2.UP*5
     shootter.rotation = dir
+    shootter.tricks = tricks
+    shootter.trick_total = trick_total
     shootter.player_rotation = jump_turn
     add_child(shootter)
 

@@ -2,6 +2,12 @@ extends YSort
 
 export(PackedScene) var Chunk
 
+func _ready():
+    $CanvasLayer/Trickbar.player = $Player
+    $Player.connect("add_trick", $CanvasLayer/Trickbar, "add_trick")
+    $Player.connect("start_trick", $CanvasLayer/Trickbar, "start_trick")
+    $Player.connect("end_jump", $CanvasLayer/Trickbar, "clear")
+
 func _process(delta):
     check_chunks()
     

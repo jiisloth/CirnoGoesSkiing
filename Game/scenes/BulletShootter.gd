@@ -8,19 +8,55 @@ var bullets = []
 var dir = 0
 var next = 0
 var bullet_count = 0
-var speed = 8
+var speed = 6
 
 var rot_dir = 1
+
+var tricks = []
+var trick_total = 0
+
+var launch = Vector3.ZERO
+var fly = Vector3.ZERO
+var hit = Vector3.ZERO
+var total = Vector3.ZERO
+
+var color = Color(1,1,1)
+ 
 
 func _ready():
     bullet_count = 4 + floor(abs(player_rotation)/PI)*4
     if player_rotation < 0:
         rot_dir =- 1
-    
+    if len(tricks) == 0:
+        queue_free()
+        return
+    var pointer = 0
+    for trick in tricks:
+        if pointer < 0.3333*trick_total:
+            launch[trick.x-1] += trick.y
+        elif pointer < 0.6667*trick_total:
+            fly[trick.x-1] += trick.y
+        else:
+            hit[trick.x-1] += trick.y
+        total[trick.x-1] += trick.y
+    var c = total.normalized()
+    color = color.linear_interpolate(Color("#c63d42"),c.x).linear_interpolate(Color("#a2e387"),c.y).linear_interpolate(Color("#62abd2"),c.z)
+    launch = scale_property(launch)/(2/3.0)
+    fly = scale_property(fly)/(2/3.0)
+    hit = scale_property(hit)/(2/3.0)
+        
+func scale_property(prop):
+    var ptotal = prop.x + prop.y + prop.z
+    if ptotal > 2/3.0:
+        var pscale = (2/3.0)/ptotal
+        prop = prop*pscale
+    return prop
+        
 func _process(delta):
-    dir += delta*speed
+    dir += delta*(speed + launch.z*6)
     if abs(dir) > TAU:
         launch_bullets()
+    if abs(dir) > TAU*2:
         call_deferred("queue_free")
     if dir > next:
         add_bullet(next)
@@ -33,7 +69,9 @@ func add_bullet(d):
     var bullet = Bullet.instance()
     bullet.rotation = d + rotation
     bullet.offset = Vector2(50,0).rotated(d+ rotation)
-    bullet.global_position = get_parent().global_position + bullet.offset
+    bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
+    bullet.modulate = color
+    bullet.speed = 400 + 400*fly.z
     bullet.player = get_parent()
     bullets.append(bullet)
     get_parent().get_parent().add_child(bullet)

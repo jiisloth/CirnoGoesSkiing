@@ -7,7 +7,7 @@
 radius = 4.12311
 
 [node name="Bullet" type="KinematicBody2D"]
-modulate = Color( 1, 0.27, 0.27, 1 )
+modulate = Color( 0.47, 1, 0.6555, 1 )
 collision_layer = 0
 script = ExtResource( 2 )
 
