@@ -31,14 +31,38 @@ func _ready():
         queue_free()
         return
     var pointer = 0
+    print(trick_total)
     for trick in tricks:
         if pointer < 0.3333*trick_total:
-            launch[trick.x-1] += trick.y
+            var to_point = 0.3333*trick_total-pointer
+            if trick.y > to_point:
+                launch[trick.x-1] += to_point
+                var extra = trick.y - to_point
+                to_point = 0.6667*trick_total - 0.3333*trick_total
+                if extra > to_point:
+                    fly[trick.x-1] += to_point
+                    extra = extra - to_point
+                    hit[trick.x-1] += extra
+                else:
+                    fly[trick.x-1] += extra
+                    
+            else:
+                launch[trick.x-1] += trick.y
         elif pointer < 0.6667*trick_total:
-            fly[trick.x-1] += trick.y
+            var to_point = 0.6667*trick_total-pointer
+            if trick.y > to_point:
+                fly[trick.x-1] += to_point
+                var extra = trick.y - to_point
+                hit[trick.x-1] += extra
+            else:   
+                fly[trick.x-1] += trick.y
         else:
             hit[trick.x-1] += trick.y
         total[trick.x-1] += trick.y
+        pointer += trick.y
+    print(launch)
+    print(fly)
+    print(hit)
     var c = total.normalized()
     color = color.linear_interpolate(Color("#c63d42"),c.x).linear_interpolate(Color("#a2e387"),c.y).linear_interpolate(Color("#62abd2"),c.z)
     launch = scale_property(launch)/(2/3.0)
@@ -72,6 +96,8 @@ func add_bullet(d):
     bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
     bullet.modulate = color
     bullet.speed = 400 + 400*fly.z
+    bullet.damage = 1 + hit.z
+    bullet.wave = fly.y
     bullet.player = get_parent()
     bullets.append(bullet)
     get_parent().get_parent().add_child(bullet)
