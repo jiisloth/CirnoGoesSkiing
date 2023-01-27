@@ -4,10 +4,10 @@
 [ext_resource path="res://scenes/Chunk.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 
-[node name="World" type="Node2D"]
+[node name="World" type="YSort"]
 script = ExtResource( 1 )
 Chunk = ExtResource( 2 )
 
-[node name="Chunks" type="Node2D" parent="."]
+[node name="Chunks" type="YSort" parent="."]
 
 [node name="Player" parent="." instance=ExtResource( 3 )]

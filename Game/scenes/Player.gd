@@ -21,16 +21,12 @@ func _physics_process(delta):
         turn -= 1
     if Input.is_action_pressed("right"):
         turn += 1
-    
-    
-
     if Input.is_action_just_pressed("stop"):
         if sin(velocity.angle())*cos(velocity.angle()) > 0:
             stopdir = dir - PI/2.0
         else:
             stopdir = dir + PI/2.0
         stoppingdir = dir
-            
     if Input.is_action_pressed("stop"):
         if abs(velocity.normalized().dot(Vector2.RIGHT.rotated(stoppingdir))) < 0.6 or velocity.length() < 10:
             
@@ -39,11 +35,10 @@ func _physics_process(delta):
             else:
                 stopdir = PI 
 
-        dir = lerp_angle(dir, stopdir, 0.2*(abs(angle_difference(dir,stopdir))/(PI*2/3)))
-#        if abs(movespeed) > 30:
-#            turn = sin(dir)*sin(dir)*sin(dir)*20 + sin(dir)*2
-#        else:
-#            turn = sin(dir)*sin(dir)*sin(dir)*20 + sin(dir)*2
+        dir = lerp_angle(dir, stopdir, 0.2*(abs(angle_difference(dir,stopdir))/(PI*2/3))*delta*60)
+        if velocity.length() < 15:
+            movespeed *= 0.5 *delta*60
+
     if Input.is_action_pressed("up") and is_on_ground():
         pass #climb hill
     if Input.is_action_just_pressed("jump") and is_on_ground():
@@ -82,7 +77,7 @@ func _physics_process(delta):
             movespeed = -movespeed
         
         var pre_movedir = movedir
-        movedir = lerp_angle(movedir, dir, 0.1)
+        movedir = lerp_angle(movedir, dir, 0.1*delta*60)
     
         var turned = clamp(abs(angle_difference(pre_movedir,dir)), 0, PI/2.0) / (PI/2.0)
         
@@ -90,11 +85,11 @@ func _physics_process(delta):
         if sin(movedir) < 0:
             accelerating = -1
             
-        movespeed = movespeed*0.997+pull*accelerating
+        movespeed = movespeed*0.997+pull*accelerating*delta*60
         
         var slidespeed = movespeed*(turned*turned)
         movespeed -= slidespeed
-        slide = slide * 0.98
+        slide = slide * 0.98*delta*60
         slide += Vector2(slidespeed,0).rotated(pre_movedir)
     
     $Shadow.rotation = dir
@@ -102,7 +97,16 @@ func _physics_process(delta):
     velocity = Vector2(movespeed,0).rotated(movedir) + slide
     move_and_slide(velocity, Vector2.UP)
         
-        
+
+func _process(delta):
+    animate()
+    
+func animate():
+    if is_on_ground():
+        $Shadow/Particles2D.emitting = true
+    else:
+        $Shadow/Particles2D.emitting = false
+   
 func is_on_ground():
     if height == 0:
         return true
