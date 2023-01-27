@@ -40,7 +40,6 @@ local_coords = false
 process_material = SubResource( 2 )
 
 [node name="Character" type="Node2D" parent="."]
-visible = false
 
 [node name="Board" type="Sprite" parent="Character"]
 position = Vector2( 0, -1 )
