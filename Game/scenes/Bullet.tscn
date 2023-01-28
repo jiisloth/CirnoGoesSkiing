@@ -17,13 +17,15 @@ collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -2, -27 )
+position = Vector2( 0, -27 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
+hframes = 3
 
 [node name="Color" type="Sprite" parent="Sprite"]
 material = SubResource( 3 )
 texture = ExtResource( 1 )
+hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

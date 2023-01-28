@@ -31,6 +31,9 @@ func _physics_process(delta):
     yspeed = cos(age*40+wave*10)
     $Sprite.position = Vector2.UP.rotated(-rotation)*20
     if moving:
+        var frame = int(age*6)%2+1
+        $Sprite.frame = frame
+        $Sprite/Color.frame = frame
         if track > 0:
             targeting += delta*6*track
             $Track.scale = Vector2.ONE*clamp(targeting, 0, 5)
