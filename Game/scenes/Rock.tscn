@@ -11,7 +11,7 @@ height = 62.0
 script = ExtResource( 2 )
 height = 50
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["Obstacle"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 rotation = 1.5708
@@ -22,4 +22,5 @@ position = Vector2( 0, -31 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
