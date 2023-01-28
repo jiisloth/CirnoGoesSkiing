@@ -14,7 +14,7 @@ func _ready():
         $Sprite.scale.x = $Sprite.scale.x
 
 func _process(delta):
-    if health < 0:
+    if health <= 0:
         die()   
 
 func _on_Area2D_body_entered(body):
@@ -41,4 +41,6 @@ func _on_Area2D_area_entered(area):
         area.hit(damage)
         if area.moving or area.health > 1:
             health -= area.damage
+    if area.is_in_group("Boss"):
+        health = 0
 

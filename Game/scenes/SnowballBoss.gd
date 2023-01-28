@@ -29,6 +29,13 @@ var accSpeed = 1
 
 var graze = true
 
+enum {
+    SNOWBALL,
+    ICICLE,
+    CRYSTAL
+   }
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     #hide()
@@ -100,47 +107,44 @@ func _process(delta):
         bossHealth -= 1
 
 
-func create_bullet(d, speed, type):
+func create_bullet(d, speed, btype):
     var bullet = Bullet.instance()
     bullet.speed = abs(player.movespeed) + speed
     bullet.rotation = rotation + deg2rad(d)
     bullet.position = position
-    if type == 1:
-        bullet.texType = type
-    if type == 2:
-        bullet.texType = type
+    bullet.btype = btype
     get_parent().add_child(bullet)
     
 
 func bullet_phase1(num):
     if num != 4:
-        create_bullet(90, 200, 1)
-        create_bullet(135, 200, 1)
-        create_bullet(45, 200, 1)
+        create_bullet(90, 200, SNOWBALL)
+        create_bullet(135, 200, SNOWBALL)
+        create_bullet(45, 200, SNOWBALL)
     else:
-        create_bullet(90, 150, 2)
-        create_bullet(90, 200, 2)
-        create_bullet(90, 250, 2)
-        create_bullet(90, 300, 2)
-        create_bullet(90, 350, 2)
+        create_bullet(90, 150, ICICLE)
+        create_bullet(90, 200, ICICLE)
+        create_bullet(90, 250, ICICLE)
+        create_bullet(90, 300, ICICLE)
+        create_bullet(90, 350, ICICLE)
     
 func bullet_phase2(num):
     if num != 4:
-        create_bullet(90, 150, 1)
-        create_bullet(90-22.5, 150, 1)
-        create_bullet(45, 150, 1)
-        create_bullet(112.5, 150, 1)
-        create_bullet(135, 150, 1)
+        create_bullet(90, 150, SNOWBALL)
+        create_bullet(90-22.5, 150, SNOWBALL)
+        create_bullet(45, 150, SNOWBALL)
+        create_bullet(112.5, 150, SNOWBALL)
+        create_bullet(135, 150, SNOWBALL)
     else:
-        create_bullet(90, 200, 2)
-        create_bullet(135, 200, 2)
-        create_bullet(45, 200, 2)
-        create_bullet(90, 400, 2)
-        create_bullet(135, 400, 2)
-        create_bullet(45, 400, 2)
-        create_bullet(90, 300, 2)
-        create_bullet(135, 300, 2)
-        create_bullet(45, 300, 2)
+        create_bullet(90, 200, ICICLE)
+        create_bullet(135, 200, ICICLE)
+        create_bullet(45, 200, ICICLE)
+        create_bullet(90, 400, ICICLE)
+        create_bullet(135, 400, ICICLE)
+        create_bullet(45, 400, ICICLE)
+        create_bullet(90, 300, ICICLE)
+        create_bullet(135, 300, ICICLE)
+        create_bullet(45, 300, ICICLE)
         
 func boss_hit(dmg):
     print("Boss hit for ", dmg)
@@ -169,3 +173,4 @@ func _on_Area2D_body_entered(body):
         if body.height < 70:
             graze = false
             body.hit(1, false, 0.3)
+
