@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://img/pixelart/cirno3.png" type="Texture" id=1]
+[ext_resource path="res://img/pixelart/cirno1.png" type="Texture" id=2]
+[ext_resource path="res://img/pixelart/cirno2.png" type="Texture" id=3]
+[ext_resource path="res://img/pixelart/cirno2f.png" type="Texture" id=5]
+[ext_resource path="res://img/pixelart/cirno3f.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 157, 77 )
+frames = SubResource( 1 )
+frame = 3
+playing = true
