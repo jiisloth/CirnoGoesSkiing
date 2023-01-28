@@ -1,7 +1,8 @@
 extends Label
 
 var types = {
-    "Graze": Color("#a24090")
+    "Graze": Color("#a24090"),
+    "Power": Color("#ba0a45")
    }
 var etype = "Graze"
 

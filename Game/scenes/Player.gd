@@ -40,6 +40,8 @@ var coyote = 0
 var was_on_ground = true
 var jumped = false
 
+var power = 0
+
 var graze_boost = 0
 
 
@@ -130,8 +132,11 @@ func _physics_process(delta):
             
     
     if jump > 0 and max(jump + lift, 0) == 0:
+        if current_trick != trick.NONE:
+            hit(0, true, 0.5)
+        else:
+            shoot()
         $Character/Trickbar.clear()
-        shoot()
         tricks = []
         current_trick = trick.NONE
         trick_tick = 0
@@ -149,8 +154,8 @@ func _physics_process(delta):
     if is_on_ground():
         dir += delta*turn*turnspeed
     else:
-        dir += delta*turn*turnspeed*5
-        jump_turn += delta*turn*turnspeed*5
+        dir += delta*turn*turnspeed*3
+        jump_turn += delta*turn*turnspeed*3
         
     while dir > PI*2:
         dir -= PI*2
@@ -249,10 +254,15 @@ func animate(delta):
         $Particles2D.emitting = false
 
 
-func hit(damage, stop):
+func hit(damage, stop, speed=0.2):
     if stop:
-        movespeed *= 0.2
+        movespeed *= speed
     $Damaged.start()
+    $Character/Trickbar.clear()
+    tricks = []
+    current_trick = trick.NONE
+    trick_tick = 0
+    trick_total = 0
 
 
 func shoot():
@@ -313,7 +323,13 @@ func graze():
     var txt = Effect_text.instance()
     txt.etype = "Graze"
     add_child(txt)
-    graze_boost += 5
+    graze_boost += 3
+    
+func power():
+    var txt = Effect_text.instance()
+    txt.etype = "Power"
+    add_child(txt)
+    power += 5
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))

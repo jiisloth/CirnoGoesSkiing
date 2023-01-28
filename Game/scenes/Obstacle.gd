@@ -4,6 +4,7 @@ extends Node2D
 export(int) var height = 30
 export(int) var damage = 1
 export(int) var health = 1
+export(float) var dropchance = 0.2
 export(bool) var flippable = true
 
 var graze = true
@@ -17,8 +18,18 @@ func _on_Area2D_body_entered(body):
         if body.height < height:
             graze = false
             body.hit(damage, true)
+            
+            
 func die():
+    drop()
     queue_free()
+
+
+func drop():
+    if randf() < dropchance:
+        var p = load("res://scenes/Powerup.tscn").instance()
+        p.position = position
+        get_parent().add_child(p)
 
 
 func _on_Area2D_area_entered(area):

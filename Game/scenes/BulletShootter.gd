@@ -24,7 +24,7 @@ var color = Color(1,1,1)
  
 
 func _ready():
-    bullet_count = 4 + floor(abs(player_rotation)/PI)*4
+    bullet_count = 4 + floor((abs(player_rotation)+TAU/16)/PI)*4
     if player_rotation < 0:
         rot_dir =- 1
     if len(tricks) == 0:
