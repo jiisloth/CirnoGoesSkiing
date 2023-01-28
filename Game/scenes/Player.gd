@@ -46,6 +46,9 @@ var graze_boost = 0
 
 
 func _physics_process(delta):
+    power -= power*0.05*delta
+    if power < 0.2:
+        power = 0
     set_was_on_ground(delta)
     var turn = 0
     if Input.is_action_pressed("left"):
@@ -186,7 +189,7 @@ func _physics_process(delta):
         if sin(movedir) < 0:
             accelerating = -1
             
-        movespeed = movespeed*0.997+pull*accelerating*delta*60 + graze_boost*sign(movespeed)
+        movespeed = movespeed*0.997+pull*accelerating*delta*60 + graze_boost*sign(movespeed)*delta*60
         graze_boost = max(graze_boost-0.1,0)
         
         var slidespeed = movespeed*(turned*turned)*0.9
@@ -320,17 +323,17 @@ func set_was_on_ground(delta):
     else:
         was_on_ground = false
 
-func graze():
+func add_graze():
     var txt = Effect_text.instance()
     txt.etype = "Graze"
     add_child(txt)
     graze_boost += 3
     
-func power():
+func add_power():
     var txt = Effect_text.instance()
     txt.etype = "Power"
     add_child(txt)
-    power += 5
+    power += 1
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))
@@ -341,5 +344,5 @@ func _on_Graze_area_exited(area):
         if area.is_in_group("Obstacle"):
             area = area.get_parent()
         if area.graze:
-            graze()
+            add_graze()
         area.graze = true
