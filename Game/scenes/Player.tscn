@@ -70,6 +70,7 @@ hframes = 12
 vframes = 2
 
 [node name="Trickbar" parent="Character" instance=ExtResource( 7 )]
+visible = false
 margin_top = -108.0
 margin_bottom = -84.0
 

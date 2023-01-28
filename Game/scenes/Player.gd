@@ -40,6 +40,8 @@ var coyote = 0
 var was_on_ground = true
 var jumped = false
 
+var graze_boost = 0
+
 
 func _physics_process(delta):
     set_was_on_ground(delta)
@@ -179,7 +181,8 @@ func _physics_process(delta):
         if sin(movedir) < 0:
             accelerating = -1
             
-        movespeed = movespeed*0.997+pull*accelerating*delta*60
+        movespeed = movespeed*0.997+pull*accelerating*delta*60 + graze_boost*sign(movespeed)
+        graze_boost = max(graze_boost-0.1,0)
         
         var slidespeed = movespeed*(turned*turned)*0.9
         movespeed -= slidespeed
@@ -310,6 +313,7 @@ func graze():
     var txt = Effect_text.instance()
     txt.etype = "Graze"
     add_child(txt)
+    graze_boost += 5
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))
