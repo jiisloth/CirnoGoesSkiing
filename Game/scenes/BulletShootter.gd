@@ -61,7 +61,11 @@ func _ready():
         total[trick.x-1] += trick.y
         pointer += trick.y
     var c = total.normalized()
-    color = color.linear_interpolate(Color("#c63d42"),c.x).linear_interpolate(Color("#a2e387"),c.y).linear_interpolate(Color("#62abd2"),c.z)
+    color.r = (color.r + Color("#c63d42").r*c.x+Color("#a2e387").r*c.y+Color("#62abd2").r*c.z)/4.0
+    color.g = (color.g + Color("#c63d42").g*c.x+Color("#a2e387").g*c.y+Color("#62abd2").g*c.z)/4.0
+    color.b = (color.b + Color("#c63d42").b*c.x+Color("#a2e387").b*c.y+Color("#62abd2").b*c.z)/4.0
+    color.s = 0.5
+    color.v = 1
     launch = scale_property(launch)/(2/3.0)
     fly = scale_property(fly)/(2/3.0)
     hit = scale_property(hit)/(2/3.0)

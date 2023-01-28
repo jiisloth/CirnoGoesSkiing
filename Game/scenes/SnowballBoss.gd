@@ -27,6 +27,8 @@ var movTime = 1
 var shootPause = 1.0
 var accSpeed = 1
 
+var graze = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     #hide()
@@ -160,3 +162,10 @@ func boss_hit(dmg):
 func die():
     queue_free()
 
+
+
+func _on_Area2D_body_entered(body):
+    if body.name == "Player":
+        if body.height < 70:
+            graze = false
+            body.hit(1, false, 0.3)

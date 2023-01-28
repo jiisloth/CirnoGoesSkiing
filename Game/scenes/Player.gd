@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 export(PackedScene) var BulletShootter
 export(PackedScene) var Effect_text
+export(PackedScene) var TrickImg
 
 
 
@@ -35,6 +36,7 @@ enum trick {
     INDY,
     NOSE
    }
+var trickimg = false
 
 var coyote = 0
 var was_on_ground = true
@@ -102,16 +104,19 @@ func _physics_process(delta):
                 add_trick()
             current_trick = trick.MELON
             $Character/Trickbar.start_trick()
+            start_trick()
         if Input.is_action_just_pressed("indy"):
             if current_trick != trick.INDY:
                 add_trick()
             current_trick = trick.INDY
             $Character/Trickbar.start_trick()
+            start_trick()
         if Input.is_action_just_pressed("nose"):
             if current_trick != trick.NOSE:
                 add_trick()
             current_trick = trick.NOSE
             $Character/Trickbar.start_trick()
+            start_trick()
             
         match current_trick:
             trick.MELON:
@@ -140,6 +145,7 @@ func _physics_process(delta):
         else:
             shoot()
         $Character/Trickbar.clear()
+        end_trick()
         tricks = []
         current_trick = trick.NONE
         trick_tick = 0
@@ -201,11 +207,23 @@ func _physics_process(delta):
     move_and_slide(velocity, Vector2.UP)
 
 func add_trick():
+    end_trick()
     $Character/Trickbar.add_trick()
     if current_trick != trick.NONE:
         tricks.append(Vector2(current_trick, trick_tick))
         trick_tick = 0
     current_trick = trick.NONE
+
+func end_trick():
+    if trickimg:
+        trickimg.end = true
+        trickimg = false
+    
+
+
+func start_trick():
+    trickimg = TrickImg.instance()
+    add_child(trickimg)
 
 func _process(delta):
     animate(delta)
@@ -262,6 +280,7 @@ func hit(damage, stop, speed=0.2):
         movespeed *= speed
     $Damaged.start()
     $Character/Trickbar.clear()
+    end_trick()
     tricks = []
     current_trick = trick.NONE
     trick_tick = 0
@@ -340,8 +359,8 @@ func angle_difference(from,to):
 
 
 func _on_Graze_area_exited(area):
-    if area.is_in_group("Bossbullet") or area.is_in_group("Obstacle"):
-        if area.is_in_group("Obstacle"):
+    if area.is_in_group("Bossbullet") or area.is_in_group("Obstacle") or area.is_in_group("Boss"):
+        if area.is_in_group("Obstacle") or area.is_in_group("Boss"):
             area = area.get_parent()
         if area.graze:
             add_graze()
