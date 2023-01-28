@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/SnowballBoss.gd" type="Script" id=1]
 [ext_resource path="res://img/pixelart/isolumipallo.png" type="Texture" id=2]
-[ext_resource path="res://scenes/Bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/BossBullet.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 35.0
