@@ -1,10 +1,11 @@
 extends YSort
 
 export(PackedScene) var Chunk
-
+export(PackedScene) var Boss
 
 func _process(delta):
     check_chunks()
+    print($BossTimer.time_left)
     
 var active_chunks = []
 
@@ -30,3 +31,9 @@ func generate_chunk(coords):
             
 func get_chunky_position(node):
     return Vector2(round(node.global_position.x / 800),round(node.global_position.y / 800))
+    
+
+
+func _on_BossTimer_timeout():
+    var boss = Boss.instance()
+    add_child(boss)

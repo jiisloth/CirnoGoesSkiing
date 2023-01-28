@@ -7,6 +7,7 @@ onready var player := get_tree().get_root().get_node("World/Player")
 var pos = Vector2.ZERO
 var screenSize = Vector2.ZERO
 var middle = Vector2.ZERO
+var velocity = Vector2.ZERO
 
 var moveWay = 1
 var xOffset = 0
@@ -19,9 +20,11 @@ var starting = true
 var phase2 = false
 
 var deltaTime = 0.0
+var animeTime = 0.0
 var bossHealth = 100
 var movTime = 1
 var shootPause = 1.0
+var accSpeed = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,37 +33,45 @@ func _ready():
     middle = screenSize / 2
     xOffsetMax = middle.x
     xOffsetMin = -middle.x
-    self.position = get_start_pos()
+    position = get_start_pos()
 
 
 func get_start_pos():
     var start_pos = Vector2.ZERO
     start_pos[0] = player.position.x
     start_pos[1] = player.position.y - middle.y - 200
-    print(start_pos)
+    velocity = Vector2()
     return start_pos
 
 
 func _process(delta):
     
-    if player.position.y - self.position.y > 300 and starting:
-        self.position.y += 100 * delta
+    var diff = player.position - position
+    var accModifier = (diff.y - 300) * 0.01
+
+    if diff.y > 305 and starting:
+        velocity.y = accSpeed * (diff.y - 300)
+        velocity.x = accSpeed * (diff.x - 10)
+        accSpeed += delta
     elif starting:
-        self.position.y = player.position.y - 300
+        accSpeed = 5
         starting = false
         shooting = true
     
     if starting == false:
-        self.position.y = player.position.y - 300
-        self.position.x = player.position.x + xOffset + moveWay
         xOffset += 2 * moveWay
         if xOffset > xOffsetMax and moveWay == 1:
             moveWay = -1
         elif xOffset < xOffsetMin and moveWay == -1:
             moveWay = 1
-
+        velocity.x = accSpeed * (diff.x + xOffset)
+        velocity.y = (accSpeed + accModifier) * (diff.y - 300)
+    
+    position += velocity * delta
+    #print(accModifier)
     deltaTime += delta
-    $Sprite.frame = int(deltaTime*abs(0.04*player.velocity.y))%8
+    animeTime += delta * velocity.y * 0.04
+    $Sprite.frame = int(animeTime)%8
     
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
@@ -76,8 +87,8 @@ func _process(delta):
 func create_bullet(d, speed, type):
     var bullet = Bullet.instance()
     bullet.speed = abs(player.movespeed) + speed
-    bullet.rotation = self.rotation + deg2rad(d)
-    bullet.position = self.position
+    bullet.rotation = rotation + deg2rad(d)
+    bullet.position = position
     if type == 1:
         bullet.texType = type
     if type == 2:
@@ -136,3 +147,4 @@ func boss_hit(dmg):
         
 func die():
     queue_free()
+
