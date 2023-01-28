@@ -40,11 +40,3 @@ func _on_Area2D_area_entered(area):
             if health < 0:
                 die()   
 
-
-
-func _on_Grace_body_exited(body):
-    if body.name == "Player":
-        if graze:
-            body.graze()
-        graze = true
-    

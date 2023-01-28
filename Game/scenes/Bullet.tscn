@@ -42,5 +42,6 @@ shape = SubResource( 2 )
 visible = false
 rect = Rect2( -500, -500, 1000, 1000 )
 
+[connection signal="area_entered" from="." to="." method="_on_Bullet_area_entered"]
 [connection signal="area_entered" from="Track" to="." method="_on_Track_area_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

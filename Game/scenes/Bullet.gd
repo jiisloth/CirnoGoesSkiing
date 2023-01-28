@@ -65,3 +65,13 @@ func _on_Track_area_entered(area):
 
 func _on_VisibilityNotifier2D_screen_exited():
     queue_free()
+
+
+func _on_Bullet_area_entered(area):
+    if area.is_in_group("Boss"):
+        area.get_parent().boss_hit(damage)
+        if moving or health > 1:
+            health -= 3
+            if health < 0:
+                die()   
+            

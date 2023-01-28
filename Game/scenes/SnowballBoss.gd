@@ -2,7 +2,7 @@ extends Node2D
 
 export(PackedScene) var Bullet
 
-onready var player := get_tree().get_root().get_node("World").get_node("Player")
+onready var player := get_tree().get_root().get_node("World/Player")
 
 var pos = Vector2.ZERO
 var screenSize = Vector2.ZERO
@@ -59,8 +59,8 @@ func _process(delta):
         elif xOffset < xOffsetMin and moveWay == -1:
             moveWay = 1
 
-    $Sprite.rotation -= 1 * delta
     deltaTime += delta
+    $Sprite.frame = int(deltaTime*abs(0.04*player.velocity.y))%8
     
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
@@ -76,7 +76,6 @@ func _process(delta):
 func create_bullet(d, speed, type):
     var bullet = Bullet.instance()
     bullet.speed = abs(player.movespeed) + speed
-    bullet.scale *= 2
     bullet.rotation = self.rotation + deg2rad(d)
     bullet.position = self.position
     if type == 1:
@@ -84,7 +83,6 @@ func create_bullet(d, speed, type):
     if type == 2:
         bullet.texType = type
     get_parent().add_child(bullet)
-    bullet.moving = true
     
 
 func bullet_phase1(num):
@@ -122,6 +120,19 @@ func boss_hit(dmg):
     bossHealth -= dmg
     if bossHealth <= 0:
         die()
+    else:
+        var tween = Tween.new()
+        add_child(tween)
+        tween.interpolate_property($Sprite, "position:y", -38, -100, 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+        tween.start()
+        yield(get_tree().create_timer(0.1), "timeout")
+        tween.interpolate_property($Sprite, "position:y", -100, -38, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+        tween.start()
+        yield(get_tree().create_timer(0.2), "timeout")
+        tween.queue_free()
+        
+        
+        
         
 func die():
     queue_free()

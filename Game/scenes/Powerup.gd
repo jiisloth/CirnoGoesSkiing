@@ -12,8 +12,8 @@ func _process(delta):
         var d = (target.global_position-global_position)
         var dist = d.length()
         var ndir = d.angle()
-        var speed = clamp((320-dist)/100.0,0,2)
-        dir = lerp_angle(dir, ndir, 0.7)
+        var speed = clamp((320-dist)/100.0,0,3)
+        dir = lerp_angle(dir, ndir, 0.6)
         position += Vector2(speed,0).rotated(dir)
     if entered:   
         if entered.height < 1 + 8*height_get:

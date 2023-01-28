@@ -334,3 +334,12 @@ func power():
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))
+
+
+func _on_Graze_area_exited(area):
+    if area.is_in_group("Bossbullet") or area.is_in_group("Obstacle"):
+        if area.is_in_group("Obstacle"):
+            area = area.get_parent()
+        if area.graze:
+            graze()
+        area.graze = true
