@@ -1,7 +1,5 @@
 extends Area2D
 
-var tex1 = preload("res://img/pixelart/pikkulumipallo.png")
-var tex2 = preload("res://img/pixelart/jaapuikkotaijotain.png")
 
 var speed = 500
 var movement = Vector2()
@@ -14,12 +12,11 @@ var graze = true
 
 func _ready():
     if texType == 2:
-        $Sprite.rotation = deg2rad(-90)
-        $Sprite.texture = tex2
+        $Sprite.frame = 1
         $Sphere.disabled = true
         $Stick.disabled = false
     else:
-        $Sprite.texture = tex1
+        $Sprite.frame = 0
         $Sphere.disabled = false
         $Stick.disabled = true
     $Sprite.position = Vector2.UP.rotated(-rotation)*20

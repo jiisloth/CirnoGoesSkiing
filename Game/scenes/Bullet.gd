@@ -58,9 +58,12 @@ func die():
 
 
 func _on_Track_area_entered(area):
-    if not target:
-        if area.is_in_group("Obstacle"):
+    if area.is_in_group("Obstacle"):
+        if not target:
             target = area
+    if area.is_in_group("Boss"):
+        target = area
+            
 
 
 func _on_VisibilityNotifier2D_screen_exited():

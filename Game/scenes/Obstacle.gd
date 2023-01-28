@@ -13,6 +13,10 @@ func _ready():
     if flippable:
         $Sprite.scale.x = $Sprite.scale.x
 
+func _process(delta):
+    if health < 0:
+        die()   
+
 func _on_Area2D_body_entered(body):
     if body.name == "Player":
         if body.height < height:
@@ -37,6 +41,4 @@ func _on_Area2D_area_entered(area):
         area.hit(damage)
         if area.moving or area.health > 1:
             health -= area.damage
-            if health < 0:
-                die()   
 

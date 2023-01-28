@@ -97,6 +97,11 @@ func add_bullet(d):
     bullet.wave = fly.y
     bullet.health = hit.y * 10.0
     bullet.track = fly.x
+    var bosses = get_tree().get_nodes_in_group("Boss")
+    if len(bosses) > 0:
+        bullet.rotation = lerp_angle(d + rotation, (bosses[0].global_position - global_position).angle(), launch.x*0.5)
+        if launch.x <= randf():
+            bullet.target = bosses[0]
     bullet.hb_scale = 1 + 3*hit.x
     bullet.player = get_parent()
     bullets.append(bullet)

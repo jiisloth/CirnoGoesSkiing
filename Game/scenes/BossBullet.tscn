@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://img/pixelart/pikkulumipallo.png" type="Texture" id=1]
+[ext_resource path="res://img/pixelart/BulletBoss.png" type="Texture" id=1]
 [ext_resource path="res://scenes/BossBullet.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 6.0
-height = 36.0
+height = 30.0
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 9.0
@@ -15,9 +15,11 @@ collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -1, -1 )
-scale = Vector2( 4, 4 )
+position = Vector2( 2, 0 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
+vframes = 2
+frame = 1
 
 [node name="Stick" type="CollisionShape2D" parent="."]
 rotation = 1.5708

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/jaapuikkotaijotain.png-1928564c9539bbd5d12a82daeca62d5b.stex"
+path="res://.import/BulletBoss.png-84dc222bb7c32f3a0d8f0f4c680cc3e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/pixelart/jaapuikkotaijotain.png"
-dest_files=[ "res://.import/jaapuikkotaijotain.png-1928564c9539bbd5d12a82daeca62d5b.stex" ]
+source_file="res://img/pixelart/BulletBoss.png"
+dest_files=[ "res://.import/BulletBoss.png-84dc222bb7c32f3a0d8f0f4c680cc3e7.stex" ]
 
 [params]
 
