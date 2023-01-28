@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/kivi.png-c5c01ba76f2dd2d3faec1375536486a6.stex"
+path="res://.import/tree.png-9537a1bb13c7fb8bc6f0c953d1bf44d3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/pixelart/kivi.png"
-dest_files=[ "res://.import/kivi.png-c5c01ba76f2dd2d3faec1375536486a6.stex" ]
+source_file="res://img/pixelart/tree.png"
+dest_files=[ "res://.import/tree.png-9537a1bb13c7fb8bc6f0c953d1bf44d3.stex" ]
 
 [params]
 

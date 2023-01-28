@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/isolumipallo.png-38def6ab5f241f35dfebd2c77fe95669.stex"
+path="res://.import/rock.png-58345e8bcd6871fadd512ddc5097a1f1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://img/pixelart/isolumipallo.png"
-dest_files=[ "res://.import/isolumipallo.png-38def6ab5f241f35dfebd2c77fe95669.stex" ]
+source_file="res://img/pixelart/rock.png"
+dest_files=[ "res://.import/rock.png-58345e8bcd6871fadd512ddc5097a1f1.stex" ]
 
 [params]
 
