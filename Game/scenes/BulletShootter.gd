@@ -9,6 +9,7 @@ var dir = 0
 var next = 0
 var bullet_count = 0
 var speed = 6
+var extra_dmg = 0
 
 var rot_dir = 1
 
@@ -92,7 +93,7 @@ func add_bullet(d):
     bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
     bullet.color = color
     bullet.speed = 400 + 400*fly.z
-    bullet.damage = 1 + hit.z*3 + trick_total*0.1
+    bullet.damage = 1 + hit.z*3 + trick_total*0.1 + extra_dmg
     bullet.wave = fly.y
     bullet.health = hit.y * 10.0
     bullet.track = fly.x

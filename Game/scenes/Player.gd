@@ -269,6 +269,7 @@ func shoot():
     if $Damaged.time_left > 0:
         return
     var shootter = BulletShootter.instance()
+    shootter.extra_dmg = power
     shootter.rotation = dir
     shootter.tricks = tricks
     shootter.trick_total = trick_total
