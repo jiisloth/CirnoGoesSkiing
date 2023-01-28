@@ -14,10 +14,11 @@ var xOffset = 0
 var xOffsetMax
 var xOffsetMin
 
-var moving = true
+var moving = false
 var shooting = false
 var starting = true
 var phase2 = false
+var past = false
 
 var deltaTime = 0.0
 var animeTime = 0.0
@@ -31,27 +32,28 @@ func _ready():
     #hide()
     screenSize = get_viewport().get_visible_rect().size
     middle = screenSize / 2
-    xOffsetMax = middle.x
-    xOffsetMin = -middle.x
+    xOffsetMax = middle.x / 2
+    xOffsetMin = -middle.x / 2
     position = get_start_pos()
 
 
 func get_start_pos():
     var start_pos = Vector2.ZERO
     start_pos[0] = player.position.x
-    start_pos[1] = player.position.y - middle.y - 200
-    velocity = Vector2()
+    start_pos[1] = player.position.y - middle.y - 300
+    velocity = player.velocity
     return start_pos
 
 
 func _process(delta):
     
     var diff = player.position - position
-    var accModifier = (diff.y - 300) * 0.01
+    var accModifier = (diff.y - 250) * 0.01
 
     if diff.y > 305 and starting:
-        velocity.y = accSpeed * (diff.y - 300)
-        velocity.x = accSpeed * (diff.x - 10)
+        velocity.x = accSpeed * (diff.x + xOffset)
+        if (accSpeed) * (diff.y - 250) > velocity.y:
+            velocity.y += delta * diff.y * 0.05
         accSpeed += delta
     elif starting:
         accSpeed = 5
@@ -59,16 +61,28 @@ func _process(delta):
         shooting = true
     
     if starting == false:
-        xOffset += 2 * moveWay
-        if xOffset > xOffsetMax and moveWay == 1:
-            moveWay = -1
-        elif xOffset < xOffsetMin and moveWay == -1:
-            moveWay = 1
-        velocity.x = accSpeed * (diff.x + xOffset)
-        velocity.y = (accSpeed + accModifier) * (diff.y - 300)
-    
+        if moving == false:
+            xOffset += 2 * moveWay
+            if xOffset > xOffsetMax and moveWay == 1:
+                moveWay = -1
+            elif xOffset < xOffsetMin and moveWay == -1:
+                moveWay = 1
+            velocity.x = accSpeed * (diff.x + xOffset)
+            velocity.y = accSpeed * (diff.y - 250)
+        else:
+            velocity.y += 1
+            if diff.y < -900:
+                position = get_start_pos()
+                velocity = player.velocity
+                starting = true
+                moving = false
+
+    if player.velocity.y < 50:
+        velocity.y = 200
+        shooting = false
+        moving = true
+
     position += velocity * delta
-    #print(accModifier)
     deltaTime += delta
     animeTime += delta * velocity.y * 0.04
     $Sprite.frame = int(animeTime)%8
@@ -142,9 +156,7 @@ func boss_hit(dmg):
         yield(get_tree().create_timer(0.2), "timeout")
         tween.queue_free()
         
-        
-        
-        
+   
 func die():
     queue_free()
 

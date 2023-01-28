@@ -5,7 +5,6 @@ export(PackedScene) var Boss
 
 func _process(delta):
     check_chunks()
-    print($BossTimer.time_left)
     
 var active_chunks = []
 
