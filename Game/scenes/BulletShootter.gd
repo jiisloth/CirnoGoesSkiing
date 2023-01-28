@@ -31,7 +31,6 @@ func _ready():
         queue_free()
         return
     var pointer = 0
-    print(trick_total)
     for trick in tricks:
         if pointer < 0.3333*trick_total:
             var to_point = 0.3333*trick_total-pointer
@@ -60,9 +59,6 @@ func _ready():
             hit[trick.x-1] += trick.y
         total[trick.x-1] += trick.y
         pointer += trick.y
-    print(launch)
-    print(fly)
-    print(hit)
     var c = total.normalized()
     color = color.linear_interpolate(Color("#c63d42"),c.x).linear_interpolate(Color("#a2e387"),c.y).linear_interpolate(Color("#62abd2"),c.z)
     launch = scale_property(launch)/(2/3.0)
@@ -91,18 +87,23 @@ func _process(delta):
 func add_bullet(d):
     d = d*rot_dir
     var bullet = Bullet.instance()
-    bullet.rotation = d + rotation
+    bullet.rotation = (d + rotation)
     bullet.offset = Vector2(50,0).rotated(d+ rotation)
     bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
     bullet.modulate = color
     bullet.speed = 400 + 400*fly.z
-    bullet.damage = 1 + hit.z
+    bullet.damage = 1 + hit.z*3 + trick_total*0.1
     bullet.wave = fly.y
+    bullet.health = hit.y * 10.0
+    bullet.track = fly.x
+    bullet.hb_scale = 1 + 3*hit.x
     bullet.player = get_parent()
     bullets.append(bullet)
     get_parent().get_parent().add_child(bullet)
     
 func launch_bullets():
     for bullet in bullets:
-        bullet.movement = get_parent().velocity
-        bullet.moving = true
+        if is_instance_valid(bullet):
+            bullet.movement = get_parent().velocity
+            bullet.moving = true
+    bullets = []

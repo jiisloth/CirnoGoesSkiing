@@ -15,9 +15,9 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
     rng.seed = coords.x * 1000 + coords.y*10000 + coords.x + coords.y 
-    add_objects(Trees, 3, 10)
-    add_objects(Rocks, 3, 8)
-    add_objects(Ramp, -2, 15)
+    add_objects(Trees, 1, 8)
+    add_objects(Rocks, 1, 6)
+    add_objects(Ramp, -2, 5)
     
 func add_objects(pscene, mini, maxi):
     for i in rng.randi_range(mini,maxi):

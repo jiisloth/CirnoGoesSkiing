@@ -19,7 +19,7 @@ var height = 0
 var jump_turn = 0
 
 const gravity = 10
-const turnspeed = 1.4
+const turnspeed = 1.6
 
 var active_ramp = false
 
@@ -69,7 +69,7 @@ func _physics_process(delta):
         tricks = []
         lift = 3
         if active_ramp:
-            lift += clamp(get_ground_height(active_ramp)*movespeed*movespeed*0.000005,0,5)
+            lift += clamp(get_ground_height(active_ramp)*movespeed*movespeed*0.000001,0,5)
             active_ramp = false
     if Input.is_action_pressed("jump") and $Damaged.time_left <= 0:
         lift -= delta*gravity*0.5
@@ -131,8 +131,8 @@ func _physics_process(delta):
     if is_on_ground():
         dir += delta*turn*turnspeed
     else:
-        dir += delta*turn*turnspeed*6
-        jump_turn += delta*turn*turnspeed*6
+        dir += delta*turn*turnspeed*5
+        jump_turn += delta*turn*turnspeed*5
         
     while dir > PI*2:
         dir -= PI*2
@@ -146,7 +146,7 @@ func _physics_process(delta):
         look = dir - PI
     
     if is_on_ground():
-        var pull = sin(look)*1.6
+        var pull = sin(look)*2.5
         if angle_difference(movedir, dir) > PI/2.0:
             movedir += PI
             movespeed = -movespeed
@@ -165,7 +165,7 @@ func _physics_process(delta):
             
         movespeed = movespeed*0.997+pull*accelerating*delta*60
         
-        var slidespeed = movespeed*(turned*turned)
+        var slidespeed = movespeed*(turned*turned)*0.9
         movespeed -= slidespeed
         slide = slide * 0.98*delta*60
         slide += Vector2(slidespeed,0).rotated(pre_movedir)
@@ -259,7 +259,7 @@ func off_ramp(ramp):
 
 func get_ground_height(ramp):
     var distance = abs(ramp.global_position.y - global_position.y)
-    return (1-distance/15) * ramp.height
+    return (1-distance/24) * ramp.height
    
 func is_on_ground():
     if jump == 0:
