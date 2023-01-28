@@ -90,7 +90,7 @@ func add_bullet(d):
     bullet.rotation = (d + rotation)
     bullet.offset = Vector2(50,0).rotated(d+ rotation)
     bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
-    bullet.modulate = color
+    bullet.color = color
     bullet.speed = 400 + 400*fly.z
     bullet.damage = 1 + hit.z*3 + trick_total*0.1
     bullet.wave = fly.y

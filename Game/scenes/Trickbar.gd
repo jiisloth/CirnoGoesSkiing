@@ -6,10 +6,14 @@ var player
 var current_rekt = false
 var tricks = []
 
+func _ready():
+    player = get_parent().get_parent()
+
 func _process(delta):
     update_rekt()
 
 func start_trick():
+    visible = true
     var rekt = ColorRect.new()
     match player.current_trick:
         player.trick.MELON:
@@ -46,8 +50,10 @@ func update_rekt():
     $Separators/Separator.anchor_right = pointer / 3.0
     $Separators/Separator2.anchor_left = pointer / 3.0 * 2
     $Separators/Separator2.anchor_right = pointer / 3.0 * 2
-    
+
+
 func clear():
+    visible = false
     current_rekt = false
     tricks = []
     for rekt in $Bars.get_children():

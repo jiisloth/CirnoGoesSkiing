@@ -15,8 +15,11 @@ var track = 0
 var target = false
 var targeting = 0
 var hb_scale = 1
+var color = false
 
 func _ready():
+    if color:
+        $Sprite.modulate = color
     $CollisionShape2D.scale *= hb_scale
     $Sprite.position = Vector2.UP.rotated(-rotation)*20
     if track > 0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://img/pixelart/shadow.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://img/pixelart/torso.png" type="Texture" id=4]
 [ext_resource path="res://img/pixelart/head.png" type="Texture" id=5]
 [ext_resource path="res://scenes/BulletShootter.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/Trickbar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/Effect_Get.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
@@ -24,6 +26,7 @@ color = Color( 0.741176, 0.894118, 0.901961, 1 )
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
 BulletShootter = ExtResource( 6 )
+Effect_text = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -32,7 +35,7 @@ shape = SubResource( 1 )
 position = Vector2( 0, 7.95808e-13 )
 z_index = -1
 z_as_relative = false
-amount = 26
+amount = 50
 lifetime = 3.0
 randomness = 0.12
 local_coords = false
@@ -46,23 +49,29 @@ texture = ExtResource( 1 )
 hframes = 12
 
 [node name="Character" type="Node2D" parent="."]
-scale = Vector2( 3, 3 )
 
 [node name="Feet" type="Sprite" parent="Character"]
-position = Vector2( 0, -10 )
+position = Vector2( 0, -30 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 hframes = 12
 
 [node name="Torso" type="Sprite" parent="Character"]
-position = Vector2( 0, -10 )
+position = Vector2( 0, -30 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
 hframes = 12
 
 [node name="Head" type="Sprite" parent="Character"]
-position = Vector2( 0, -10 )
+position = Vector2( 0, -30 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 hframes = 12
 vframes = 2
+
+[node name="Trickbar" parent="Character" instance=ExtResource( 7 )]
+margin_top = -108.0
+margin_bottom = -84.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

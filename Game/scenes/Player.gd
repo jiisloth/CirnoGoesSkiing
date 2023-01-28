@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
 export(PackedScene) var BulletShootter
+export(PackedScene) var Effect_text
+
 
 
 var velocity = Vector2.ZERO
@@ -21,7 +23,7 @@ var jump_turn = 0
 const gravity = 10
 const turnspeed = 1.6
 
-var active_ramp = false
+var active_ramps = []
 
 var tricks = []
 var current_trick = trick.NONE
@@ -34,11 +36,13 @@ enum trick {
     NOSE
    }
 
-signal start_trick
-signal add_trick
-signal end_jump
+var coyote = 0
+var was_on_ground = true
+var jumped = false
+
 
 func _physics_process(delta):
+    set_was_on_ground(delta)
     var turn = 0
     if Input.is_action_pressed("left"):
         turn -= 1
@@ -64,35 +68,43 @@ func _physics_process(delta):
 
     if Input.is_action_pressed("up") and is_on_ground():
         pass #climb hill
-    if Input.is_action_just_pressed("jump") and is_on_ground():
+    if Input.is_action_just_pressed("jump") and was_on_ground and not jumped:
+        jumped = true
         jump_turn = 0
         tricks = []
-        lift = 3
-        if active_ramp:
-            lift += clamp(get_ground_height(active_ramp)*movespeed*movespeed*0.000001,0,5)
-            active_ramp = false
+        if is_on_ground():
+            lift = 3
+        else:
+            lift += 3
+        if len(active_ramps) > 0:
+            lift += get_ramp_lift(get_ground_height(active_ramps),movespeed)
+            if is_on_ground():
+                jump = get_ground_height(active_ramps)
+            else:
+                jump += get_ground_height(active_ramps)
+            active_ramps = []
     if Input.is_action_pressed("jump") and $Damaged.time_left <= 0:
         lift -= delta*gravity*0.5
     else:
         lift -= delta*gravity
-    
+        
     #Tricks
     if not is_on_ground() and $Damaged.time_left <= 0:
         if Input.is_action_just_pressed("melon"):
             if current_trick != trick.MELON:
                 add_trick()
             current_trick = trick.MELON
-            emit_signal("start_trick")
+            $Character/Trickbar.start_trick()
         if Input.is_action_just_pressed("indy"):
             if current_trick != trick.INDY:
                 add_trick()
             current_trick = trick.INDY
-            emit_signal("start_trick")
+            $Character/Trickbar.start_trick()
         if Input.is_action_just_pressed("nose"):
             if current_trick != trick.NOSE:
                 add_trick()
             current_trick = trick.NOSE
-            emit_signal("start_trick")
+            $Character/Trickbar.start_trick()
             
         match current_trick:
             trick.MELON:
@@ -116,7 +128,7 @@ func _physics_process(delta):
             
     
     if jump > 0 and max(jump + lift, 0) == 0:
-        emit_signal("end_jump")
+        $Character/Trickbar.clear()
         shoot()
         tricks = []
         current_trick = trick.NONE
@@ -124,9 +136,13 @@ func _physics_process(delta):
         trick_total = 0
     jump = max(jump + lift, 0)
     var ground_height = 0
-    if active_ramp:
-        ground_height = get_ground_height(active_ramp)
-    height = jump + ground_height
+    if len(active_ramps) > 0:
+        ground_height = get_ground_height(active_ramps)
+    if is_on_ground():
+        jumped = false
+        height = jump + ground_height
+    else:
+        height = jump
     
     if is_on_ground():
         dir += delta*turn*turnspeed
@@ -174,7 +190,7 @@ func _physics_process(delta):
     move_and_slide(velocity, Vector2.UP)
 
 func add_trick():
-    emit_signal("add_trick")
+    $Character/Trickbar.add_trick()
     if current_trick != trick.NONE:
         tricks.append(Vector2(current_trick, trick_tick))
         trick_tick = 0
@@ -212,14 +228,14 @@ func animate(delta):
         breath -= TAU
     
     if sin(breath) > 0.2:
-        $Character/Head.position.y = -9
+        $Character/Head.position.y = -27
     else:
-        $Character/Head.position.y = -10
+        $Character/Head.position.y = -30
         
     if sin(breath) > 0.3:
-        $Character/Torso.position.y = -9
+        $Character/Torso.position.y = -27
     else:
-        $Character/Torso.position.y = -10
+        $Character/Torso.position.y = -30
         
     
     
@@ -247,25 +263,53 @@ func shoot():
     add_child(shootter)
 
 func on_ramp(ramp):
-    if active_ramp:
-        if get_ground_height(ramp) < get_ground_height(active_ramp):
-            return
-    active_ramp = ramp
+    if not ramp in active_ramps:
+        active_ramps.append(ramp)
   
 func off_ramp(ramp):
-    if active_ramp:
-        if active_ramp == ramp:
-            active_ramp = false
+    if ramp in active_ramps:
+        active_ramps.erase(ramp)
 
-func get_ground_height(ramp):
-    var distance = abs(ramp.global_position.y - global_position.y)
-    return (1-distance/24) * ramp.height
-   
+func get_ground_height(ramps):
+    var gh = 0
+    for ramp in ramps:
+        var distance = abs(ramp.global_position.y - global_position.y)
+        gh = max(gh, (1-distance/24) * ramp.height)
+    return gh
+
+func force_jump(h):
+    if was_on_ground:
+        if is_on_ground():
+            lift = get_ramp_lift(h,movespeed)
+            jump = h
+        else:
+            lift += get_ramp_lift(h,movespeed)
+            jump += h
+        active_ramps = []
+
+func get_ramp_lift(h,s):
+    return clamp(h*abs(movespeed)*0.0001,0,5)
+
 func is_on_ground():
     if jump == 0:
         return true
     else:
         return false
-    
+
+func set_was_on_ground(delta):
+    if not is_on_ground():
+        coyote += delta
+    else:
+        coyote = 0
+    if coyote < 0.2:
+        was_on_ground = true
+    else:
+        was_on_ground = false
+
+func graze():
+    var txt = Effect_text.instance()
+    txt.etype = "Graze"
+    add_child(txt)
+
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))
