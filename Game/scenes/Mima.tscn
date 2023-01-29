@@ -1,16 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://img/pixelart/mimatail.png" type="Texture" id=1]
 [ext_resource path="res://img/pixelart/mimateleport.png" type="Texture" id=2]
 [ext_resource path="res://scenes/Mima.gd" type="Script" id=3]
 [ext_resource path="res://img/pixelart/mima.png" type="Texture" id=4]
 [ext_resource path="res://scenes/BossBullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Laser.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Mima" type="Node2D"]
 script = ExtResource( 3 )
 Bullet = ExtResource( 5 )
+Laser = ExtResource( 6 )
 
 [node name="Sprites" type="Node2D" parent="."]
 position = Vector2( 0, -43 )
@@ -59,6 +61,8 @@ disabled = true
 [node name="Shoot" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="Lasers" type="Node2D" parent="."]
 
 [connection signal="timeout" from="TP" to="." method="_on_Timer_timeout"]
 [connection signal="tween_all_completed" from="Teleport" to="." method="_on_Teleport_tween_all_completed"]
