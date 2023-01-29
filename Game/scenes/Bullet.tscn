@@ -28,6 +28,7 @@ texture = ExtResource( 1 )
 hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 1.5, 1.5 )
 shape = SubResource( 1 )
 
 [node name="Track" type="Area2D" parent="."]
