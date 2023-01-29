@@ -2,8 +2,11 @@ extends Control
 
 
 
-onready var player := get_tree().get_root().get_node("World/Player")
+var player
 var score = 0
+
+func _ready():
+    player = get_tree().get_nodes_in_group("Player")[0]
 
 func _process(delta):
     var hp =  player.health/float(player.maxhealth)
