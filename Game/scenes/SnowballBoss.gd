@@ -1,6 +1,7 @@
 extends Node2D
 
 export(PackedScene) var Bullet
+export(PackedScene) var Baka
 
 onready var player := get_tree().get_root().get_node("World/Player")
 
@@ -19,6 +20,7 @@ var shooting = false
 var starting = true
 var phase2 = false
 var past = false
+var dying = false
 
 var deltaTime = 0.0
 var animeTime = 0.0
@@ -62,7 +64,7 @@ func _process(delta):
     if diff.y > 305 and starting:
         velocity.x = accSpeed * (diff.x + xOffset)
         if (accSpeed) * (diff.y - 250) > velocity.y:
-            velocity.y += delta * diff.y * 0.05
+            velocity.y += diff.y * 0.05
         accSpeed += delta
     elif starting:
         accSpeed = 5
@@ -91,6 +93,10 @@ func _process(delta):
         shooting = false
         moving = true
 
+    if dying:
+        velocity.x = 0
+        velocity.y = 0
+    print(velocity)
     position += velocity * delta
     deltaTime += delta
     animeTime += delta * velocity.y * 0.04
@@ -164,8 +170,13 @@ func boss_hit(dmg):
         
    
 func die():
-    queue_free()
-
+    $Sprite.hide()
+    $Cirnoballshadow.hide()
+    var baka = Baka.instance()
+    add_child(baka)
+    shooting = false
+    dying = true
+    $DeathTimer.start()
 
 
 func _on_Area2D_body_entered(body):
@@ -174,3 +185,7 @@ func _on_Area2D_body_entered(body):
             graze = false
             body.hit(1, false, 0.3)
 
+
+
+func _on_DeathTimer_timeout():
+    queue_free()
