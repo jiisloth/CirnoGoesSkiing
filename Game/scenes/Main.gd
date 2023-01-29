@@ -8,7 +8,8 @@ var in_game = false
 
 func start_game():
     $Menu.hide()
-    $Intro.hide()
+    if get_node_or_null("Intro"):
+        $Intro.hide()
     in_game = true
     Global.score = 0
     level = Level.instance()
