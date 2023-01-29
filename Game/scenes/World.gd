@@ -91,12 +91,12 @@ func spawn_boss(who):
             var boss = SnowBallBoss.instance()
             add_child(boss)
             play_dialoque(who)
-        "mima":
-            var boss = Mima.instance()
-            add_child(boss)
-            play_dialoque(who)
         "cirno":
             var boss = Cirno.instance()
+            add_child(boss)
+            play_dialoque(who)
+        "mima":
+            var boss = Mima.instance()
             add_child(boss)
             
  
