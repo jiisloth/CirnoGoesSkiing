@@ -30,7 +30,7 @@ func _process(delta):
     if health <= 0:
         phase += 1
         health = 12 + 2*phase
-        if phase == 3:
+        if phase == 4:
             queue_free()
 
 
