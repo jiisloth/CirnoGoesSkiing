@@ -7,6 +7,8 @@ export(PackedScene) var Cirno
 export(PackedScene) var Credits
 
 export(PackedScene) var Death
+export(PackedScene) var SnowDia
+export(PackedScene) var CirnoDia
 
 var level = 0
 var goal = 25000
@@ -70,7 +72,15 @@ func died():
     var death = Death.instance()
     add_child(death)
     
-
+func play_dialoque(what):
+    match what:
+        "snowball":
+            var dialogue = SnowDia.instance()
+            add_child(dialogue)
+        "cirno":
+            var dialogue = CirnoDia.instance()
+            add_child(dialogue)
+    
 func spawn_boss(who):
     var wait = 4
     $MusicController.turn_down(wait)
@@ -80,9 +90,11 @@ func spawn_boss(who):
         "snowball":
             var boss = SnowBallBoss.instance()
             add_child(boss)
+            play_dialoque(who)
         "mima":
             var boss = Mima.instance()
             add_child(boss)
+            play_dialoque(who)
         "cirno":
             var boss = Cirno.instance()
             add_child(boss)
@@ -95,10 +107,17 @@ func boss_died(who):
     $MusicController.play("marisa")
     match who:
         "snowball":
+            Global.score += 5000
             level += 1
             goal = $Player.position.length() + 10000
             
         "cirno":
+            Global.score += 20000
             level += 1
             goal = $Player.position.length() + 1000
+            
+        "mima":
+            Global.score += 69000
+            level += 1
+            goal = $Player.position.length() + 10000
 

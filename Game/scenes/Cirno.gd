@@ -32,7 +32,6 @@ var player
 
 func _ready():
     player = get_tree().get_nodes_in_group("Player")[0]
-    print("CirnoSpawn")
     playerPos = player.position
     screenSize = get_viewport().get_visible_rect().size
     middle = screenSize / 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Chunk.tscn" type="PackedScene" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://scenes/Credits.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/Cirno.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/DeathScreen.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/Dialogue.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scenes/SnowBallDia.tscn" type="PackedScene" id=17]
 
 [node name="World" type="YSort"]
 script = ExtResource( 1 )
@@ -24,6 +26,8 @@ Mima = ExtResource( 5 )
 Cirno = ExtResource( 14 )
 Credits = ExtResource( 13 )
 Death = ExtResource( 15 )
+SnowDia = ExtResource( 17 )
+CirnoDia = ExtResource( 16 )
 
 [node name="Chunks" type="YSort" parent="."]
 

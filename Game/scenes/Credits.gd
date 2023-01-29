@@ -39,7 +39,6 @@ func next_credit():
     var c = credits[pointer]
     $Credit/Label.text = ""
     for line in c:
-        print(line)
         $Credit/Label.text += line
         $Credit/Label.text += "\n"
     pointer += 1
