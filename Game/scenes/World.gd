@@ -3,10 +3,10 @@ extends YSort
 export(PackedScene) var Chunk
 export(PackedScene) var SnowBallBoss
 export(PackedScene) var Mima
-
+export(PackedScene) var Cirno
 export(PackedScene) var Credits
 
-var level = 4
+var level = 0
 var goal = 1000#25000
 
 var seek = 0
@@ -32,7 +32,7 @@ func _process(delta):
                 level += 1
                 var credits = Credits.instance()
                 add_child(credits)
-                goal = 100000
+                goal = 30000
         6:
             if Global.score > goal:
                 spawn_boss("mima")
@@ -76,6 +76,9 @@ func spawn_boss(who):
             add_child(boss)
         "mima":
             var boss = Mima.instance()
+            add_child(boss)
+        "cirno":
+            var boss = Cirno.instance()
             add_child(boss)
             
  

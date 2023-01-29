@@ -23,7 +23,7 @@ var dying = false
 
 var deltaTime = 0.0
 var animeTime = 0.0
-var bossHealth = 100
+var bossHealth = 50
 var movTime = 1
 var shootPause = 1.0
 var accSpeed = 1
@@ -65,7 +65,7 @@ func _process(delta):
     if diff.y > 305 and starting:
         velocity.x = accSpeed * (diff.x + xOffset)
         velocity.y = diff.y * accSpeed * 0.05
-        accSpeed += delta
+        accSpeed += delta * 1.5
     elif starting:
         accSpeed = 5
         starting = false
@@ -98,10 +98,10 @@ func _process(delta):
     $Sprite.frame = int(animeTime)%8
     $Sprite.position.y = min($Sprite.position.y + lift*3*delta, -38)
     lift += 1
-    print(velocity)
+
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
-        if bossHealth > 50:
+        if bossHealth > 25:
             bullet_phase1(num)
             deltaTime = 0.0
         else:
@@ -125,11 +125,9 @@ func bullet_phase1(num):
         create_bullet(135, 200, SNOWBALL)
         create_bullet(45, 200, SNOWBALL)
     else:
-        create_bullet(90, 150, ICICLE)
         create_bullet(90, 200, ICICLE)
         create_bullet(90, 250, ICICLE)
         create_bullet(90, 300, ICICLE)
-        create_bullet(90, 350, ICICLE)
     
 func bullet_phase2(num):
     if num != 4:
@@ -151,7 +149,6 @@ func bullet_phase2(num):
  
        
 func boss_hit(dmg):
-    print("Boss hit for ", dmg)
     bossHealth -= dmg
     if bossHealth <= 0:
         die()

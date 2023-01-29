@@ -4,7 +4,17 @@ extends Node2D
 var player
 
 var credits = [
-    ["< aa >","cc","bb"],
+    ["< MarisaSSX >", "A Game By", "pintin anime tiimi"],
+    ["Head Developer", "jsloth"],
+    ["Main Produces", "pintti"],
+    ["Music by", "borb"],
+    ["Art by", "DebPet"],
+    ["Pixel Art by", "pintti", "jsloth"],
+    ["Coding Engineers", "jsloth", "pintti"],
+    ["Special thanks to", "mom and dad"],
+    ["and", "YOU"],
+    ["THANKS", "FOR", "PLAYING"],
+    ["btw, if you got more than", "30000 points", "you can now enjoy a small surprise"]
    ]
 
 var pointer = 0

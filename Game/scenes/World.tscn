@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Chunk.tscn" type="PackedScene" id=2]
@@ -13,12 +13,14 @@
 [ext_resource path="res://audio/cirno-distort.mp3" type="AudioStream" id=11]
 [ext_resource path="res://audio/mima.mp3" type="AudioStream" id=12]
 [ext_resource path="res://scenes/Credits.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/Cirno.tscn" type="PackedScene" id=14]
 
 [node name="World" type="YSort"]
 script = ExtResource( 1 )
 Chunk = ExtResource( 2 )
 SnowBallBoss = ExtResource( 4 )
 Mima = ExtResource( 5 )
+Cirno = ExtResource( 14 )
 Credits = ExtResource( 13 )
 
 [node name="Chunks" type="YSort" parent="."]

@@ -5,8 +5,8 @@ export(PackedScene) var Baka
 export(PackedScene) var Laser
 
 
-var maxHealth = 100
-var health = 100
+var maxHealth = 70
+var health = 70
 var deltaTime = 0.0
 var tpTime = 0.0
 
@@ -39,7 +39,7 @@ func _ready():
     xOffsetMax = middle.x / 2
     xOffsetMin = -middle.x / 2
     upperMiddle = playerPos
-    upperMiddle.x = -1000
+    upperMiddle.x = playerPos.x - 700
     upperMiddle.y = middle.y - 250
     position = upperMiddle
 
@@ -172,7 +172,7 @@ func _on_ShootTimer_timeout():
     elif health > maxHealth/2:
         for i in range(-30, 31, 5):
             shoot(angleToMid + deg2rad(i), playerSpeed+250, 0, 0)
-            $ShootTimer.start(3)
+            $ShootTimer.start(4)
     elif health > maxHealth * 0.25:
         shoot(angleToMid, 400, 0, 2)
         shoot(angleToMid+0.5, playerSpeed+400, 0, 2)
@@ -181,7 +181,7 @@ func _on_ShootTimer_timeout():
     elif health > 0:
         for i in range(-90, 100, 5):
             shoot(angleToMid + deg2rad(i), playerSpeed+300, 0, 2)
-            $ShootTimer.start(rand_range(1, 2))
+            $ShootTimer.start(rand_range(1.5, 2.0))
     
 func shoot_laser(d,rs, dur, dmg):
     var laser = Laser.instance()
@@ -204,6 +204,8 @@ func _on_ShootTimer2_timeout():
     elif health > maxHealth * 0.25:
         shoot(angleToMid, playerSpeed+250, deg2rad(45), 0)
         shoot(angleToMid, playerSpeed+250, deg2rad(-45), 0)
+        shoot(angleToMid, playerSpeed+250, deg2rad(90), 0)
+        shoot(angleToMid, playerSpeed+250, deg2rad(-90), 0)
         $ShootTimer2.start(3)
     elif health > 0:
         for i in range(0, 1000, 50):
