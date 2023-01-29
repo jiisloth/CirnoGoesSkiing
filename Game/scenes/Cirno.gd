@@ -194,11 +194,11 @@ func shoot_laser(d,rs, dur, dmg):
 func _on_ShootTimer2_timeout():
     var angleToMid = playerPos.angle_to_point(position)
     if health > maxHealth * 0.75:
-        shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 1)
+        shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 2)
         $ShootTimer2.start(1.0)
     elif health > maxHealth * 0.5:
         for i in range(0, 3):
-            shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 1)
+            shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 2)
         $ShootTimer2.start(1.0)
     elif health > maxHealth * 0.25:
         shoot(angleToMid, playerSpeed+250, deg2rad(45), 0)
