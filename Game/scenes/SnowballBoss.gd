@@ -51,7 +51,7 @@ func _ready():
 func get_start_pos():
     var start_pos = Vector2.ZERO
     start_pos[0] = player.position.x
-    start_pos[1] = player.position.y - middle.y - 300
+    start_pos[1] = player.position.y - middle.y - 250
     velocity = player.velocity
     return start_pos
 
@@ -63,8 +63,7 @@ func _process(delta):
 
     if diff.y > 305 and starting:
         velocity.x = accSpeed * (diff.x + xOffset)
-        if (accSpeed) * (diff.y - 250) > velocity.y:
-            velocity.y += diff.y * 0.05
+        velocity.y = diff.y * accSpeed * 0.05
         accSpeed += delta
     elif starting:
         accSpeed = 5
@@ -82,16 +81,12 @@ func _process(delta):
             velocity.y = accSpeed * (diff.y - 250)
         else:
             velocity.y += 1
-            if diff.y < -900:
-                position = get_start_pos()
-                velocity = player.velocity
-                starting = true
-                moving = false
 
     if player.velocity.y < 50:
         velocity.y = 200
         shooting = false
         moving = true
+        $OverTimer.start(10)
 
     if dying:
         velocity.x = 0
@@ -102,7 +97,7 @@ func _process(delta):
     $Sprite.frame = int(animeTime)%8
     $Sprite.position.y = min($Sprite.position.y + lift*3*delta, -38)
     lift += 1
-    
+    print(velocity)
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
         if bossHealth > 50:
@@ -152,7 +147,8 @@ func bullet_phase2(num):
         create_bullet(90, 300, ICICLE)
         create_bullet(135, 300, ICICLE)
         create_bullet(45, 300, ICICLE)
-        
+ 
+       
 func boss_hit(dmg):
     print("Boss hit for ", dmg)
     bossHealth -= dmg
@@ -177,4 +173,8 @@ func _on_Area2D_body_entered(body):
             body.hit(1, false, 0.3)
 
 
-
+func _on_OverTimer_timeout():
+    position = get_start_pos()
+    velocity = player.velocity
+    starting = true
+    moving = false
