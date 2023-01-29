@@ -36,7 +36,7 @@ func _process(delta):
                 level += 1
                 var credits = Credits.instance()
                 add_child(credits)
-                goal = 30000
+                goal = 100000
         6:
             if Global.score > goal:
                 spawn_boss("mima")
