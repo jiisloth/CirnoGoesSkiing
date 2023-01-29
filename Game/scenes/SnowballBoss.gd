@@ -30,13 +30,13 @@ var shootPause = 1.0
 var accSpeed = 1
 
 var graze = true
+var lift = 0
 
 enum {
     SNOWBALL,
     ICICLE,
     CRYSTAL
    }
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -96,11 +96,12 @@ func _process(delta):
     if dying:
         velocity.x = 0
         velocity.y = 0
-    print(velocity)
     position += velocity * delta
     deltaTime += delta
     animeTime += delta * velocity.y * 0.04
     $Sprite.frame = int(animeTime)%8
+    $Sprite.position.y = min($Sprite.position.y + lift*3*delta, -38)
+    lift += 1
     
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
@@ -158,25 +159,15 @@ func boss_hit(dmg):
     if bossHealth <= 0:
         die()
     else:
-        var tween = Tween.new()
-        add_child(tween)
-        tween.interpolate_property($Sprite, "position:y", -38, -100, 0.1, Tween.TRANS_LINEAR, Tween.EASE_OUT)
-        tween.start()
-        yield(get_tree().create_timer(0.1), "timeout")
-        tween.interpolate_property($Sprite, "position:y", -100, -38, 0.1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-        tween.start()
-        yield(get_tree().create_timer(0.2), "timeout")
-        tween.queue_free()
+        lift = -40
         
    
 func die():
-    $Sprite.hide()
-    $Cirnoballshadow.hide()
     var baka = Baka.instance()
-    add_child(baka)
-    shooting = false
-    dying = true
-    $DeathTimer.start()
+    baka.global_position = global_position
+    get_parent().add_child(baka)
+    get_parent().boss_died("snowball")
+    queue_free()
 
 
 func _on_Area2D_body_entered(body):
@@ -187,5 +178,3 @@ func _on_Area2D_body_entered(body):
 
 
 
-func _on_DeathTimer_timeout():
-    queue_free()

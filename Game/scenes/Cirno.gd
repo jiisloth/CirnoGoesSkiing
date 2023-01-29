@@ -37,6 +37,15 @@ func _ready():
 
 
 func _process(delta):
+    #set shadow and collision
+    if $AnimatedSprite.frame < 5:
+        $CollisionShape2D.position.x = -4.5
+        $CirnoShadow.position.x = -18
+    else:
+        $CirnoShadow.position.x = -9
+        $CollisionShape2D.position.x = 4.5
+        
+    
     diff = position - middle
     if health > 300:
         get_pos()
@@ -51,7 +60,6 @@ func _process(delta):
 
     deltaTime += delta
     health -= 10 * delta
-    print(health)
 
 
 func get_pos():
@@ -68,7 +76,6 @@ func phase2(delta):
     phase += 10 * delta
     
 func phase3(delta):
-    print(position == upperMiddle)
     if circling == false:
         if abs(position.x - upperMiddle.x) < 15 and abs(position.y -upperMiddle.y) < 10:
             circling = true

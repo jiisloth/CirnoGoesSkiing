@@ -8,6 +8,7 @@ export(PackedScene) var TrickImg
 
 var velocity = Vector2.ZERO
 var slide = Vector2.ZERO
+var climb = Vector2()
 var dir = 0
 var movedir = 0
 var movespeed = 0
@@ -43,7 +44,6 @@ var was_on_ground = true
 var jumped = false
 
 var power = 0
-
 var graze_boost = 0
 
 
@@ -73,9 +73,14 @@ func _physics_process(delta):
 
         dir = lerp_angle(dir, stopdir, 0.2*(abs(angle_difference(dir,stopdir))/(PI*2/3))*delta*60)
         if velocity.length() < 15:
-            movespeed *= 0.5 *delta*60
+            movespeed *= 0.3
 
     if Input.is_action_pressed("up") and is_on_ground():
+        if velocity.length() < 80 and abs(sin(dir)) < 0.3:
+            jumped = true
+            climb = Vector2(0,-80)
+            movespeed = 0
+            lift = 2.5
         pass #climb hill
     if Input.is_action_just_pressed("jump") and was_on_ground and not jumped:
         jumped = true
@@ -92,7 +97,7 @@ func _physics_process(delta):
             else:
                 jump += get_ground_height(active_ramps)
             active_ramps = []
-    if Input.is_action_pressed("jump") and $Damaged.time_left <= 0:
+    if Input.is_action_pressed("jump") and $Damaged.time_left <= 0 and climb.length() == 0:
         lift -= delta*gravity*0.5
     else:
         lift -= delta*gravity
@@ -178,6 +183,7 @@ func _physics_process(delta):
         look = dir - PI
     
     if is_on_ground():
+        climb = Vector2.ZERO
         var pull = sin(look)*2.5
         if angle_difference(movedir, dir) > PI/2.0:
             movedir += PI
@@ -195,15 +201,15 @@ func _physics_process(delta):
         if sin(movedir) < 0:
             accelerating = -1
             
-        movespeed = movespeed*0.997+pull*accelerating*delta*60 + graze_boost*sign(movespeed)*delta*60
+        movespeed = movespeed*0.997+pull*accelerating + graze_boost*sign(movespeed)
         graze_boost = max(graze_boost-0.1,0)
         
         var slidespeed = movespeed*(turned*turned)*0.9
         movespeed -= slidespeed
-        slide = slide * 0.98*delta*60
+        slide = slide * 0.98
         slide += Vector2(slidespeed,0).rotated(pre_movedir)
     
-    velocity = Vector2(movespeed,0).rotated(movedir) + slide
+    velocity = Vector2(movespeed,0).rotated(movedir) + slide + climb
     move_and_slide(velocity, Vector2.UP)
 
 func add_trick():
@@ -346,7 +352,13 @@ func add_graze():
     var txt = Effect_text.instance()
     txt.etype = "Graze"
     add_child(txt)
-    graze_boost += 3
+    if graze_boost == 0:
+        graze_boost = 3
+    elif graze_boost * 1.5 < 3:
+        graze_boost = 4
+    else:
+        graze_boost *= 1.5 
+        
     
 func add_power():
     var txt = Effect_text.instance()

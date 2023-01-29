@@ -31,7 +31,7 @@ rotation = 1.5708
 shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, -18 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 

@@ -4,9 +4,24 @@ export(PackedScene) var Chunk
 export(PackedScene) var SnowBallBoss
 export(PackedScene) var Mima
 
+var level = 0
+var goal = 10000
 
 func _process(delta):
     check_chunks()
+    match level:
+        0:
+            if $Player.position.length() > goal:
+                spawn_boss("snowball")
+                level += 1
+        2:
+            if $Player.position.length() > goal:
+                spawn_boss("cirno")
+                level += 1
+        4:
+            if $Player.position.length() > goal:
+                spawn_boss("mima")
+                level += 1
     
 var active_chunks = []
 
@@ -39,3 +54,29 @@ func _on_BossTimer_timeout():
     #var boss = SnowBallBoss.instance()
     var boss = Mima.instance()
     add_child(boss)
+
+
+func spawn_boss(who):
+    var wait = 4
+    $MusicController.turn_down(wait)
+    yield(get_tree().create_timer(wait), "timeout")
+    $MusicController.play(who)
+    match who:
+        "snowball":
+            var boss = SnowBallBoss.instance()
+            add_child(boss)
+        "mima":
+            var boss = Mima.instance()
+            add_child(boss)
+            
+ 
+func boss_died(who):
+    var wait = 4
+    $MusicController.turn_down(wait)
+    yield(get_tree().create_timer(wait), "timeout")
+    $MusicController.play("marisa")
+    match who:
+        "snowball":
+            level += 1
+            goal = $Player.position.y + 10000
+

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/cirno-bulk.mp3-90d1a0b2ef0e03972354f7ca07cf18ef.mp3str"
+
+[deps]
+
+source_file="res://audio/cirno-bulk.mp3"
+dest_files=[ "res://.import/cirno-bulk.mp3-90d1a0b2ef0e03972354f7ca07cf18ef.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

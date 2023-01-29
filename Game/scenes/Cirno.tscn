@@ -6,7 +6,7 @@
 [ext_resource path="res://img/pixelart/cirno1f.png" type="Texture" id=4]
 [ext_resource path="res://img/pixelart/cirno2f.png" type="Texture" id=5]
 [ext_resource path="res://img/pixelart/cirno3f.png" type="Texture" id=6]
-[ext_resource path="res://img/pixelart/cirnoballshadow.png" type="Texture" id=7]
+[ext_resource path="res://img/pixelart/cirnoshadow.png" type="Texture" id=7]
 [ext_resource path="res://scenes/Cirno.gd" type="Script" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -17,24 +17,27 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 14.0
-height = 44.0
+[sub_resource type="CircleShape2D" id=2]
+radius = 7.07107
 
 [node name="Area2D" type="Area2D"]
 script = ExtResource( 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -28 )
+position = Vector2( -42, -88 )
+scale = Vector2( 3, 3 )
 frames = SubResource( 1 )
-frame = 9
+frame = 5
 playing = true
+centered = false
 
 [node name="CirnoShadow" type="Sprite" parent="."]
-position = Vector2( -1, 16 )
-scale = Vector2( 3, 2 )
+modulate = Color( 1, 1, 1, 0.294118 )
+position = Vector2( -18, -3 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 7 )
+centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1, -26 )
+rotation = 1.5708
 shape = SubResource( 2 )

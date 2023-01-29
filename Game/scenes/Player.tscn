@@ -59,6 +59,8 @@ position = Vector2( 0, -30 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 hframes = 12
+vframes = 2
+frame = 12
 
 [node name="Torso" type="Sprite" parent="Character"]
 position = Vector2( 0, -30 )

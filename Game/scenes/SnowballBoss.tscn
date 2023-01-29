@@ -16,7 +16,7 @@ Bullet = ExtResource( 3 )
 Baka = ExtResource( 5 )
 
 [node name="Cirnoballshadow" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.411765 )
+modulate = Color( 1, 1, 1, 0.294118 )
 position = Vector2( -37, -11 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
@@ -35,8 +35,4 @@ position = Vector2( 0, -10 )
 scale = Vector2( 1, 0.5 )
 shape = SubResource( 1 )
 
-[node name="DeathTimer" type="Timer" parent="."]
-wait_time = 3.0
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
