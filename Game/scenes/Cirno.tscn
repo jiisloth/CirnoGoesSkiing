@@ -33,7 +33,6 @@ Laser = ExtResource( 11 )
 position = Vector2( -37, -76 )
 scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
-frame = 7
 playing = true
 centered = false
 
@@ -57,6 +56,10 @@ one_shot = true
 rotation = 1.5708
 shape = SubResource( 2 )
 
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 [connection signal="timeout" from="ShootTimer2" to="." method="_on_ShootTimer2_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

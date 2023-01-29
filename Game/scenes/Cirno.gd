@@ -41,7 +41,9 @@ func _ready():
     upperMiddle.x = playerPos.x - 700
     upperMiddle.y = middle.y - 250
     position = upperMiddle
-
+    $StartTimer.start(13)
+    $Area2D/CollisionShape2D.disabled = true
+    
 
 func _process(delta):
     get_player_pos()
@@ -52,8 +54,6 @@ func _process(delta):
             moveSpeed += moveSpeed * delta
         else:
             starting = false
-            $ShootTimer.start(2)
-            $ShootTimer2.start(3)
     #set shadow and collision
     if $AnimatedSprite.frame < 5:
         $Area2D/CollisionShape2D.position.x = -4.5
@@ -234,3 +234,9 @@ func _on_FlashTimer_timeout():
     else:
         $AnimatedSprite.show()
         flashes = 3
+
+
+func _on_StartTimer_timeout():
+    $Area2D/CollisionShape2D.disabled = false
+    $ShootTimer.start(2)
+    $ShootTimer2.start(3)
