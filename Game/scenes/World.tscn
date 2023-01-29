@@ -20,10 +20,6 @@ Mima = ExtResource( 5 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 
-[node name="BossTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
 [node name="MusicController" type="Node" parent="."]
 script = ExtResource( 9 )
 
@@ -48,7 +44,6 @@ bus = "Snow"
 stream = ExtResource( 8 )
 bus = "Snow"
 
-[connection signal="timeout" from="BossTimer" to="." method="_on_BossTimer_timeout"]
 [connection signal="finished" from="MusicController/Marisa" to="MusicController" method="_on_Marisa_finished"]
 [connection signal="finished" from="MusicController/CirnoIntro" to="MusicController" method="_on_CirnoIntro_finished"]
 [connection signal="finished" from="MusicController/Cirno" to="MusicController" method="_on_Cirno_finished"]

@@ -50,12 +50,6 @@ func get_chunky_position(node):
     
 
 
-func _on_BossTimer_timeout():
-    #var boss = SnowBallBoss.instance()
-    var boss = Mima.instance()
-    add_child(boss)
-
-
 func spawn_boss(who):
     var wait = 4
     $MusicController.turn_down(wait)
