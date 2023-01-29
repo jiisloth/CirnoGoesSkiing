@@ -28,6 +28,7 @@ func quit_game():
     
 func end_intro():
     $Menu.show()
+    $Menu.init_menu()
     yield(get_tree().create_timer(1), "timeout")
     $Menu.start_animation()
 

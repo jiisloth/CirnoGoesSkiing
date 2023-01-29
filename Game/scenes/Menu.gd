@@ -1,8 +1,6 @@
 extends Control
 
 
-func _ready():
-    init_menu()
     
 func init_menu():
     show()

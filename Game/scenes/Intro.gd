@@ -21,7 +21,6 @@ func _ready():
 
 func _process(delta):
     if Input.is_action_just_pressed("ui_cancel") and pointer >= 0 and pointer < 3:
-        print("?")
         $Recordo.play(0.6)
         $Cirno2.stop()
         $Intro.stop()
