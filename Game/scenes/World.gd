@@ -105,6 +105,7 @@ func spawn_boss(who):
         "mima":
             var boss = Mima.instance()
             add_child(boss)
+            play_dialoque(who)
             
  
 func boss_died(who):
