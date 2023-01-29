@@ -16,7 +16,7 @@ var credits = [
     ["Special thanks to", "mom and dad", "borb <3 mima"],
     ["and", "YOU"],
     ["THANKS", "FOR", "PLAYING"],
-    ["btw, if you got more than", "30000 points", "you can now enjoy a small surprise"]
+    ["btw, if you got more than", "100 000 points", "you can now enjoy a small surprise"]
    ]
 
 var pointer = 0

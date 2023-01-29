@@ -42,7 +42,7 @@ func play(what):
         "snowball":
             $SnowBallIntro.play()
         "mima":
-            $SnowBall.play()
+            $Mima.play()
 
 
 
