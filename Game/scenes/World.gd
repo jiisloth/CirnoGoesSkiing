@@ -5,14 +5,14 @@ export(PackedScene) var SnowBallBoss
 export(PackedScene) var Mima
 
 var level = 0
-var goal = 10000
+var goal = 100
 
 func _process(delta):
     check_chunks()
     match level:
         0:
             if $Player.position.length() > goal:
-                spawn_boss("snowball")
+                spawn_boss("mima")
                 level += 1
         2:
             if $Player.position.length() > goal:
