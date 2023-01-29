@@ -5,13 +5,14 @@ var player
 
 var credits = [
     ["< MarisaSSX >", "A Game By", "pintin anime tiimi"],
-    ["Head Developer", "jsloth"],
-    ["Main Produces", "pintti"],
-    ["Music by", "borb"],
-    ["Art by", "DebPet"],
-    ["Pixel Art by", "pintti", "jsloth"],
-    ["Coding Engineers", "jsloth", "pintti"],
-    ["Special thanks to", "mom and dad"],
+    ["< Head Developer >", "jsloth"],
+    ["< Main Producer >", "pintti"],
+    ["< Music by >", "borb"],
+    ["< Art by >", "DebPet"],
+    ["< Pixel Art by >", "pintti", "jsloth"],
+    ["< Main programmer >", "jsloth"],
+    ["< Assisting programmer >", "pintti"],
+    ["Special thanks to", "mom and dad", "borb <3 mima"],
     ["and", "YOU"],
     ["THANKS", "FOR", "PLAYING"],
     ["btw, if you got more than", "30000 points", "you can now enjoy a small surprise"]

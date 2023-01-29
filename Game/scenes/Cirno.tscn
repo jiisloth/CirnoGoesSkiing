@@ -30,10 +30,10 @@ Baka = ExtResource( 10 )
 Laser = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( -42, -88 )
-scale = Vector2( 3, 3 )
+position = Vector2( -37, -76 )
+scale = Vector2( 0.8, 0.8 )
 frames = SubResource( 1 )
-frame = 4
+frame = 7
 playing = true
 centered = false
 
