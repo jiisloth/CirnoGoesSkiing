@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Chunk.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://audio/cirno-intro.mp3" type="AudioStream" id=7]
 [ext_resource path="res://audio/cirno-bulk.mp3" type="AudioStream" id=8]
 [ext_resource path="res://scenes/MusicController.gd" type="Script" id=9]
+[ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=10]
 
 [node name="World" type="YSort"]
 script = ExtResource( 1 )
@@ -43,6 +44,10 @@ bus = "Snow"
 [node name="SnowBall" type="AudioStreamPlayer" parent="MusicController"]
 stream = ExtResource( 8 )
 bus = "Snow"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource( 10 )]
 
 [connection signal="finished" from="MusicController/Marisa" to="MusicController" method="_on_Marisa_finished"]
 [connection signal="finished" from="MusicController/CirnoIntro" to="MusicController" method="_on_CirnoIntro_finished"]

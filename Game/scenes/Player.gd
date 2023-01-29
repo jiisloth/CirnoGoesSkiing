@@ -46,11 +46,10 @@ var jumped = false
 var power = 0
 var graze_boost = 0
 
+var maxhealth = 100
+var health = maxhealth
 
 func _physics_process(delta):
-    power -= power*0.05*delta
-    if power < 0.2:
-        power = 0
     set_was_on_ground(delta)
     var turn = 0
     if Input.is_action_pressed("left"):
@@ -284,6 +283,8 @@ func animate(delta):
 func hit(damage, stop, speed=0.2):
     if stop:
         movespeed *= speed
+    power = 0
+    graze_boost = 0
     $Damaged.start()
     $Character/Trickbar.clear()
     end_trick()
@@ -291,6 +292,7 @@ func hit(damage, stop, speed=0.2):
     current_trick = trick.NONE
     trick_tick = 0
     trick_total = 0
+    health -= damage
 
 
 func shoot():
@@ -364,7 +366,19 @@ func add_power():
     var txt = Effect_text.instance()
     txt.etype = "Power"
     add_child(txt)
-    power += 1
+    power += 2  
+    
+func add_health():
+    var txt = Effect_text.instance()
+    txt.etype = "Health"
+    add_child(txt)
+    health = min(health+1, maxhealth)
+    
+func add_score():
+    var txt = Effect_text.instance()
+    txt.etype = "Score"
+    add_child(txt)
+    Global.score += 1000
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))

@@ -10,6 +10,8 @@ const moving = true
 var graze = true
 var rotatespeed = 0
 
+var dropscale = Vector3(0.2, 0.15, 0.15)
+
 func _ready():
     get_child(btype).disabled = false
     $Sprite.frame = btype

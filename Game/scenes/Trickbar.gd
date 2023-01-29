@@ -17,11 +17,11 @@ func start_trick():
     var rekt = ColorRect.new()
     match player.current_trick:
         player.trick.MELON:
-            rekt.color = Color("#c63d42")
+            rekt.color = Color("#62abd2")
         player.trick.INDY:
             rekt.color = Color("#a2e387")
         player.trick.NOSE:
-            rekt.color = Color("#62abd2")
+            rekt.color = Color("#c63d42")
     rekt.anchor_bottom = 1
     current_rekt = rekt
     $Bars.add_child(rekt)

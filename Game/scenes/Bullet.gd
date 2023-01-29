@@ -16,6 +16,7 @@ var target = false
 var targeting = 0
 var hb_scale = 1
 var color = false
+var dropscale = Vector3.ONE
 
 func _ready():
     if color:

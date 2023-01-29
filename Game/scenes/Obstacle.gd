@@ -6,8 +6,11 @@ export(int) var damage = 1
 export(int) var health = 1
 export(float) var dropchance = 0.2
 export(bool) var flippable = true
+var pkill = false
 
 var graze = true
+var extra_drop = 0
+var dropscale = Vector3(0.2, 0.15, 0.15)
 
 func _ready():
     if flippable:
@@ -25,22 +28,41 @@ func _on_Area2D_body_entered(body):
             
             
 func die():
+    if pkill:
+        Global.score += 10
     drop()
     queue_free()
 
 
 func drop():
     if randf() < dropchance:
-        var p = load("res://scenes/Powerup.tscn").instance()
-        p.position = position
-        get_parent().add_child(p)
+        if pkill:
+            var ds = dropscale*2
+            if ds.x > randf():
+                spawn_drop()
+            if ds.y > randf():
+                spawn_drop()
+            if ds.z > randf():
+                spawn_drop()
+        else:
+            spawn_drop()
 
+func spawn_drop():
+    var p = load("res://scenes/Powerup.tscn").instance()
+    p.position = position + Vector2(randi()%12-6,randi()%12-6)
+    p.dropscale = dropscale
+    get_parent().add_child(p)
 
 func _on_Area2D_area_entered(area):
     if area.is_in_group("Bullet"):
         area.hit(damage)
         if area.moving or area.health > 1:
+            dropscale = area.dropscale
             health -= area.damage
+            pkill = true
+        if not area.is_in_group("BossBullet"):
+            pkill = false
     if area.is_in_group("Boss"):
         health = 0
+        pkill = false
 

@@ -32,7 +32,12 @@ func _ready():
         queue_free()
         return
     var pointer = 0
+    var score = 0
+    var score_trick = 1
     for trick in tricks:
+        score += trick.y*trick.y*10
+        if trick.y > 0.2:
+            score_trick += 1
         if pointer < 0.3333*trick_total:
             var to_point = 0.3333*trick_total-pointer
             if trick.y > to_point:
@@ -60,10 +65,11 @@ func _ready():
             hit[trick.x-1] += trick.y
         total[trick.x-1] += trick.y
         pointer += trick.y
+    Global.score += int(score*score_trick*score_trick)*10
     var c = total.normalized()
-    color.r = (color.r + Color("#c63d42").r*c.x+Color("#a2e387").r*c.y+Color("#62abd2").r*c.z)/4.0
-    color.g = (color.g + Color("#c63d42").g*c.x+Color("#a2e387").g*c.y+Color("#62abd2").g*c.z)/4.0
-    color.b = (color.b + Color("#c63d42").b*c.x+Color("#a2e387").b*c.y+Color("#62abd2").b*c.z)/4.0
+    color.r = (color.r + Color("#62abd2").r*c.x+Color("#a2e387").r*c.y+Color("#c63d42").r*c.z)/4.0
+    color.g = (color.g + Color("#62abd2").g*c.x+Color("#a2e387").g*c.y+Color("#c63d42").g*c.z)/4.0
+    color.b = (color.b + Color("#62abd2").b*c.x+Color("#a2e387").b*c.y+Color("#c63d42").b*c.z)/4.0
     color.s = 0.5
     color.v = 1
     launch = scale_property(launch)/(2/3.0)
@@ -101,6 +107,7 @@ func add_bullet(d):
     bullet.wave = fly.y
     bullet.health = hit.y * 10.0
     bullet.track = fly.x
+    bullet.dropscale = total
     var bosses = get_tree().get_nodes_in_group("Boss")
     if len(bosses) > 0:
         bullet.rotation = lerp_angle(d + rotation, (bosses[0].global_position - global_position).angle(), launch.x*0.5)
