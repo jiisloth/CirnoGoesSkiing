@@ -6,6 +6,8 @@ export(PackedScene) var Mima
 export(PackedScene) var Cirno
 export(PackedScene) var Credits
 
+export(PackedScene) var Death
+
 var level = 0
 var goal = 1000#25000
 
@@ -63,7 +65,11 @@ func generate_chunk(coords):
 func get_chunky_position(node):
     return Vector2(round(node.global_position.x / 800),round(node.global_position.y / 800))
     
-
+func died():
+    level = -10
+    var death = Death.instance()
+    add_child(death)
+    
 
 func spawn_boss(who):
     var wait = 4

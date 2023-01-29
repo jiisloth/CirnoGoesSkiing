@@ -7,6 +7,7 @@ export(PackedScene) var FacePlant
 
 
 
+
 var velocity = Vector2.ZERO
 var slide = Vector2.ZERO
 var climb = Vector2()
@@ -52,7 +53,12 @@ var graze_boost = 0
 var maxhealth = 100
 var health = maxhealth
 
+var dead = false
+
 func _physics_process(delta):
+    if dead:
+        dead_move()
+        return
     set_was_on_ground(delta)
     var turn = 0
     if Input.is_action_pressed("left"):
@@ -214,6 +220,14 @@ func _physics_process(delta):
     velocity = Vector2(movespeed,0).rotated(movedir) + slide + climb
     move_and_slide(velocity, Vector2.UP)
 
+func dead_move():
+    slide += Vector2(movespeed,0).rotated(movedir)
+    slide = slide * 0.7
+    movespeed = 0
+    velocity = slide
+    move_and_slide(velocity, Vector2.UP)
+
+
 func add_trick():
     end_trick()
     $Character/Trickbar.add_trick()
@@ -235,6 +249,17 @@ func start_trick():
     add_child(trickimg)
 
 func _process(delta):
+    if health <= 0 and not dead:
+        dead = true
+        $Shadow.hide()
+        $Character.hide()
+        $CollisionShape2D.disabled = true
+        $Graze/CollisionShape2D.disabled = true
+        $Death.show()
+        get_parent().died()
+    if dead:
+        return
+        
     animate(delta)
 
 var breath = 0
@@ -305,8 +330,9 @@ func hit(damage, stop, speed=0.2):
     trick_total = 0
     health -= damage
     last_dmg = damage
-    var faceplant = FacePlant.instance()
-    add_child(faceplant)
+    if health > 0:
+        var faceplant = FacePlant.instance()
+        add_child(faceplant)
 
 
 func shoot():

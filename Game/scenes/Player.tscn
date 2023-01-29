@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://img/pixelart/shadow.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Player.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/Effect_Get.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/TrickImg.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/Faceplant.tscn" type="PackedScene" id=10]
+[ext_resource path="res://img/pixelart/marisa_dead.png" type="Texture" id=11]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
@@ -93,5 +94,11 @@ one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Graze"]
 shape = SubResource( 3 )
+
+[node name="Death" type="Sprite" parent="."]
+visible = false
+position = Vector2( -1, -5 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 11 )
 
 [connection signal="area_exited" from="Graze" to="." method="_on_Graze_area_exited"]

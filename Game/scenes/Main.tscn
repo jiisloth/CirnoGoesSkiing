@@ -91,6 +91,7 @@ script = ExtResource( 5 )
 
 [node name="Thump" type="AudioStreamPlayer" parent="Menu"]
 stream = ExtResource( 13 )
+bus = "Music"
 
 [node name="Bg" type="Sprite" parent="Menu"]
 position = Vector2( 709, 444 )
@@ -304,6 +305,7 @@ texture = ExtResource( 9 )
 
 [node name="Click" type="AudioStreamPlayer" parent="Menu"]
 stream = ExtResource( 14 )
+bus = "Music"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

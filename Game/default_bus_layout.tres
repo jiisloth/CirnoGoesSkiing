@@ -1,16 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=4 format=2]
-
-[sub_resource type="AudioEffectLowPassFilter" id=2]
-resource_name = "LowPassFilter"
-cutoff_hz = 1000.0
-resonance = 0.39
-
-[sub_resource type="AudioEffectPitchShift" id=3]
-resource_name = "PitchShift"
-pitch_scale = 0.6
-
-[sub_resource type="AudioEffectDistortion" id=4]
-resource_name = "Distortion"
+[gd_resource type="AudioBusLayout" format=2]
 
 [resource]
 bus/1/name = "Music"
@@ -19,15 +7,9 @@ bus/1/mute = false
 bus/1/bypass_fx = false
 bus/1/volume_db = 0.0
 bus/1/send = "Master"
-bus/2/name = "Snow"
+bus/2/name = "Death"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
 bus/2/volume_db = 0.0
-bus/2/send = "Music"
-bus/2/effect/0/effect = SubResource( 2 )
-bus/2/effect/0/enabled = true
-bus/2/effect/1/effect = SubResource( 3 )
-bus/2/effect/1/enabled = true
-bus/2/effect/2/effect = SubResource( 4 )
-bus/2/effect/2/enabled = true
+bus/2/send = "Master"

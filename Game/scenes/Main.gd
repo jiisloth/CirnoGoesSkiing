@@ -21,6 +21,9 @@ func quit_game():
     in_game = false
     Global.score = 0
     level.queue_free()
+    
+    yield(get_tree().create_timer(0.2), "timeout")
+    AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(1))
     $AudioStreamPlayer.play()
     
 
