@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mima.mp3-5c6956844025da00faedcccaa88256b0.mp3str"
+
+[deps]
+
+source_file="res://audio/mima.mp3"
+dest_files=[ "res://.import/mima.mp3-5c6956844025da00faedcccaa88256b0.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

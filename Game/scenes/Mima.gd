@@ -5,15 +5,18 @@ export(PackedScene) var Bullet
 export(PackedScene) var Laser
 
 var deltatime = 0
-onready var player := get_tree().get_root().get_node("World/Player")
 
 var rng = RandomNumberGenerator.new()
 
-var phase = 1
-var health = 20
+var phase = 0
+var health = 12
 var phasephase = 0
 
+
+var player
+
 func _ready():
+    player = get_tree().get_nodes_in_group("Player")[0]
     rng.randomize()
     spawn()
     

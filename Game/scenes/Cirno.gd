@@ -4,7 +4,6 @@ export(PackedScene) var Bullet
 export(PackedScene) var Baka
 export(PackedScene) var Laser
 
-onready var player := get_tree().get_root().get_node("World/Player")
 
 var maxHealth = 100
 var health = 100
@@ -29,7 +28,10 @@ var flashes = 3
 var starting = true
 
 
+var player
+
 func _ready():
+    player = get_tree().get_nodes_in_group("Player")[0]
     print("CirnoSpawn")
     playerPos = player.position
     screenSize = get_viewport().get_visible_rect().size

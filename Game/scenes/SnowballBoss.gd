@@ -3,7 +3,6 @@ extends Node2D
 export(PackedScene) var Bullet
 export(PackedScene) var Baka
 
-onready var player := get_tree().get_root().get_node("World/Player")
 
 var pos = Vector2.ZERO
 var screenSize = Vector2.ZERO
@@ -38,9 +37,11 @@ enum {
     CRYSTAL
    }
 
-# Called when the node enters the scene tree for the first time.
+
+var player
+
 func _ready():
-    #hide()
+    player = get_tree().get_nodes_in_group("Player")[0]
     screenSize = get_viewport().get_visible_rect().size
     middle = screenSize / 2
     xOffsetMax = middle.x / 2

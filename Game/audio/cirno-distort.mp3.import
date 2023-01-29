@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/cirno-distort.mp3-4612f60aa99b3de23295bed3cfeb6765.mp3str"
+
+[deps]
+
+source_file="res://audio/cirno-distort.mp3"
+dest_files=[ "res://.import/cirno-distort.mp3-4612f60aa99b3de23295bed3cfeb6765.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

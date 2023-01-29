@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/marisa.mp3-d5579a5cc96e85e7d42be48267ea1218.mp3str"
+
+[deps]
+
+source_file="res://audio/marisa.mp3"
+dest_files=[ "res://.import/marisa.mp3-d5579a5cc96e85e7d42be48267ea1218.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

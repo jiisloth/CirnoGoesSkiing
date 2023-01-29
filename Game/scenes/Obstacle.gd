@@ -35,8 +35,8 @@ func die():
 
 
 func drop():
-    if randf() < dropchance:
-        if pkill:
+    if pkill:
+        if randf() < dropchance:
             var ds = dropscale*2
             if ds.x > randf():
                 spawn_drop()
@@ -44,8 +44,8 @@ func drop():
                 spawn_drop()
             if ds.z > randf():
                 spawn_drop()
-        else:
-            spawn_drop()
+    elif randf() < dropchance/2.0:
+        spawn_drop()
 
 func spawn_drop():
     var p = load("res://scenes/Powerup.tscn").instance()

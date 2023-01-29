@@ -4,22 +4,37 @@ export(PackedScene) var Chunk
 export(PackedScene) var SnowBallBoss
 export(PackedScene) var Mima
 
-var level = 0
-var goal = 100
+export(PackedScene) var Credits
+
+var level = 4
+var goal = 1000#25000
+
+var seek = 0
+
+func _ready():
+    $MusicController/Marisa.seek(seek)
 
 func _process(delta):
+    if Input.is_action_just_pressed("ui_cancel"):
+        get_parent().quit_game()
     check_chunks()
     match level:
         0:
             if $Player.position.length() > goal:
-                spawn_boss("mima")
+                spawn_boss("snowball")
                 level += 1
         2:
             if $Player.position.length() > goal:
                 spawn_boss("cirno")
                 level += 1
-        4:
+        4:  
             if $Player.position.length() > goal:
+                level += 1
+                var credits = Credits.instance()
+                add_child(credits)
+                goal = 100000
+        6:
+            if Global.score > goal:
                 spawn_boss("mima")
                 level += 1
     
@@ -72,5 +87,9 @@ func boss_died(who):
     match who:
         "snowball":
             level += 1
-            goal = $Player.position.y + 10000
+            goal = $Player.position.length() + 10000
+            
+        "cirno":
+            level += 1
+            goal = $Player.position.length() + 1000
 

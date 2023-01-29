@@ -40,7 +40,10 @@ func play(what):
         "marisa":
             $Marisa.play()
         "snowball":
+            $SnowBallIntro.play()
+        "mima":
             $SnowBall.play()
+
 
 
 
@@ -52,3 +55,8 @@ func _on_SnowBallIntro_finished():
 func _on_SnowBall_finished():
     if loop == "snowball":
         $SnowBall.play()
+
+
+func _on_Mima_finished():
+    if loop == "mima":
+        $Mima.play()
