@@ -26,6 +26,11 @@ func quit_game():
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(1))
     $AudioStreamPlayer.play()
     
+func end_intro():
+    $Menu.show()
+    yield(get_tree().create_timer(1), "timeout")
+    $Menu.start_animation()
+
 
 func _on_AudioStreamPlayer_finished():
     if not in_game:

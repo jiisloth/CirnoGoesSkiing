@@ -2,7 +2,6 @@ extends Control
 
 
 func _ready():
-    start_animation()
     init_menu()
     
 func init_menu():
@@ -48,6 +47,7 @@ func _on_Back_pressed():
     $Click.play()
     
 func start_animation():
+    $Main/Label/Logo.show()
     $Thump.play()
     yield(get_tree().create_timer(1), "timeout")
     if not get_parent().in_game:

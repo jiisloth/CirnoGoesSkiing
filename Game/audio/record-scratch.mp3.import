@@ -11,5 +11,5 @@ dest_files=[ "res://.import/record-scratch.mp3-33c88f413933813a6c38b1521cb5954c.
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

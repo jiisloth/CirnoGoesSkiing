@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/cirno.png-6f285df2c4d490b710eb47c06bc32663.stex"
+
+[node name="Dialogue" type="CanvasLayer"]
+
+[node name="Cirno" type="Sprite" parent="."]
+position = Vector2( 424, 428 )
+scale = Vector2( 0.515, 0.515 )
+texture = SubResource( 1 )

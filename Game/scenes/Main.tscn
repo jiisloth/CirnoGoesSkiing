@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://img/pixelart/bg.png" type="Texture" id=1]
 [ext_resource path="res://misc/Merchant Copy.ttf" type="DynamicFontData" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://img/Logo2.png" type="Texture" id=12]
 [ext_resource path="res://audio/thump.mp3" type="AudioStream" id=13]
 [ext_resource path="res://audio/click.wav" type="AudioStream" id=14]
+[ext_resource path="res://scenes/Intro.tscn" type="PackedScene" id=15]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
@@ -84,6 +85,7 @@ script = ExtResource( 6 )
 Level = ExtResource( 7 )
 
 [node name="Menu" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 10 )
@@ -113,6 +115,7 @@ text = "
 align = 1
 
 [node name="Logo" type="AnimatedSprite" parent="Menu/Main/Label"]
+visible = false
 position = Vector2( 195, 53 )
 scale = Vector2( 0.384367, 0.384367 )
 frames = SubResource( 12 )
@@ -310,6 +313,8 @@ bus = "Music"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 bus = "Music"
+
+[node name="Intro" parent="." instance=ExtResource( 15 )]
 
 [connection signal="pressed" from="Menu/Main/Start" to="Menu" method="_on_Start_pressed"]
 [connection signal="pressed" from="Menu/Main/Controls" to="Menu" method="_on_Controls_pressed"]

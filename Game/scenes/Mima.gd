@@ -34,7 +34,7 @@ func _process(delta):
         phase += 1
         health = 12 + 2*phase
         if phase == 4:
-            queue_free()
+            teleport()
 
 
 func _on_Timer_timeout():
@@ -53,6 +53,8 @@ func teleport():
     $Teleport.interpolate_property($Sprites/Teleport2, "position:y", -10, -10-23*2-10, 0.15)
     $Teleport.start()
     yield(get_tree().create_timer(0.15), "timeout")
+    if phase == 4:
+        queue_free()
     spawn()
     
 func spawn():
