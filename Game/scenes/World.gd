@@ -5,10 +5,12 @@ export(PackedScene) var SnowBallBoss
 export(PackedScene) var Mima
 export(PackedScene) var Cirno
 export(PackedScene) var Credits
+export(PackedScene) var End
 
 export(PackedScene) var Death
 export(PackedScene) var SnowDia
 export(PackedScene) var CirnoDia
+export(PackedScene) var MimaDia
 
 var level = 0
 var goal = 25000
@@ -41,6 +43,11 @@ func _process(delta):
             if Global.score > goal:
                 spawn_boss("mima")
                 level += 1
+        8:
+            if $Player.position.length() > goal:
+                level += 1
+                var credits = End.instance()
+                add_child(credits)
     
 var active_chunks = []
 
@@ -119,5 +126,5 @@ func boss_died(who):
         "mima":
             Global.score += 69000
             level += 1
-            goal = $Player.position.length() + 10000
+            goal = $Player.position.length() + 500
 

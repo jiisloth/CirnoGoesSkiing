@@ -7,6 +7,7 @@ export(int) var health = 1
 export(float) var dropchance = 0.2
 export(bool) var flippable = true
 var pkill = false
+var imma_die = false
 
 var graze = true
 var extra_drop = 0
@@ -17,6 +18,8 @@ func _ready():
         $Sprite.scale.x = $Sprite.scale.x
 
 func _process(delta):
+    if imma_die:
+        queue_free()
     if health <= 0:
         die()   
 
@@ -54,6 +57,12 @@ func spawn_drop():
     get_parent().add_child(p)
 
 func _on_Area2D_area_entered(area):
+    if area.is_in_group("Ramp"):
+        if not area.get_parent().imma_die:
+            imma_die = true
+    if area.is_in_group("Obstacle"):
+        if not area.get_parent().imma_die:
+            imma_die = true
     if area.is_in_group("Bullet"):
         area.hit(damage)
         if area.moving or area.health > 1:

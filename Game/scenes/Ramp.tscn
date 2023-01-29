@@ -14,7 +14,7 @@ height = 58.0002
 [node name="Ramp" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["Ramp"]]
 position = Vector2( 0, -6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -35,6 +35,7 @@ position = Vector2( 0, -18 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="ForceJump" to="." method="_on_ForceJump_body_entered"]
