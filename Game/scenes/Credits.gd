@@ -12,6 +12,7 @@ var credits = [
     ["< Pixel Art by >", "pintti", "jsloth"],
     ["< Main programmer >", "jsloth"],
     ["< Assisting programmer >", "pintti"],
+    ["< Script by >", "pintti"],
     ["Special thanks to", "mom and dad", "borb <3 mima"],
     ["and", "YOU"],
     ["THANKS", "FOR", "PLAYING"],

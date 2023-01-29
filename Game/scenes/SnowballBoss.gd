@@ -107,7 +107,8 @@ func _process(delta):
         else:
             bullet_phase2(num)
             deltaTime = 0.0
-        bossHealth -= 1
+        if bossHealth > 1:
+            bossHealth -= 1
 
 
 func create_bullet(d, speed, btype):
@@ -161,11 +162,8 @@ func die():
     baka.global_position = global_position
     get_parent().add_child(baka)
     get_parent().boss_died("snowball")
-    create_bullet(90, 100, SNOWBALL)
-    create_bullet(90-22.5, 100, SNOWBALL)
-    create_bullet(45, 100, SNOWBALL)
-    create_bullet(112.5, 100, SNOWBALL)
-    create_bullet(135, 100, SNOWBALL)
+    for i in range(5, 360, 5):
+        create_bullet(deg2rad(i), 150, SNOWBALL)
     queue_free()
 
 

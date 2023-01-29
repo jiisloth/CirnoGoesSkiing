@@ -9,7 +9,7 @@ export(PackedScene) var Credits
 export(PackedScene) var Death
 
 var level = 0
-var goal = 1000#25000
+var goal = 25000
 
 var seek = 0
 

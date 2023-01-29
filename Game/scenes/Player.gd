@@ -412,7 +412,7 @@ func add_health():
     var txt = Effect_text.instance()
     txt.etype = "Health"
     add_child(txt)
-    health = min(health+1, maxhealth)
+    health = min(health+3, maxhealth)
     
 func add_score():
     var txt = Effect_text.instance()
