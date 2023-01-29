@@ -39,7 +39,6 @@ disabled = true
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 vframes = 4
-frame = 3
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -50, -50, 100, 100 )
