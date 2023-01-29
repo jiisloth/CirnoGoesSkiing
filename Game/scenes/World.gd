@@ -1,7 +1,9 @@
 extends YSort
 
 export(PackedScene) var Chunk
-export(PackedScene) var Boss
+export(PackedScene) var SnowBallBoss
+export(PackedScene) var Mima
+
 
 func _process(delta):
     check_chunks()
@@ -34,5 +36,6 @@ func get_chunky_position(node):
 
 
 func _on_BossTimer_timeout():
-    var boss = Boss.instance()
+    #var boss = SnowBallBoss.instance()
+    var boss = Mima.instance()
     add_child(boss)

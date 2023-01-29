@@ -7,8 +7,8 @@ var damage = 5
 var health = 1
 var btype = 0
 const moving = true
-
 var graze = true
+var rotatespeed = 0
 
 func _ready():
     get_child(btype).disabled = false
@@ -17,6 +17,11 @@ func _ready():
         
         
 func _physics_process(delta):
+    if btype == 3:
+        $Sprite.rotation += delta*sign(rotatespeed)*2
+        rotatespeed *= 0.99
+    $Sprite.position = Vector2.UP.rotated(-rotation)*20
+    rotation += delta*rotatespeed
     global_position += ((movement + Vector2(speed,0).rotated(rotation))*delta)
     
 

@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://img/pixelart/mimatail.png" type="Texture" id=1]
+[ext_resource path="res://img/pixelart/mimateleport.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Mima.gd" type="Script" id=3]
+[ext_resource path="res://img/pixelart/mima.png" type="Texture" id=4]
+[ext_resource path="res://scenes/BossBullet.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[node name="Mima" type="Node2D"]
+script = ExtResource( 3 )
+Bullet = ExtResource( 5 )
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2( 0, -43 )
+scale = Vector2( 3, 3 )
+
+[node name="Tail" type="Sprite" parent="Sprites"]
+visible = false
+position = Vector2( -4, 9 )
+texture = ExtResource( 1 )
+centered = false
+hframes = 5
+
+[node name="Body" type="Sprite" parent="Sprites"]
+visible = false
+position = Vector2( 4, 0 )
+texture = ExtResource( 4 )
+hframes = 2
+
+[node name="Teleport1" type="Sprite" parent="Sprites"]
+position = Vector2( -9, 0 )
+scale = Vector2( 1, 3 )
+texture = ExtResource( 2 )
+centered = false
+hframes = 2
+
+[node name="Teleport2" type="Sprite" parent="Sprites"]
+position = Vector2( -9, -66 )
+scale = Vector2( 1, 3 )
+texture = ExtResource( 2 )
+centered = false
+hframes = 2
+frame = 1
+
+[node name="TP" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="Teleport" type="Tween" parent="."]
+
+[node name="Area2D" type="Area2D" parent="." groups=["Boss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="Shoot" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="TP" to="." method="_on_Timer_timeout"]
+[connection signal="tween_all_completed" from="Teleport" to="." method="_on_Teleport_tween_all_completed"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="timeout" from="Shoot" to="." method="_on_Shoot_timeout"]

@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/BossBullet.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 9.0
+radius = 18.1108
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 6.0
@@ -32,11 +32,15 @@ scale = Vector2( 1, 1 )
 shape = SubResource( 3 )
 disabled = true
 
+[node name="Moon" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
-vframes = 3
-frame = 2
+vframes = 4
+frame = 3
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 rect = Rect2( -50, -50, 100, 100 )
