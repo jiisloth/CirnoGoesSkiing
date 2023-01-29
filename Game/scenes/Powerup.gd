@@ -15,7 +15,7 @@ func _ready():
     
     if dropscale.x < dropscale.y:
         type = 1
-    if max(dropscale.z, dropscale.y) < dropscale.z:
+    if max(dropscale.x, dropscale.y) < dropscale.z:
         type = 2
     $Powerup.frame = type
 

@@ -46,4 +46,4 @@ func _on_Laser_body_entered(body):
     if body.name == "Player":
         if body.height < 20:
             graze = false
-            body.hit(damage, 0)
+            body.hit(damage, true, 0.8)

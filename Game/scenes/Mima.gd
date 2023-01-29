@@ -150,13 +150,13 @@ func _on_Shoot_timeout():
         
 func boss_hit(dmg):
     health -= dmg
-    visible = false
+    $Sprites.visible = false
     yield(get_tree().create_timer(0.10), "timeout")
-    visible = true
+    $Sprites.visible = true
     yield(get_tree().create_timer(0.10), "timeout")
-    visible = false
+    $Sprites.visible = false
     yield(get_tree().create_timer(0.10), "timeout")
-    visible = true
+    $Sprites.visible = true
     yield(get_tree().create_timer(0.10), "timeout")
     if $Lasers.get_child_count() == 0:
         teleport()

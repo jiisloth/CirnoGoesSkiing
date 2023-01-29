@@ -3,6 +3,7 @@ extends KinematicBody2D
 export(PackedScene) var BulletShootter
 export(PackedScene) var Effect_text
 export(PackedScene) var TrickImg
+export(PackedScene) var FacePlant
 
 
 
@@ -19,6 +20,8 @@ var stopdir
 var lift = 0
 var jump = 0
 var height = 0
+
+var last_dmg = 0
 
 var jump_turn = 0
 
@@ -228,6 +231,7 @@ func end_trick():
 
 func start_trick():
     trickimg = TrickImg.instance()
+    trickimg.trick = current_trick-1
     add_child(trickimg)
 
 func _process(delta):
@@ -281,9 +285,16 @@ func animate(delta):
 
 
 func hit(damage, stop, speed=0.2):
+    if $Damaged.time_left != 0:
+        if last_dmg < damage:
+            health -= damage-last_dmg
+        last_dmg = damage
+        return
     if stop:
         movespeed *= speed
-    power = 0
+    power = power/2.0
+    if power < 1:
+        power = 0
     graze_boost = 0
     $Damaged.start()
     $Character/Trickbar.clear()
@@ -293,6 +304,9 @@ func hit(damage, stop, speed=0.2):
     trick_tick = 0
     trick_total = 0
     health -= damage
+    last_dmg = damage
+    var faceplant = FacePlant.instance()
+    add_child(faceplant)
 
 
 func shoot():
