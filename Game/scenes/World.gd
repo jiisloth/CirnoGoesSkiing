@@ -87,6 +87,9 @@ func play_dialoque(what):
         "cirno":
             var dialogue = CirnoDia.instance()
             add_child(dialogue)
+        "mima":
+            var dialogue = MimaDia.instance()
+            add_child(dialogue)
     
 func spawn_boss(who):
     var wait = 4
