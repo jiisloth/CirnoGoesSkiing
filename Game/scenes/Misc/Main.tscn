@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://img/art/marisaIndy.png" type="Texture" id=1]
 [ext_resource path="res://img/art/marisaNose.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://audio/click.wav" type="AudioStream" id=14]
 [ext_resource path="res://img/pixelart/controller.png" type="Texture" id=15]
 [ext_resource path="res://scenes/Misc/Intro.tscn" type="PackedScene" id=16]
+[ext_resource path="res://img/art/marisaBroom.png" type="Texture" id=17]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
@@ -81,6 +82,12 @@ outline_size = 2
 outline_color = Color( 0.054902, 0.0392157, 0.203922, 1 )
 font_data = ExtResource( 8 )
 
+[sub_resource type="DynamicFont" id=14]
+size = 35
+outline_size = 2
+outline_color = Color( 0.054902, 0.0392157, 0.203922, 1 )
+font_data = ExtResource( 8 )
+
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.360784, 0.388235, 0.45098, 0.172549 )
 
@@ -89,7 +96,6 @@ script = ExtResource( 6 )
 Level = ExtResource( 11 )
 
 [node name="Menu" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 10 )
@@ -105,6 +111,7 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 9 )
 
 [node name="Main" type="VBoxContainer" parent="Menu"]
+visible = false
 margin_left = 34.0
 margin_top = 32.0
 margin_right = 412.0
@@ -130,22 +137,28 @@ margin_right = 378.0
 margin_bottom = 148.0
 text = "Start game"
 
-[node name="Controls" type="Button" parent="Menu/Main"]
+[node name="HowTo" type="Button" parent="Menu/Main"]
 margin_top = 158.0
 margin_right = 378.0
 margin_bottom = 191.0
-text = "Controls"
+text = "Tutorial"
 
-[node name="Credits" type="Button" parent="Menu/Main"]
+[node name="Controls" type="Button" parent="Menu/Main"]
 margin_top = 201.0
 margin_right = 378.0
 margin_bottom = 234.0
+text = "Controls"
+
+[node name="Credits" type="Button" parent="Menu/Main"]
+margin_top = 244.0
+margin_right = 378.0
+margin_bottom = 277.0
 text = "Credits"
 
 [node name="HSlider" type="HSlider" parent="Menu/Main"]
-margin_top = 244.0
+margin_top = 287.0
 margin_right = 378.0
-margin_bottom = 244.0
+margin_bottom = 287.0
 value = 75.0
 
 [node name="Volume" type="Label" parent="Menu/Main/HSlider"]
@@ -227,36 +240,15 @@ align = 2
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 33.0
-margin_top = 127.0
-margin_right = 455.0
-margin_bottom = 127.0
-custom_fonts/font = SubResource( 11 )
+margin_left = 18.0
+margin_top = 109.0
+margin_right = 416.0
+margin_bottom = 109.0
+custom_fonts/font = SubResource( 14 )
 text = "Hold TRICK buttons while
 in air to shoot some bullets.
 
 Spinning in the air adds more bullets and doing TRICKS gives your bullets different properties!"
-align = 1
-autowrap = true
-
-[node name="Powerpoint" type="Button" parent="Menu/Controls/Label2"]
-margin_left = -14.0
-margin_top = 448.0
-margin_right = 650.0
-margin_bottom = 552.0
-custom_styles/hover = SubResource( 13 )
-
-[node name="Label6" type="Label" parent="Menu/Controls/Label2"]
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -386.0
-margin_top = 456.0
-margin_right = 266.0
-margin_bottom = 282.0
-custom_colors/font_color = Color( 0.478431, 0.854902, 0.921569, 1 )
-custom_fonts/font = SubResource( 11 )
-text = "Click here to check out MarisasGuideToSnowboarding.ppt on you browser to learn everything about the tricks!"
 align = 1
 autowrap = true
 
@@ -312,16 +304,70 @@ texture = ExtResource( 15 )
 hframes = 3
 frame = 2
 
-[node name="Back" type="Button" parent="Menu/Controls"]
+[node name="HowTo" type="Button" parent="Menu/Controls"]
 margin_top = 320.0
 margin_right = 378.0
 margin_bottom = 353.0
+text = "Tutorial"
+
+[node name="Back" type="Button" parent="Menu/Controls"]
+margin_top = 363.0
+margin_right = 378.0
+margin_bottom = 396.0
 text = "Back"
 
 [node name="MarisaIndy2" type="Sprite" parent="Menu/Controls"]
-position = Vector2( 904, 288 )
+position = Vector2( 866, 272 )
 scale = Vector2( 0.530417, 0.530417 )
 texture = ExtResource( 2 )
+
+[node name="Tutorial" type="VBoxContainer" parent="Menu"]
+margin_left = 34.0
+margin_top = 32.0
+margin_right = 412.0
+margin_bottom = 372.0
+
+[node name="Label" type="Label" parent="Menu/Tutorial"]
+margin_right = 378.0
+margin_bottom = 33.0
+text = "Tutorial"
+align = 1
+
+[node name="Label2" type="Label" parent="Menu/Tutorial"]
+margin_top = 43.0
+margin_right = 378.0
+margin_bottom = 160.0
+custom_fonts/font = SubResource( 11 )
+text = "Marisa has made you a powerpoint presentation on how to become the best snowboarder in Gensokyo."
+align = 1
+autowrap = true
+
+[node name="Label3" type="Label" parent="Menu/Tutorial"]
+margin_top = 170.0
+margin_right = 378.0
+margin_bottom = 227.0
+custom_fonts/font = SubResource( 11 )
+text = "Please check it out on your internet browser."
+align = 1
+autowrap = true
+
+[node name="Powerpoint" type="Button" parent="Menu/Tutorial"]
+margin_top = 237.0
+margin_right = 378.0
+margin_bottom = 270.0
+custom_styles/hover = SubResource( 13 )
+text = "MarisasGuideToSn..ppt"
+
+[node name="Back" type="Button" parent="Menu/Tutorial"]
+margin_top = 280.0
+margin_right = 378.0
+margin_bottom = 313.0
+text = "Back"
+
+[node name="MarisaNose" type="Sprite" parent="Menu/Tutorial"]
+position = Vector2( 904, 288 )
+scale = Vector2( 0.530417, 0.530417 )
+texture = ExtResource( 3 )
 
 [node name="Credits" type="VBoxContainer" parent="Menu"]
 visible = false
@@ -378,10 +424,10 @@ margin_right = 378.0
 margin_bottom = 344.0
 text = "Back"
 
-[node name="MarisaIndy2" type="Sprite" parent="Menu/Credits"]
-position = Vector2( 904, 288 )
-scale = Vector2( 0.530417, 0.530417 )
-texture = ExtResource( 3 )
+[node name="MarisaBroom" type="Sprite" parent="Menu/Credits"]
+position = Vector2( 775, 341 )
+scale = Vector2( 0.621875, 0.621875 )
+texture = ExtResource( 17 )
 
 [node name="Click" type="AudioStreamPlayer" parent="Menu"]
 stream = ExtResource( 14 )
@@ -392,12 +438,16 @@ stream = ExtResource( 5 )
 bus = "Music"
 
 [node name="Intro" parent="." instance=ExtResource( 16 )]
+visible = false
 
 [connection signal="pressed" from="Menu/Main/Start" to="Menu" method="_on_Start_pressed"]
+[connection signal="pressed" from="Menu/Main/HowTo" to="Menu" method="_on_HowTo_pressed"]
 [connection signal="pressed" from="Menu/Main/Controls" to="Menu" method="_on_Controls_pressed"]
 [connection signal="pressed" from="Menu/Main/Credits" to="Menu" method="_on_Credits_pressed"]
 [connection signal="value_changed" from="Menu/Main/HSlider" to="Menu" method="_on_HSlider_value_changed"]
-[connection signal="pressed" from="Menu/Controls/Label2/Powerpoint" to="Menu" method="_on_Powerpoint_pressed"]
+[connection signal="pressed" from="Menu/Controls/HowTo" to="Menu" method="_on_HowTo_pressed"]
 [connection signal="pressed" from="Menu/Controls/Back" to="Menu" method="_on_Back_pressed"]
+[connection signal="pressed" from="Menu/Tutorial/Powerpoint" to="Menu" method="_on_Powerpoint_pressed"]
+[connection signal="pressed" from="Menu/Tutorial/Back" to="Menu" method="_on_Back_pressed"]
 [connection signal="pressed" from="Menu/Credits/Back" to="Menu" method="_on_Back_pressed"]
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_on_AudioStreamPlayer_finished"]

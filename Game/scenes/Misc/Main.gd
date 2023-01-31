@@ -6,6 +6,15 @@ var level
 
 var in_game = false
 
+func _ready():
+    $Menu/Main.show()
+    $Menu.hide()
+    $Menu/Controls.hide()
+    $Menu/Credits.hide()
+    $Menu/Tutorial.hide()
+    $Intro.show()
+    
+
 func start_game():
     $Menu.hide()
     if get_node_or_null("Intro"):

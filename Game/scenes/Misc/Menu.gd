@@ -7,6 +7,7 @@ func init_menu():
     $Main.show()
     $Controls.hide()
     $Credits.hide()
+    $Tutorial.hide()
     $Main/Start.grab_focus()
 
 
@@ -20,6 +21,7 @@ func _on_Controls_pressed():
     $Main.hide()
     $Controls.show()
     $Credits.hide()
+    $Tutorial.hide()
     $Controls/Back.grab_focus()
     $Click.play()
 
@@ -28,6 +30,7 @@ func _on_Credits_pressed():
     $Main.hide()
     $Controls.hide()
     $Credits.show()
+    $Tutorial.hide()
     $Credits/Back.grab_focus()
     $Click.play()
 
@@ -69,3 +72,13 @@ func _on_Powerpoint_pressed():
     else:
 # warning-ignore:return_value_discarded
         OS.shell_open(url)
+
+
+func _on_HowTo_pressed():
+    $Main.hide()
+    $Controls.hide()
+    $Credits.hide()
+    $Tutorial.show()
+    $Tutorial/Powerpoint.grab_focus()
+    $Click.play()
+    
