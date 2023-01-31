@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/Bosses/Snowball.gd" type="Script" id=1]
+[ext_resource path="res://img/pixelart/CirnoBall.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Bosses/BossBullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://img/pixelart/cirnoballshadow.png" type="Texture" id=4]
+[ext_resource path="res://scenes/Bosses/Baka.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 35.0
+
+[node name="SnowballBoss" type="Node2D"]
+position = Vector2( 0, 6 )
+script = ExtResource( 1 )
+Bullet = ExtResource( 3 )
+Baka = ExtResource( 5 )
+
+[node name="Cirnoballshadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.294118 )
+position = Vector2( -37, -11 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -1, -38 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+hframes = 8
+
+[node name="Area2D" type="Area2D" parent="." groups=["Boss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, -10 )
+scale = Vector2( 1, 0.5 )
+shape = SubResource( 1 )
+
+[node name="OverTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="OverTimer" to="." method="_on_OverTimer_timeout"]

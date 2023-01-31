@@ -11,12 +11,13 @@ config_version=4
 [application]
 
 config/name="Cirno Goes Skiing"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/Misc/Main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://scenes/Autoload/global.gd"
+Global="*res://scenes/Autoload/Global.gd"
+E="*res://scenes/Autoload/Enum.gd"
 
 [display]
 

@@ -1,0 +1,65 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://scenes/Bosses/Cirno.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Bosses/Baka.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Bosses/BossBullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Bosses/Laser.tscn" type="PackedScene" id=4]
+[ext_resource path="res://img/pixelart/cirnoshadow.png" type="Texture" id=5]
+[ext_resource path="res://img/pixelart/cirno3.png" type="Texture" id=6]
+[ext_resource path="res://img/pixelart/cirno1.png" type="Texture" id=7]
+[ext_resource path="res://img/pixelart/cirno2.png" type="Texture" id=8]
+[ext_resource path="res://img/pixelart/cirno2f.png" type="Texture" id=9]
+[ext_resource path="res://img/pixelart/cirno1f.png" type="Texture" id=10]
+[ext_resource path="res://img/pixelart/cirno3f.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 15.0
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+Bullet = ExtResource( 3 )
+Baka = ExtResource( 2 )
+Laser = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -37, -76 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 1 )
+playing = true
+centered = false
+
+[node name="CirnoShadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.294118 )
+position = Vector2( -18, -3 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="ShootTimer" type="Timer" parent="."]
+
+[node name="ShootTimer2" type="Timer" parent="."]
+
+[node name="FlashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="." groups=["Boss"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="timeout" from="ShootTimer2" to="." method="_on_ShootTimer2_timeout"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

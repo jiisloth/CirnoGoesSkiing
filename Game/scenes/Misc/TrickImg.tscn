@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/Misc/TrickImg.gd" type="Script" id=1]
+[ext_resource path="res://img/art/marisaMelon.png" type="Texture" id=2]
+[ext_resource path="res://img/art/marisaIndy.png" type="Texture" id=3]
+[ext_resource path="res://img/art/marisaNose.png" type="Texture" id=4]
+
+[node name="TrickImg" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Roll" type="Tween" parent="."]
+
+[node name="Start" type="Tween" parent="."]
+
+[node name="Stop" type="Tween" parent="."]
+
+[node name="Holder" type="Node2D" parent="."]
+position = Vector2( 960, 1242 )
+rotation = -0.546288
+
+[node name="Images" type="Node2D" parent="Holder"]
+position = Vector2( -4, -200 )
+scale = Vector2( 0.33, 0.33 )
+z_index = 10
+
+[node name="MarisaMelon" type="Sprite" parent="Holder/Images"]
+visible = false
+position = Vector2( -9.01697, -47.4619 )
+texture = ExtResource( 2 )
+
+[node name="MarisaIndy" type="Sprite" parent="Holder/Images"]
+visible = false
+position = Vector2( -9.01703, -47.4619 )
+texture = ExtResource( 3 )
+
+[node name="MarisaNose" type="Sprite" parent="Holder/Images"]
+visible = false
+position = Vector2( -9.01703, -47.4619 )
+texture = ExtResource( 4 )
+
+[connection signal="tween_all_completed" from="Start" to="." method="_on_Start_tween_all_completed"]
+[connection signal="tween_all_completed" from="Stop" to="." method="_on_Stop_tween_all_completed"]
