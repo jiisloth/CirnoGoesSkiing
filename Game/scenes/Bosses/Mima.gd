@@ -55,7 +55,7 @@ func teleport():
     $Teleport.start()
     yield(get_tree().create_timer(0.15), "timeout")
     if phase == 4:
-        get_parent().boss_died("mima")
+        get_parent().boss_died(E.MIMA)
         queue_free()
     spawn()
     

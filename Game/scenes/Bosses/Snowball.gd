@@ -162,7 +162,7 @@ func die():
     var baka = Baka.instance()
     baka.global_position = global_position
     get_parent().add_child(baka)
-    get_parent().boss_died("snowball")
+    get_parent().boss_died(E.SNOWBALL)
     for i in range(5, 360, 5):
         create_bullet(deg2rad(i), 150, SNOWBALL)
     queue_free()
