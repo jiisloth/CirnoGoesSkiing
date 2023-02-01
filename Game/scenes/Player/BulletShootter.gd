@@ -11,6 +11,8 @@ var bullet_count = 0
 var speed = 6
 var extra_dmg = 0
 
+var player
+
 var rot_dir = 1
 
 var tricks = []
@@ -22,7 +24,9 @@ var hit = Vector3.ZERO
 var total = Vector3.ZERO
 
 var color = Color(1,1,1)
- 
+
+var loading = true 
+var launchwhenready = false
 
 func _ready():
     bullet_count = 4 + floor((abs(jump_rotation)+TAU/16)/PI)*4
@@ -84,29 +88,42 @@ func scale_property(prop):
     return prop
         
 func _process(delta):
-    dir += delta*(speed + launch.z*6)
-    if abs(dir) > TAU:
-        launch_bullets()
-        get_parent().hide_circle()
-    if abs(dir) > TAU*2:
-        call_deferred("queue_free")
-    if dir > next:
-        add_bullet(next)
-        next += TAU/bullet_count
-        if next >= TAU:
-            next = INF
+    if loading:
+        dir += delta*(speed + launch.z*6)
+        if dir > next:
+            add_bullet(next)
+            next += TAU/bullet_count
+            if next >= TAU:
+                next = INF
+                loading = false
+                for bullet in bullets:
+                    if is_instance_valid(bullet):
+                        bullet.castready = true
+                if launchwhenready:
+                    launch_bullets()
+    else:
+        var has_bullets = false
+        for bullet in bullets:
+            if is_instance_valid(bullet):
+                has_bullets = true
+                break
+        if not has_bullets:
+            player.hide_circle()
+            queue_free()
 
 func add_bullet(d):
     d = d*rot_dir
     var bullet = Bullet.instance()
     bullet.rotation = (d + rotation)
     bullet.offset = Vector2(50,0).rotated(d+ rotation)
-    bullet.global_position = get_parent().global_position + Vector2(50,0).rotated(d+ rotation)
+    bullet.global_position = player.global_position + Vector2(50,0).rotated(d+ rotation)
     bullet.color = color
-    bullet.height = get_parent().height + 20
+    bullet.height = player.height + 20
     bullet.speed = 400 + 400*fly.z
     bullet.damage = 1 + hit.z*3 + trick_total*0.1 + extra_dmg
+    bullet.age -= trick_total*trick_total*trick_total*2.5
     bullet.wave = fly.y
+    bullet.blinkspeed = (speed + launch.z*6)
     bullet.health = 1+ hit.y * 10.0
     bullet.track = fly.x
     bullet.dropscale = total
@@ -116,13 +133,22 @@ func add_bullet(d):
         if launch.x <= randf():
             bullet.target = bosses[0]
     bullet.hb_scale = 1 + 3*hit.x
-    bullet.player = get_parent()
+    bullet.player = player
     bullets.append(bullet)
-    get_parent().get_parent().add_child(bullet)
+    player.get_parent().add_child(bullet)
     
-func launch_bullets():
+func launch_bullets(fail=false):
+    player.hide_circle()
     for bullet in bullets:
         if is_instance_valid(bullet):
-            bullet.movement = get_parent().velocity
-            bullet.moving = true
-    bullets = []
+            if fail:
+                bullet.damage *= 0.5
+                bullet.rotation += PI/8 - randf()*PI/4
+            bullet.launch()
+    queue_free()
+
+func advance_position(jump_rot):
+    for bullet in bullets:
+        if is_instance_valid(bullet):
+            bullet.newoffset = bullet.newoffset.rotated(PI/8*sign(jump_rot)) * 1.5
+            bullet.rotation += PI/8*sign(jump_rot) 

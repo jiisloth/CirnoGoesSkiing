@@ -100,6 +100,8 @@ margin_bottom = -84.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+smoothing_enabled = true
+smoothing_speed = 12.0
 
 [node name="Damaged" type="Timer" parent="."]
 wait_time = 1.5
@@ -115,5 +117,7 @@ visible = false
 position = Vector2( -1, -5 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 11 )
+
+[node name="Casts" type="Node2D" parent="."]
 
 [connection signal="area_exited" from="Graze" to="." method="_on_Graze_area_exited"]

@@ -4,7 +4,7 @@ extends Area2D
 var speed = 500
 var movement = Vector2()
 var damage = 5
-var health = 1
+var health = 5
 var height = 20
 var btype = 0
 var color = false

@@ -55,6 +55,7 @@ var maxhealth = 100
 var health = maxhealth
 
 var dead = false
+var launch_coyote = 0
 
 func _physics_process(delta):
     if dead:
@@ -73,6 +74,12 @@ func _physics_process(delta):
             stopdir = dir + PI/2.0
         stoppingdir = dir
     if Input.is_action_pressed("stop"):
+        if velocity.length() > 200:
+            if sin(velocity.angle())*cos(velocity.angle()) > 0:
+                stopdir = dir - PI/2.0
+            else:
+                stopdir = dir + PI/2.0
+            stoppingdir = dir
         if abs(velocity.normalized().dot(Vector2.RIGHT.rotated(stoppingdir))) < 0.6 or velocity.length() < 10:
             
             if cos(dir) > 0:
@@ -216,13 +223,14 @@ func _physics_process(delta):
             
         movespeed = movespeed*0.997+pull*accelerating
         
-        var slidespeed = movespeed*(turned*turned)*0.9
+        var slidespeed = movespeed*abs(turned*turned*turned)*0.95
         movespeed -= slidespeed
         slide = slide * 0.98
         slide += Vector2(slidespeed,0).rotated(pre_movedir)
-        
-    movespeed += graze_boost*sign(movespeed)
-    graze_boost = max(graze_boost-0.05,0)
+        movespeed += min(graze_boost, 10)*sign(movespeed)
+    else:    
+        movespeed += min(graze_boost, 10)*sign(movespeed)*0.5
+    graze_boost = max(graze_boost-0.06,0)
     
     velocity = Vector2(movespeed,0).rotated(movedir) + slide + climb
     # warning-ignore:return_value_discarded
@@ -264,14 +272,17 @@ func show_circle():
     $MagicCircle/Tween.start()
     
     
-func hide_circle():
-    if not casting:
+func hide_circle(force=false):
+    if not casting and ($Casts.get_child_count() <= 1 or force):
         $MagicCircle/Tween.interpolate_property($MagicCircle, "modulate:a", $MagicCircle.modulate.a, 0, 0.1)
         $MagicCircle/Tween.start()
     
 
 
 func _process(delta):
+    if Input.is_action_pressed("cast"):
+        cast_bullets()
+    $Camera2D.position = velocity/4
     if health <= 0 and not dead:
         dead = true
         $Shadow.hide()
@@ -354,6 +365,7 @@ func animate(delta):
 
 
 func hit(damage, stop, speed=0.2):
+    cast_bullets(true)
     if $Damaged.time_left != 0:
         if last_dmg < damage:
             health -= damage-last_dmg
@@ -366,7 +378,6 @@ func hit(damage, stop, speed=0.2):
         power = 0
     graze_boost = 0
     casting = false
-    hide_circle()
     $Damaged.start()
     $Character/Trickbar.clear()
     end_trick()
@@ -384,15 +395,35 @@ func hit(damage, stop, speed=0.2):
 
 func shoot():
     casting = false
-    if $Damaged.time_left > 0:
+    if $Damaged.time_left > 0 or len(tricks) == 0:
         return
     var shootter = BulletShootter.instance()
     shootter.extra_dmg = power
     shootter.rotation = dir  + max(0, sign(sin(movedir)))*PI
     shootter.tricks = tricks
+    shootter.player = self
     shootter.trick_total = trick_total
     shootter.jump_rotation = jump_turn
-    add_child(shootter)
+    add_to_cast_que(shootter)
+        
+func add_to_cast_que(cast):
+    var casts = $Casts.get_children()
+    for c in casts:
+        c.advance_position(jump_turn)
+    if len(casts) == 3:
+        casts[0].launch_bullets()
+    $Casts.add_child(cast)
+
+func cast_bullets(fail=false):
+    for c in $Casts.get_children():
+        if not c.loading or fail:
+            c.launch_bullets(fail)
+        else:
+            c.launchwhenready = true
+    hide_circle(true)
+    
+        
+    
 
 func on_ramp(ramp):
     if not ramp in active_ramps:
