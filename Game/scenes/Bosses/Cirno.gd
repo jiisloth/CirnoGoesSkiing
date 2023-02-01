@@ -4,9 +4,8 @@ export(PackedScene) var Bullet
 export(PackedScene) var Baka
 export(PackedScene) var Laser
 
+const displayname = "Cirno" 
 
-var maxHealth = 70
-var health = 70
 var deltaTime = 0.0
 var tpTime = 0.0
 
@@ -21,12 +20,16 @@ var playerSpeed
 var moveWay = 1
 var moveSpeed = 3
 var diff
-var phase = 0
+var phasepos = 0
 var newPos = Vector2()
 var circling = false
 var flashes = 3
 var starting = true
 
+var phase = 1
+var ready = false
+var health = 25
+var maxhealth = 25
 
 var player
 
@@ -46,6 +49,13 @@ func _ready():
     
 
 func _process(delta):
+    if health <= 0 and phase < 5:
+        phase += 1
+        if phase == 5:
+            die()
+        else:
+            health = maxhealth
+        
     get_player_pos()
     if starting:
         if abs(position.x - playerPos.x) > 50 and abs(position.y - playerPos.y - 250) > 50:
@@ -54,6 +64,7 @@ func _process(delta):
             moveSpeed += moveSpeed * delta
         else:
             starting = false
+            ready = true
     #set shadow and collision
     if $AnimatedSprite.frame < 5:
         $Area2D/CollisionShape2D.position.x = -4.5
@@ -63,16 +74,15 @@ func _process(delta):
         $Area2D/CollisionShape2D.position.x = 4.5
 
     if !starting:
-        if health > maxHealth * 0.75:
-            get_pos(delta)
-        elif health > maxHealth/2:
-            phase2(delta)   
-        elif health > maxHealth * 0.25:
-            phase3(delta)
-        elif health > 0:
-            phase4(delta)   
-        else:
-            die()
+        match phase:
+            1:
+                get_pos(delta)
+            2:
+                phase2(delta)   
+            3:
+                phase3(delta)
+            4:
+                phase4(delta)
 
     deltaTime += delta
 
@@ -102,10 +112,10 @@ func get_pos(delta):
 func phase2(delta):
     if $ShootTimer2.time_left == 0:
         $ShootTimer2.start(1)
-    newPos = Vector2(0, 30*sin(phase))
+    newPos = Vector2(0, 30*sin(phasepos))
     get_pos(delta)
     position += newPos
-    phase += 10 * delta
+    phasepos += 10 * delta
     
 func phase3(delta):
     if circling == false:
@@ -113,10 +123,10 @@ func phase3(delta):
             move_to_upper_middle(delta, 10)
         elif position != upperMiddle:
             circling = true
-            phase = deg2rad(180)
+            phasepos = deg2rad(180)
     else:
-        phase += delta
-        newPos = Vector2(sin(phase) * 300, cos(phase) * 300) + playerPos
+        phasepos += delta
+        newPos = Vector2(sin(phasepos) * 300, cos(phasepos) * 300) + playerPos
         position = newPos
 
 
@@ -164,23 +174,24 @@ func shoot(d, speed, rot, t):
 
 func _on_ShootTimer_timeout():
     var angleToMid = playerPos.angle_to_point(position)
-    if health > maxHealth * 0.75:
-        for i in range(0, 200, 20):
-            shoot(deg2rad(i), playerSpeed+200, 0, 0)
-        $ShootTimer.start(rand_range(2.5, 3.5))
-    elif health > maxHealth/2:
-        for i in range(-30, 31, 5):
-            shoot(angleToMid + deg2rad(i), playerSpeed+250, 0, 0)
-            $ShootTimer.start(4)
-    elif health > maxHealth * 0.25:
-        shoot(angleToMid, 400, 0, 2)
-        shoot(angleToMid+0.5, playerSpeed+400, 0, 2)
-        shoot(angleToMid-0.5, playerSpeed+400, 0, 2)
-        $ShootTimer.start(rand_range(0.5, 1.0))
-    elif health > 0:
-        for i in range(-90, 100, 5):
-            shoot(angleToMid + deg2rad(i), playerSpeed+300, 0, 2)
-            $ShootTimer.start(rand_range(1.5, 2.0))
+    match phase:
+        1:
+            for i in range(0, 200, 20):
+                shoot(deg2rad(i), playerSpeed+200, 0, 0)
+            $ShootTimer.start(rand_range(2.5, 3.5))
+        2:
+            for i in range(-30, 31, 5):
+                shoot(angleToMid + deg2rad(i), playerSpeed+250, 0, 0)
+                $ShootTimer.start(4)
+        3:
+            shoot(angleToMid, 400, 0, 2)
+            shoot(angleToMid+0.5, playerSpeed+400, 0, 2)
+            shoot(angleToMid-0.5, playerSpeed+400, 0, 2)
+            $ShootTimer.start(rand_range(0.5, 1.0))
+        4:
+            for i in range(-90, 100, 5):
+                shoot(angleToMid + deg2rad(i), playerSpeed+300, 0, 2)
+                $ShootTimer.start(rand_range(1.5, 2.0))
     
 func shoot_laser(d,rs, dur, dmg):
     var laser = Laser.instance()
@@ -193,33 +204,32 @@ func shoot_laser(d,rs, dur, dmg):
 
 func _on_ShootTimer2_timeout():
     var angleToMid = playerPos.angle_to_point(position)
-    if health > maxHealth * 0.75:
-        shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 2)
-        $ShootTimer2.start(1.0)
-    elif health > maxHealth * 0.5:
-        for _i in range(0, 3):
+    match phase:
+        1:
             shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 2)
-        $ShootTimer2.start(1.0)
-    elif health > maxHealth * 0.25:
-        shoot(angleToMid, playerSpeed+250, deg2rad(45), 0)
-        shoot(angleToMid, playerSpeed+250, deg2rad(-45), 0)
-        shoot(angleToMid, playerSpeed+250, deg2rad(90), 0)
-        shoot(angleToMid, playerSpeed+250, deg2rad(-90), 0)
-        $ShootTimer2.start(3)
-    elif health > 0:
-        for _i in range(0, 1000, 50):
-            shoot_laser(deg2rad(90), 0, 1.5, 5)
-        if health < maxHealth*0.15:
-            shoot_laser(deg2rad(120) + deg2rad(45), -deg2rad(90), 1.5, 5)
-            shoot_laser(deg2rad(60) - deg2rad(45), deg2rad(90), 1.5, 5)
-        $ShootTimer2.start(7)
+            $ShootTimer2.start(1.0)
+        2:
+            for _i in range(0, 3):
+                shoot(angleToMid + deg2rad(rand_range(-10, 10)), playerSpeed+300, 0, 2)
+            $ShootTimer2.start(1.0)
+        3:
+            shoot(angleToMid, playerSpeed+250, deg2rad(45), 0)
+            shoot(angleToMid, playerSpeed+250, deg2rad(-45), 0)
+            shoot(angleToMid, playerSpeed+250, deg2rad(90), 0)
+            shoot(angleToMid, playerSpeed+250, deg2rad(-90), 0)
+            $ShootTimer2.start(3)
+        4:
+            for _i in range(0, 1000, 50):
+                shoot_laser(deg2rad(90), 0, 1.5, 5)
+            if health < maxhealth*0.15:
+                shoot_laser(deg2rad(120) + deg2rad(45), -deg2rad(90), 1.5, 5)
+                shoot_laser(deg2rad(60) - deg2rad(45), deg2rad(90), 1.5, 5)
+            $ShootTimer2.start(7)
 
 
 func boss_hit(dmg):
     health -= dmg
-    if health <= 0:
-        die()
-    else:
+    if health > 0:
         $FlashTimer.start(0.1)
         
 

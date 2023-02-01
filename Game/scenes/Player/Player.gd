@@ -443,11 +443,11 @@ func add_graze():
     txt.etype = "Graze"
     add_child(txt)
     if graze_boost == 0:
-        graze_boost = 2
-    elif graze_boost * 1.3 < 2:
-        graze_boost = 2.4
+        graze_boost = 3
+    elif graze_boost * 1.5 < 3:
+        graze_boost = 4
     else:
-        graze_boost *= 1.3 
+        graze_boost *= 1.5 
         
     
 func add_power():

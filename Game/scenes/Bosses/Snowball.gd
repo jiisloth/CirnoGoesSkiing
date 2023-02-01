@@ -3,6 +3,7 @@ extends Node2D
 export(PackedScene) var Bullet
 export(PackedScene) var Baka
 
+const displayname = "A Giant Snowball??" 
 
 var pos = Vector2.ZERO
 var screenSize = Vector2.ZERO
@@ -23,13 +24,18 @@ var dying = false
 
 var deltaTime = 0.0
 var animeTime = 0.0
-var health = 50
 var movTime = 1
 var shootPause = 1.0
 var accSpeed = 1
 
 var graze = true
 var lift = 0
+
+var health = 15
+var maxhealth = 15
+var phase = 1
+
+var ready = false
 
 enum {
     SNOWBALL,
@@ -58,10 +64,14 @@ func get_start_pos():
 
 
 func _process(delta):
-    
-    if health <= 0:
-        die()
-    
+    if health <= 0 and phase < 3:
+        phase += 1
+        if phase == 3:
+            die()
+        else:
+            health = maxhealth
+        
+        
     var diff = player.position - position
     #NOT USED: var accModifier = (diff.y - 250) * 0.01
 
@@ -70,6 +80,7 @@ func _process(delta):
         velocity.y = diff.y * accSpeed * 0.05
         accSpeed += delta * 1.5
     elif starting:
+        ready = true
         accSpeed = 5
         starting = false
         shooting = true
@@ -104,14 +115,14 @@ func _process(delta):
 
     if deltaTime > shootPause and shooting == true:
         var num = randi()%5
-        if health > 25:
+        if phase == 1:
             bullet_phase1(num)
             deltaTime = 0.0
         else:
             bullet_phase2(num)
             deltaTime = 0.0
-        if health > 1:
-            health -= 1
+    if health > 1:
+        health -= delta*0.1
 
 
 func create_bullet(d, speed, btype):

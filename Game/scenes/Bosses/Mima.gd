@@ -4,13 +4,18 @@ extends Node2D
 export(PackedScene) var Bullet
 export(PackedScene) var Laser
 
+const displayname = "Mima" 
+
 var deltatime = 0
 
 var rng = RandomNumberGenerator.new()
 
 var phase = 0
 var health = 12
+var maxhealth = 12
 var phasephase = 0
+
+var ready = true
 
 
 var player
@@ -33,6 +38,7 @@ func _process(delta):
     if health <= 0:
         phase += 1
         health = 12 + 2*phase
+        maxhealth = health
         if phase == 4:
             teleport()
 
@@ -41,6 +47,7 @@ func _on_Timer_timeout():
     teleport()
     
 func teleport():
+    cut_lasers()
     $TP.stop()
     $Sprites/Tail.hide()
     $Sprites/Body.hide()
@@ -78,7 +85,7 @@ func spawn():
 
 func _on_Area2D_area_entered(area):
     if area.is_in_group("Obstacle"):
-        teleport()
+        call_deferred("teleport")
         
 func shoot(d, speed, rot_speed, t):
     var bullet = Bullet.instance()
@@ -167,6 +174,9 @@ func boss_hit(dmg):
     $Sprites.visible = true
     yield(get_tree().create_timer(0.10), "timeout")
     if $Lasers.get_child_count() == 0:
-        teleport()
+        call_deferred("teleport")
     
         
+func cut_lasers():
+    for laser in $Lasers.get_children():
+        laser.shutdown()
