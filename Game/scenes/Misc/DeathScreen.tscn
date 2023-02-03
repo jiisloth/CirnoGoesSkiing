@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/Misc/DeathScreen.gd" type="Script" id=1]
 [ext_resource path="res://misc/Merchant Copy.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://img/art/marisaFaceplant.png" type="Texture" id=3]
 [ext_resource path="res://audio/restart.wav" type="AudioStream" id=4]
+[ext_resource path="res://img/art/marisaFaceplantGrey.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 120
@@ -28,6 +29,10 @@ position = Vector2( 1144, 417 )
 rotation = 2.0944
 scale = Vector2( 0.6, 0.6 )
 
+[node name="MarisaFaceplant2" type="Sprite" parent="Hold"]
+position = Vector2( -937.812, -175.839 )
+texture = ExtResource( 5 )
+
 [node name="MarisaFaceplant" type="Sprite" parent="Hold"]
 position = Vector2( -937.812, -175.839 )
 texture = ExtResource( 3 )
@@ -48,21 +53,32 @@ custom_fonts/font = SubResource( 1 )
 text = "You got rekt."
 align = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="Buttons" type="Label" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -459.0
+margin_left = -384.0
 margin_top = -135.0
 margin_right = -39.0
-margin_bottom = -43.0
+margin_bottom = -24.0
 custom_colors/font_color = Color( 0.968627, 0.937255, 0.623529, 1 )
 custom_fonts/font = SubResource( 2 )
-text = "> Restart?"
-align = 2
+text = "> Continue?
+  Restart?"
 valign = 2
+
+[node name="Continue" type="Button" parent="Buttons"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 0.5
+
+[node name="Restart" type="Button" parent="Buttons"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="Score" type="Label" parent="."]
 modulate = Color( 1, 1, 1, 0 )
@@ -84,3 +100,8 @@ stream = ExtResource( 4 )
 volume_db = -5.244
 pitch_scale = 1.43
 bus = "Death"
+
+[connection signal="focus_entered" from="Buttons/Continue" to="." method="_on_Continue_focus_entered"]
+[connection signal="pressed" from="Buttons/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="focus_entered" from="Buttons/Restart" to="." method="_on_Restart_focus_entered"]
+[connection signal="pressed" from="Buttons/Restart" to="." method="_on_Restart_pressed"]

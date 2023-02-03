@@ -18,6 +18,8 @@ var movespeed = 0
 var stoppingdir
 var stopdir
 
+var landed = 0
+
 var lift = 0
 var jump = 0
 var height = 0
@@ -30,6 +32,7 @@ const gravity = 10
 const turnspeed = 1.6
 
 var active_ramps = []
+var active_roughs = []
 
 var tricks = []
 var current_trick = trick.NONE
@@ -57,10 +60,21 @@ var health = maxhealth
 var dead = false
 var launch_coyote = 0
 
+var max_height = 0
+
+var trick_coyote = [0.0,0.0,0.0]
+
+
 func _physics_process(delta):
     if dead:
         dead_move()
         return
+    if landed > 0:
+        landed -= delta
+        if landed <= 0:
+            $Character/Jumpbar.hide()
+            $Character/Jumpbar/Jump.hide()
+            landed = 0
     set_was_on_ground(delta)
     var turn = 0
     if Input.is_action_pressed("left"):
@@ -99,13 +113,14 @@ func _physics_process(delta):
             lift = 2.5
         pass #climb hill
     if Input.is_action_just_pressed("jump") and was_on_ground and not jumped:
+        max_height = 0
         jumped = true
         jump_turn = 0
         tricks = []
         if is_on_ground():
-            lift = 3
+            lift = 1+2*(1-landed)
         else:
-            lift += 3
+            lift += 1+2*(1-landed*0.5)
         if len(active_ramps) > 0:
             lift += get_ramp_lift(get_ground_height(active_ramps),movespeed)
             if is_on_ground():
@@ -113,6 +128,10 @@ func _physics_process(delta):
             else:
                 jump += get_ground_height(active_ramps)
             active_ramps = []
+        if landed > 0.5:
+            $Character/Jumpbar/Jump.show()
+        landed = 0
+        $Character/Jumpbar.hide()
     if Input.is_action_pressed("jump") and $Damaged.time_left <= 0 and climb.length() == 0:
         lift -= delta*gravity*0.5
     else:
@@ -120,20 +139,26 @@ func _physics_process(delta):
         
     #Tricks
     if not is_on_ground() and $Damaged.time_left <= 0:
-        if Input.is_action_just_pressed("melon"):
+        if Input.is_action_just_pressed("melon") or trick_coyote[0] < 0.2:
+            trick_coyote = [1,1,1]
             if current_trick != trick.MELON:
+                add_effect_text(E.Effect.MELON,true)
                 add_trick()
             current_trick = trick.MELON
             $Character/Trickbar.start_trick()
             start_trick()
-        if Input.is_action_just_pressed("indy"):
+        if Input.is_action_just_pressed("indy") or trick_coyote[1] < 0.2:
+            trick_coyote = [1,1,1]
             if current_trick != trick.INDY:
+                add_effect_text(E.Effect.INDY,true)
                 add_trick()
             current_trick = trick.INDY
             $Character/Trickbar.start_trick()
             start_trick()
-        if Input.is_action_just_pressed("nose"):
+        if Input.is_action_just_pressed("nose") or trick_coyote[2] < 0.2:
+            trick_coyote = [1,1,1]
             if current_trick != trick.NOSE:
+                add_effect_text(E.Effect.NOSEGRAB,true)
                 add_trick()
             current_trick = trick.NOSE
             $Character/Trickbar.start_trick()
@@ -158,19 +183,21 @@ func _physics_process(delta):
                     trick_total += delta
                 else:
                     add_trick()
-            
+    else:           
+        if Input.is_action_just_pressed("melon"):
+            trick_coyote = [0,1,1]
+        if Input.is_action_just_pressed("indy"):
+            trick_coyote = [1,0,1]
+        if Input.is_action_just_pressed("nose"):
+            trick_coyote = [1,1,0]
+    for i in 3:
+        if trick_coyote[i] < 1:
+            trick_coyote[i] += delta
+                    
     
     if jump > 0 and max(jump + lift, 0) == 0:
-        if current_trick != trick.NONE:
-            hit(0, true, 0.5)
-        else:
-            shoot()
-        $Character/Trickbar.clear()
-        end_trick()
-        tricks = []
-        current_trick = trick.NONE
-        trick_tick = 0
-        trick_total = 0
+        #print(max_height)
+        land()
     jump = max(jump + lift, 0)
     var ground_height = 0
     if len(active_ramps) > 0:
@@ -180,6 +207,7 @@ func _physics_process(delta):
         height = jump + ground_height
     else:
         height = jump
+        max_height = max(max_height,height)
     
     if is_on_ground():
         dir += delta*turn*turnspeed
@@ -221,7 +249,7 @@ func _physics_process(delta):
                 movespeed *= 0.99
                 
             
-        movespeed = movespeed*0.997+pull*accelerating
+        movespeed = movespeed*0.996*get_ground_speed_scale()+pull*accelerating
         
         var slidespeed = movespeed*abs(turned*turned*turned)*0.95
         movespeed -= slidespeed
@@ -244,6 +272,20 @@ func dead_move():
     # warning-ignore:return_value_discarded
     move_and_slide(velocity, Vector2.UP)
 
+func land():
+    landed = 1
+    if current_trick != trick.NONE:
+        hit(0, true, 0.5)
+    else:
+        shoot()
+    $Character/Jumpbar.show()
+    $Character/Trickbar.clear()
+    end_trick()
+    tricks = []
+    current_trick = trick.NONE
+    trick_tick = 0
+    trick_total = 0
+
 
 func add_trick():
     end_trick()
@@ -254,12 +296,12 @@ func add_trick():
         trick_tick = 0
     current_trick = trick.NONE
 
+
 func end_trick():
     if trickimg:
         trickimg.end = true
         trickimg = false
     
-
 
 func start_trick():
     trickimg = TrickImg.instance()
@@ -295,7 +337,7 @@ func _process(delta):
         return
         
     animate(delta)
-
+    
     if casting:
         set_stars()
 
@@ -328,7 +370,16 @@ func animate(delta):
     var animation_dir = 12 - round(((dir)/TAU) * 12)
     if animation_dir == 12:
         animation_dir = 0
-        
+    
+    if landed > 0:
+        $Character/Jumpbar.margin_right = ceil(11*landed)*3
+        $Character/Jumpbar.margin_left = ceil(-11*landed)*3
+        if landed > 0.66:
+            $Character/Jumpbar.color = Color("#262e76")
+        elif landed > 0.33:
+            $Character/Jumpbar.color = Color("#62abd2")
+        else:
+            $Character/Jumpbar.color = Color("#7adaeb")
     
     $Shadow.frame_coords.x = animation_dir
     $Character/Feet.frame_coords.x = animation_dir
@@ -371,6 +422,8 @@ func hit(damage, stop, speed=0.2):
             health -= damage-last_dmg
         last_dmg = damage
         return
+    for effect in $Character/EffectTxts.get_children():
+        effect.drop()
     if stop:
         movespeed *= speed
     power = power*0.66
@@ -378,7 +431,7 @@ func hit(damage, stop, speed=0.2):
         power = 0
     graze_boost = 0
     casting = false
-    $Damaged.start()
+    $Damaged.start(1.5)
     $Character/Trickbar.clear()
     end_trick()
     tricks = []
@@ -410,7 +463,7 @@ func add_to_cast_que(cast):
     var casts = $Casts.get_children()
     for c in casts:
         c.advance_position(jump_turn)
-    if len(casts) == 3:
+    if len(casts) == 6:
         casts[0].launch_bullets()
     $Casts.add_child(cast)
 
@@ -433,6 +486,12 @@ func off_ramp(ramp):
     if ramp in active_ramps:
         active_ramps.erase(ramp)
 
+func get_ground_speed_scale():
+    var ss = 1
+    if len(active_roughs) > 0 and velocity.length() > 100:
+        ss = 0.9
+    return ss
+
 func get_ground_height(ramps):
     var gh = 0
     for ramp in ramps:
@@ -451,7 +510,7 @@ func force_jump(h):
         active_ramps = []
 
 func get_ramp_lift(h,s):
-    return clamp(h*abs(s)*0.0001,0,5)
+    return clamp(h*abs(s)*0.00015,0,6)
 
 func is_on_ground():
     if jump == 0:
@@ -470,9 +529,7 @@ func set_was_on_ground(delta):
         was_on_ground = false
 
 func add_graze():
-    var txt = Effect_text.instance()
-    txt.etype = "Graze"
-    add_child(txt)
+    add_effect_text(E.Effect.GRAZE)
     if graze_boost == 0:
         graze_boost = 3
     elif graze_boost * 1.5 < 3:
@@ -482,22 +539,22 @@ func add_graze():
         
     
 func add_power():
-    var txt = Effect_text.instance()
-    txt.etype = "Power"
-    add_child(txt)
+    add_effect_text(E.Effect.POWER)
     power += 1  
     
 func add_health():
-    var txt = Effect_text.instance()
-    txt.etype = "Health"
-    add_child(txt)
+    add_effect_text(E.Effect.HEALTH)
     health = min(health+3, maxhealth)
     
 func add_score():
-    var txt = Effect_text.instance()
-    txt.etype = "Score"
-    add_child(txt)
+    add_effect_text(E.Effect.SCORE)
     Global.score += 1000
+
+func add_effect_text(t, will_drop=false):
+    var txt = Effect_text.instance()
+    txt.etype = t
+    txt.will_drop = will_drop
+    $Character/EffectTxts.add_child(txt)
 
 func angle_difference(from,to):
     return Vector2.UP.rotated(from).angle_to(Vector2.UP.rotated(to))
@@ -510,3 +567,27 @@ func _on_Graze_area_exited(area):
         if area.graze:
             add_graze()
         area.graze = true
+
+func add_rough(rough):
+    if not rough in active_roughs:
+        active_roughs.append(rough)
+
+func remove_rough(rough):
+    if rough in active_roughs:
+        active_roughs.erase(rough)
+
+
+func continue_game():
+    health = maxhealth
+    power = 0
+    graze_boost = 0
+    Global.score = 0
+    $Damaged.start(3)
+    $Shadow.show()
+    $Character.show()
+    $CollisionShape2D.disabled = false
+    $Graze/CollisionShape2D.disabled = false
+    $Death.hide()
+    yield(get_tree().create_timer(1), "timeout")
+    health = maxhealth
+    dead = false

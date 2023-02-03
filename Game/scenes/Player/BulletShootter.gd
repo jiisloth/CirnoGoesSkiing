@@ -121,10 +121,11 @@ func add_bullet(d):
     bullet.height = player.height + 20
     bullet.speed = 400 + 400*fly.z
     bullet.damage = 1 + hit.z*3 + trick_total*0.1 + extra_dmg
-    bullet.age -= trick_total*trick_total*trick_total*2.5
-    bullet.wave = fly.y
-    bullet.blinkspeed = (speed + launch.z*6)
-    bullet.health = 1+ hit.y * 10.0
+    bullet.age -= trick_total*trick_total*5
+    bullet.blinkspeed = (speed + launch.z*6)*0.2
+    bullet.health = 1 + fly.y * 2.0
+    bullet.shield = launch.y * 2.5
+    bullet.spawn = hit.y
     bullet.track = fly.x
     bullet.dropscale = total
     var bosses = get_tree().get_nodes_in_group("Boss")

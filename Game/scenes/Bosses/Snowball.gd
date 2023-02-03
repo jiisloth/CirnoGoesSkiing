@@ -52,13 +52,13 @@ func _ready():
     middle = screenSize / 2
     xOffsetMax = middle.x / 2
     xOffsetMin = -middle.x / 2
-    position = get_start_pos()
+    global_position = get_start_pos()
 
 
 func get_start_pos():
     var start_pos = Vector2.ZERO
-    start_pos[0] = player.position.x
-    start_pos[1] = player.position.y - middle.y - 250
+    start_pos[0] = player.global_position.x
+    start_pos[1] = player.global_position.y - middle.y - 50
     velocity = player.velocity
     return start_pos
 
@@ -77,7 +77,7 @@ func _process(delta):
 
     if diff.y > 305 and starting:
         velocity.x = accSpeed * (diff.x + xOffset)
-        velocity.y = diff.y * accSpeed * 0.05
+        velocity.y = diff.y * accSpeed * 0.06
         accSpeed += delta * 1.5
     elif starting:
         ready = true
@@ -93,7 +93,7 @@ func _process(delta):
             elif xOffset < xOffsetMin and moveWay == -1:
                 moveWay = 1
             velocity.x = accSpeed * (diff.x + xOffset)
-            velocity.y = accSpeed * (diff.y - 250)
+            velocity.y = accSpeed * (diff.y - 200)
         else:
             velocity.y += 1
 

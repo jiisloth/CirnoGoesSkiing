@@ -11,7 +11,7 @@ var color = false
 const moving = true
 var graze = true
 var rotatespeed = 0
-
+var notonscreen = 0
 var dropscale = Vector3(0.2, 0.15, 0.15)
 
 func _ready():
@@ -31,19 +31,24 @@ func _ready():
         
         
 func _physics_process(delta):
+    rotation += delta*rotatespeed
+    global_position += ((movement + Vector2(speed,0).rotated(rotation))*delta)
+  
+func _process(delta):
     $Shadow.global_rotation = 0
     if btype == 3:
         $Sprite.rotation += delta*sign(rotatespeed)*2
-        rotatespeed *= 0.99
-    $Sprite.position = Vector2.UP.rotated(-rotation)*height
+        rotatespeed *= 0.99*delta*60
     if height < 1:
         $Sprite.modulate.a = 0.5 + height/2.0
         $Shadow.modulate.a = height/2.0
     if height == 0:
         die()
-    rotation += delta*rotatespeed
-    global_position += ((movement + Vector2(speed,0).rotated(rotation))*delta)
-    
+    $Sprite.position = Vector2.UP.rotated(-rotation)*height
+    if not $VisibilityNotifier2D.is_on_screen():
+        notonscreen += 1
+        if notonscreen >= 5:
+            queue_free()  
 
 func hit(dmg):
     health -= dmg

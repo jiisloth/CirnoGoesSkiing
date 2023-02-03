@@ -2,6 +2,9 @@ extends Node2D
 
 
 export(int) var height = 20
+export(int) var dist = 24
+
+
 var imma_die = false
 func _process(_delta):
     if imma_die:

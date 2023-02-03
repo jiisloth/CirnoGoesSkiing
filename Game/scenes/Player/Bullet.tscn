@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/Player/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://img/pixelart/bulletShadow.png" type="Texture" id=2]
 [ext_resource path="res://img/pixelart/BulletRainDrop.png" type="Texture" id=3]
+[ext_resource path="res://img/pixelart/BulletCrystalShield.png" type="Texture" id=4]
+[ext_resource path="res://scenes/Player/SmallBullet.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CanvasItemMaterial" id=3]
 blend_mode = 1
@@ -15,21 +17,31 @@ radius = 85.0
 
 [node name="Bullet" type="Area2D" groups=["Bullet", "PlayerBullet"]]
 script = ExtResource( 1 )
+SmallBullet = ExtResource( 5 )
 
 [node name="Shadow" type="Sprite" parent="."]
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
+
+[node name="Shield" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -27 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 4 )
+hframes = 3
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -27 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 hframes = 3
+vframes = 2
 
 [node name="Color" type="Sprite" parent="Sprite"]
 material = SubResource( 3 )
 texture = ExtResource( 3 )
 hframes = 3
+vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 1.5, 1.5 )
@@ -44,7 +56,6 @@ monitorable = false
 shape = SubResource( 2 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-visible = false
 rect = Rect2( -250, -250, 500, 500 )
 
 [connection signal="area_entered" from="." to="." method="_on_Bullet_area_entered"]

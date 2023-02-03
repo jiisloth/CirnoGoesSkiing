@@ -8,6 +8,7 @@ var entered = false
 var height = 0
 var dropscale = Vector3(1, 0.8, 0.9)
 var type = 0
+var notonscreen
 
 func _ready():
     dropscale += Vector3.ONE * 0.2
@@ -20,12 +21,16 @@ func _ready():
     $Powerup.frame = type
 
 func _process(_delta):
+    if not $VisibilityNotifier2D.is_on_screen():
+        notonscreen += 1
+        if notonscreen >= 5:
+            queue_free()
     if target:
         var d = (target.global_position-global_position)
         var dist = d.length()
         var ndir = d.angle()
         var distscaled = (500-dist)/500.0
-        var speed = clamp(distscaled*distscaled*7,0,4.5)
+        var speed = clamp(distscaled*distscaled*5,0,4.5) + clamp(abs(target.movespeed-100)/200, 0, 5)
         dir = lerp_angle(dir, ndir, 0.6)
         position += Vector2(speed,0).rotated(dir)
         height = lerp(height, target.height, max(0,(500-dist)/6400.0))

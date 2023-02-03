@@ -36,6 +36,7 @@ func _on_Credits_pressed():
 
 
 func _on_HSlider_value_changed(value):
+    Global.volume = value
     if value == 0:
         AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
     else:

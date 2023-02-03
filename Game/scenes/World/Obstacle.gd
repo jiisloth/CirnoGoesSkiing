@@ -64,23 +64,22 @@ func _on_Area2D_area_entered(area):
         if not area.get_parent().imma_die:
             imma_die = true
     if area.is_in_group("Bullet"):
-        if area.moving or area.health > 1:
-            dropscale = area.dropscale
-            if area.moving:
-                pkill = true
-            while health > 0 and area.health > 0:
-                if area.moving:
-                    health -= area.damage
-                else:
-                    health -= area.damage/2.0
-                if health <= 0 and not area.moving:
-                    dropchance = 0
-                    area.hit(area.health)
-                    break
-                area.hit(damage)
-        else:
-            area.hit(damage)
+        dropscale = area.dropscale
+        var areadmg = area.damage
         if not area.is_in_group("BossBullet"):
+            pkill = true
+            if not area.moving and area.shield == 0:
+                area.health = 0
+            else:
+                if areadmg > 0:
+                    pkill = false
+                    while health > 0 and area.health > 0:
+                        area.hit(damage)
+                        health -= areadmg
+        else:
+            while health > 0 and area.health > 0:
+                area.hit(damage)
+                health -= areadmg
             pkill = false
     if area.is_in_group("Boss"):
         health = 0

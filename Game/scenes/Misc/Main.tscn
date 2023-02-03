@@ -174,7 +174,6 @@ scale = Vector2( 0.530417, 0.530417 )
 texture = ExtResource( 1 )
 
 [node name="Controls" type="VBoxContainer" parent="Menu"]
-visible = false
 margin_left = 34.0
 margin_top = 32.0
 margin_right = 412.0
@@ -189,27 +188,29 @@ align = 1
 [node name="Label2" type="Label" parent="Menu/Controls"]
 margin_top = 43.0
 margin_right = 378.0
-margin_bottom = 310.0
+margin_bottom = 340.0
 custom_fonts/font = SubResource( 11 )
 text = "Left / Right
 Down
 Up
 Space
-Z
-X
-C
+A
+S
+D
+Q,W,E
 
 ESC"
 
 [node name="Label3" type="Label" parent="Menu/Controls/Label2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 153.0
-margin_right = -98.0
+margin_left = 147.0
+margin_right = -91.0
 custom_fonts/font = SubResource( 11 )
 text = "[ ]
 [ ]
 [ ]
+[shoulder]
 [ ]
 [ ]
 [ ]
@@ -232,6 +233,7 @@ Jump
 MELON
 INDY
 NOSEGRAB
+Cast
 
 Quit"
 align = 2
@@ -274,7 +276,7 @@ hframes = 3
 frame = 1
 
 [node name="Controller4" type="Sprite" parent="Menu/Controls/Label2"]
-position = Vector2( 216, 104 )
+position = Vector2( 217, 226 )
 rotation = 3.14159
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
@@ -282,7 +284,7 @@ hframes = 3
 frame = 2
 
 [node name="Controller5" type="Sprite" parent="Menu/Controls/Label2"]
-position = Vector2( 216, 134 )
+position = Vector2( 217, 135 )
 rotation = -1.5708
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
@@ -290,14 +292,14 @@ hframes = 3
 frame = 2
 
 [node name="Controller6" type="Sprite" parent="Menu/Controls/Label2"]
-position = Vector2( 216, 164 )
+position = Vector2( 217, 165 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
 hframes = 3
 frame = 2
 
 [node name="Controller7" type="Sprite" parent="Menu/Controls/Label2"]
-position = Vector2( 216, 195 )
+position = Vector2( 217, 196 )
 rotation = 1.5708
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
@@ -305,15 +307,15 @@ hframes = 3
 frame = 2
 
 [node name="HowTo" type="Button" parent="Menu/Controls"]
-margin_top = 320.0
+margin_top = 350.0
 margin_right = 378.0
-margin_bottom = 353.0
+margin_bottom = 383.0
 text = "Tutorial"
 
 [node name="Back" type="Button" parent="Menu/Controls"]
-margin_top = 363.0
+margin_top = 393.0
 margin_right = 378.0
-margin_bottom = 396.0
+margin_bottom = 426.0
 text = "Back"
 
 [node name="MarisaIndy2" type="Sprite" parent="Menu/Controls"]
@@ -322,6 +324,7 @@ scale = Vector2( 0.530417, 0.530417 )
 texture = ExtResource( 2 )
 
 [node name="Tutorial" type="VBoxContainer" parent="Menu"]
+visible = false
 margin_left = 34.0
 margin_top = 32.0
 margin_right = 412.0

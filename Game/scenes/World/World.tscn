@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://scenes/World/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/World/Chunk.tscn" type="PackedScene" id=2]
@@ -16,6 +16,62 @@
 [ext_resource path="res://scenes/Bosses/Cirno.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/Misc/DeathScreen.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/Misc/Dialogue.tscn" type="PackedScene" id=16]
+[ext_resource path="res://misc/Merchant Copy.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://scenes/Misc/IngameMenu.gd" type="Script" id=18]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
+
+[sub_resource type="ImageTexture" id=2]
+
+[sub_resource type="ImageTexture" id=3]
+
+[sub_resource type="ImageTexture" id=4]
+
+[sub_resource type="ImageTexture" id=5]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.360784, 0.388235, 0.45098, 0.815686 )
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+expand_margin_bottom = 36.0
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.968627, 0.937255, 0.623529, 0.533333 )
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+expand_margin_bottom = 36.0
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
+border_color = Color( 0.8, 0.8, 0.8, 0 )
+expand_margin_bottom = 36.0
+
+[sub_resource type="DynamicFont" id=9]
+size = 48
+font_data = ExtResource( 17 )
+
+[sub_resource type="Theme" id=10]
+default_font = SubResource( 9 )
+Button/colors/font_color = Color( 0.94902, 1, 1, 1 )
+Button/colors/font_color_focus = Color( 0.478431, 0.854902, 0.921569, 1 )
+Button/colors/font_color_hover = Color( 0.968627, 0.937255, 0.623529, 1 )
+Button/colors/font_color_pressed = Color( 0.478431, 0.854902, 0.921569, 1 )
+Button/styles/disabled = SubResource( 1 )
+Button/styles/focus = SubResource( 1 )
+Button/styles/hover = SubResource( 1 )
+Button/styles/normal = SubResource( 1 )
+Button/styles/pressed = SubResource( 1 )
+HSlider/icons/grabber = SubResource( 2 )
+HSlider/icons/grabber_disabled = SubResource( 3 )
+HSlider/icons/grabber_highlight = SubResource( 4 )
+HSlider/icons/tick = SubResource( 5 )
+HSlider/styles/grabber_area = SubResource( 6 )
+HSlider/styles/grabber_area_highlight = SubResource( 7 )
+HSlider/styles/slider = SubResource( 8 )
+VBoxContainer/constants/separation = 10
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.223529, 0.211765, 0.290196, 0.807843 )
+expand_margin_bottom = 36.0
 
 [node name="World" type="YSort"]
 script = ExtResource( 1 )
@@ -63,9 +119,62 @@ bus = "Music"
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource( 10 )]
 
+[node name="Menu" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 10 )
+color = Color( 0.0784314, 0.0156863, 0.0784314, 0.517647 )
+script = ExtResource( 18 )
+
+[node name="Menu" type="VBoxContainer" parent="CanvasLayer/Menu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -164.5
+margin_top = -79.5
+margin_right = 164.5
+margin_bottom = 49.5
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/Menu"]
+margin_right = 329.0
+margin_bottom = 33.0
+text = "Controls"
+align = 1
+
+[node name="Resume" type="Button" parent="CanvasLayer/Menu/Menu"]
+margin_top = 43.0
+margin_right = 329.0
+margin_bottom = 76.0
+text = "Resume"
+
+[node name="Quit" type="Button" parent="CanvasLayer/Menu/Menu"]
+margin_top = 86.0
+margin_right = 329.0
+margin_bottom = 119.0
+text = "Quit"
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Menu/Menu"]
+margin_top = 129.0
+margin_right = 329.0
+margin_bottom = 129.0
+custom_styles/grabber_area = SubResource( 11 )
+value = 75.0
+
+[node name="Volume" type="Label" parent="CanvasLayer/Menu/Menu/HSlider"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+text = "Volume"
+align = 1
+
 [connection signal="finished" from="MusicController/Marisa" to="MusicController" method="_on_Marisa_finished"]
 [connection signal="finished" from="MusicController/Mima" to="MusicController" method="_on_Mima_finished"]
 [connection signal="finished" from="MusicController/CirnoIntro" to="MusicController" method="_on_CirnoIntro_finished"]
 [connection signal="finished" from="MusicController/Cirno" to="MusicController" method="_on_Cirno_finished"]
 [connection signal="finished" from="MusicController/SnowBallIntro" to="MusicController" method="_on_SnowBallIntro_finished"]
 [connection signal="finished" from="MusicController/SnowBall" to="MusicController" method="_on_SnowBall_finished"]
+[connection signal="pressed" from="CanvasLayer/Menu/Menu/Resume" to="CanvasLayer/Menu" method="_on_Resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/Menu/Quit" to="CanvasLayer/Menu" method="_on_Quit_pressed"]
+[connection signal="value_changed" from="CanvasLayer/Menu/Menu/HSlider" to="CanvasLayer/Menu" method="_on_HSlider_value_changed"]

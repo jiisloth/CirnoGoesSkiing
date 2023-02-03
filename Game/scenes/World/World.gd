@@ -12,16 +12,21 @@ export(PackedScene) var Dialogue
 
 
 var level = 0
-var goal = 25000
+var goal = 30000
 
 var seek = 0
 
+var active_chunks = []
+var noise = OpenSimplexNoise.new()
+
 func _ready():
     $MusicController/Marisa.seek(seek)
+    setup_noise()
+
 
 func _process(_delta):
     if Input.is_action_just_pressed("ui_cancel"):
-        get_parent().quit_game()
+        open_menu()
     check_chunks()
     match level:
         0:
@@ -49,7 +54,12 @@ func _process(_delta):
                 credits.sequence = credits.TRUEEND
                 add_child(credits)
     
-var active_chunks = []
+func setup_noise():
+    noise.seed = 123123
+    noise.octaves = 4
+    noise.period = 20.0
+    noise.persistence = 0.8
+    
 
 func check_chunks():
     var ppos = get_chunky_position($Player)
@@ -64,18 +74,39 @@ func check_chunks():
         if not chunk.coords in active:
             chunk.queue_free()
     active_chunks = active
+    
             
 func generate_chunk(coords):
     var chunk = Chunk.instance()
     chunk.coords = coords
+    chunk.foresty = noise.get_noise_2d(coords.x,coords.y)
+    chunk.rocky = noise.get_noise_2d(coords.x*1.5,-coords.y*1.5-5)
     chunk.position = coords*800
+    chunk.slope = get_closest_slope(coords)
     $Chunks.add_child(chunk)
+    
             
 func get_chunky_position(node):
     return Vector2(round(node.global_position.x / 800),round(node.global_position.y / 800))
+
+func get_closest_slope(pos):
+    var slopedist = 12
+    var slope = INF
+    for i in 3:
+        var s = pos.x - get_slope(pos + Vector2(i-1,0)*(slopedist/2), slopedist)
+        if abs(s) < abs(slope):
+            slope = s
+    return slope
     
+func get_slope(pos, slopedist):
+    var y = pos.y
+    var x = round(pos.x/slopedist)*slopedist
+    var slopepos = -2 + x + sin((y+x+10)/5.0)+sin((y+10)/10.0)*3+sin((y-10)/8.0)*1.2+sin((y-10)/3)+sin(y-10)*0.2
+    return slopepos#-int(pos.x)%(slopedist/2)
+    
+
 func died():
-    level = -10
+    level = -level
     var death = Death.instance()
     add_child(death)
     
@@ -121,3 +152,27 @@ func boss_died(who):
             level += 1
             goal = $Player.position.length() + 500
 
+
+func continue_game():
+    $MusicController.turn_down(1)
+    $MusicController.play(E.MARISA)
+    $Player.continue_game()
+    for boss in get_tree().get_nodes_in_group("Boss"):
+        boss.get_parent().queue_free()
+    for bullet in get_tree().get_nodes_in_group("Bossbullet"):
+        bullet.queue_free()
+    level = -level
+    match level:
+        1:
+            level -= 1
+            goal = $Player.position.length() + 1000
+        3:
+            level -= 1
+            goal = $Player.position.length() + 1000
+        7:  
+            level -= 1
+            goal = $Player.position.length() + 1000
+    
+func open_menu():
+    $CanvasLayer/Menu.show()
+    $CanvasLayer/Menu/Menu/Resume.grab_focus()

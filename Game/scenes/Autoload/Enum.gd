@@ -13,3 +13,13 @@ enum Bullet {
     ICICLE,
     SCYTHE
    }
+
+enum Effect {
+    GRAZE,
+    POWER,
+    HEALTH,
+    SCORE,
+    MELON,
+    INDY,
+    NOSEGRAB
+   }
