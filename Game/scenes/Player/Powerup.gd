@@ -8,7 +8,7 @@ var entered = false
 var height = 0
 var dropscale = Vector3(1, 0.8, 0.9)
 var type = 0
-var notonscreen
+var notonscreen = 0
 
 func _ready():
     dropscale += Vector3.ONE * 0.2
