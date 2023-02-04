@@ -581,7 +581,6 @@ func continue_game():
     health = maxhealth
     power = 0
     graze_boost = 0
-    Global.score = 0
     $Damaged.start(3)
     $Shadow.show()
     $Character.show()

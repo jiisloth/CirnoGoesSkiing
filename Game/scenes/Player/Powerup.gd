@@ -30,7 +30,7 @@ func _process(_delta):
         var dist = d.length()
         var ndir = d.angle()
         var distscaled = (500-dist)/500.0
-        var speed = clamp(distscaled*distscaled*5,0,4.5) + clamp(abs(target.movespeed-100)/200, 0, 5)
+        var speed = clamp(distscaled*distscaled*5,0,4.5) + clamp(abs(target.velocity.length()-100)/100, 0, 6)
         dir = lerp_angle(dir, ndir, 0.6)
         position += Vector2(speed,0).rotated(dir)
         height = lerp(height, target.height, max(0,(500-dist)/6400.0))

@@ -153,13 +153,17 @@ margin_right = -47.0
 margin_bottom = 78.0
 custom_styles/panel = SubResource( 1 )
 
-[node name="Fill" type="ColorRect" parent="HP"]
+[node name="Fill" type="Control" parent="HP"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 3.0
 margin_top = 3.0
 margin_right = -3.0
 margin_bottom = -3.0
+
+[node name="Fill" type="ColorRect" parent="HP/Fill"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 color = Color( 0.635294, 0.890196, 0.529412, 1 )
 
 [node name="Powerup" type="Sprite" parent="HP"]

@@ -32,7 +32,7 @@ func _ready():
     rocky = int(clamp(rocky+0.2,0,1)*20)
     var obsscale = clamp(abs(slope)*0.5-1.2, 0, 2)
     $Snow.frame = floor(clamp(abs(slope*0.8),0,2.99))
-    rng.seed = coords.x * 1000 + coords.y*10000 + coords.x + coords.y 
+    rng.seed = coords.x * 1000 + coords.y*10000 + coords.x + coords.y + 12
     set_types()
     add_objects(treetypes, -2+int(foresty/2*obsscale), 2 + int((2 +foresty)*obsscale))
     add_objects(rocktypes, -3, 1+int((2+rocky)*obsscale))

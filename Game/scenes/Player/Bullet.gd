@@ -59,7 +59,7 @@ func _physics_process(delta):
             $Track.scale = Vector2.ONE*clamp(targeting, 0, 5)
             if target:
                 if is_instance_valid(target):
-                    rotation = lerp_angle(rotation, (target.global_position-global_position).angle(), track/50.0)
+                    rotation = lerp_angle(rotation, (target.global_position-global_position).angle(), track/(40.0-age/2))
                 else:
                     target = false
                     targeting = 0.5
@@ -139,6 +139,7 @@ func launch():
         speed *= 0.8
         flytime *= 0.2
         wave = 1
+    age = 0
     $Sprite.show()
     var tween = Tween.new()
     movement = player.velocity

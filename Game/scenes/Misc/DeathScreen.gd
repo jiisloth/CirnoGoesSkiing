@@ -4,7 +4,6 @@ var volume = 1
 var end = false
 
 func _ready():
-    print("died")
     $Score.text = "Score: " + str(Global.score)
     $Tween.interpolate_property($ColorRect, "color:a", 0, 1, 4, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
     $Tween.interpolate_property($ColorRect2, "color:a", 0, 0.5, 4, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -48,8 +47,10 @@ func _on_Continue_pressed():
         $Tween.interpolate_property($Label, "modulate:a", 1, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
         $Tween.interpolate_property($Buttons, "modulate:a", 1, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
         $Tween.interpolate_property($Score, "modulate:a", 1, 0, 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+        $Tween.interpolate_property(self, "volume", 0, 1, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
         $Tween.start()
         yield(get_tree().create_timer(1), "timeout")
+        AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(1))
         queue_free()
 
 

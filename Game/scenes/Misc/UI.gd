@@ -22,22 +22,25 @@ func _ready():
 func _process(_delta):
     if playerhp != player.health/float(player.maxhealth):
         playerhp = player.health/float(player.maxhealth)
-        $HP/Fill.anchor_left = 1-playerhp
+        $HP/Fill/Fill.anchor_left = 1-playerhp
         if playerhp > 0.4:
-            $Tween.interpolate_property($HP/Fill, "color", $HP/Fill.color, Color("#a2e387"), 0.5)
+            $Tween.interpolate_property($HP/Fill/Fill, "color", $HP/Fill/Fill.color, Color("#a2e387"), 0.5)
             $Tween.start()
         elif playerhp > 0.2:
-            $Tween.interpolate_property($HP/Fill, "color", $HP/Fill.color, Color("#deab71"), 0.5)
+            $Tween.interpolate_property($HP/Fill/Fill, "color", $HP/Fill/Fill.color, Color("#deab71"), 0.5)
             $Tween.start()
         else:
-            $Tween.interpolate_property($HP/Fill, "color", $HP/Fill.color, Color("#ba0a45"), 0.5)
+            $Tween.interpolate_property($HP/Fill/Fill, "color", $HP/Fill/Fill.color, Color("#ba0a45"), 0.5)
             $Tween.start()
     $Power/Power.margin_left =  - player.power*15
     if score != Global.score:
-        score = Global.score
-        $Score/Label.text = str(score)
+        if score < Global.score-0.5:
+            score += abs(Global.score - score)*0.1
+        else:
+            score = Global.score
+        $Score/Label.text = str(int(score))
         for s in $Score/Label.get_children():
-            s.text = str(score)
+            s.text = str(int(score))
     
     var bosses = get_tree().get_nodes_in_group("Boss")
     if len(bosses) >= 1:

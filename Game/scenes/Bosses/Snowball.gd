@@ -101,6 +101,7 @@ func _process(delta):
         velocity.y = 200
         shooting = false
         moving = true
+        health = min(maxhealth, health + 5)
         $OverTimer.start(10)
 
     if dying:
@@ -121,8 +122,8 @@ func _process(delta):
         else:
             bullet_phase2(num)
             deltaTime = 0.0
-    if health > 1:
-        health -= delta*0.1
+    if health > 1 and shooting == true:
+        health -= delta*0.075
 
 
 func create_bullet(d, speed, btype):

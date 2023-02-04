@@ -28,8 +28,8 @@ var starting = true
 
 var phase = 1
 var ready = false
-var health = 25
-var maxhealth = 25
+var health = 20
+var maxhealth = 20
 
 var player
 

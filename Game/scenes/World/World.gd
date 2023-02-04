@@ -158,6 +158,7 @@ func continue_game():
     $MusicController.turn_down(1)
     $MusicController.play(E.MARISA)
     $Player.continue_game()
+    Global.score = floor(Global.score * 0.075)*10
     for boss in get_tree().get_nodes_in_group("Boss"):
         boss.get_parent().queue_free()
     for bullet in get_tree().get_nodes_in_group("Bossbullet"):

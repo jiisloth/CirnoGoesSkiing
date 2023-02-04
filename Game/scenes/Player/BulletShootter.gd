@@ -130,7 +130,7 @@ func add_bullet(d):
     bullet.dropscale = total
     var bosses = get_tree().get_nodes_in_group("Boss")
     if len(bosses) > 0:
-        bullet.rotation = lerp_angle(d + rotation, (bosses[0].global_position - global_position).angle(), launch.x*0.5)
+        bullet.rotation = lerp_angle(d + rotation, (bosses[0].global_position - global_position).angle(), launch.x*0.8)
         if launch.x <= randf():
             bullet.target = bosses[0]
     bullet.hb_scale = 1 + 3*hit.x

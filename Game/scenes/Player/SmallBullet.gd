@@ -52,8 +52,6 @@ func _physics_process(delta):
 
 
 func _process(_delta):
-    if Global.paused:
-        return
     if not $VisibilityNotifier2D.is_on_screen():
         notonscreen += 1
         if notonscreen >= 5:
