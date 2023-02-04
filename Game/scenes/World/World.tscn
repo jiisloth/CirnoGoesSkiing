@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scenes/World/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/World/Chunk.tscn" type="PackedScene" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://scenes/Misc/Dialogue.tscn" type="PackedScene" id=16]
 [ext_resource path="res://misc/Merchant Copy.ttf" type="DynamicFontData" id=17]
 [ext_resource path="res://scenes/Misc/IngameMenu.gd" type="Script" id=18]
+[ext_resource path="res://scenes/Misc/BulletInfo.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/Misc/Timer.tscn" type="PackedScene" id=20]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
@@ -120,6 +122,8 @@ bus = "Music"
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource( 10 )]
 
+[node name="BulletInfo" parent="CanvasLayer" instance=ExtResource( 19 )]
+
 [node name="Menu" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -170,6 +174,12 @@ anchor_bottom = 1.0
 mouse_filter = 1
 text = "Volume"
 align = 1
+
+[node name="Timer" parent="CanvasLayer" instance=ExtResource( 20 )]
+margin_left = -374.0
+margin_top = 113.0
+margin_right = -6.0
+margin_bottom = 173.0
 
 [connection signal="finished" from="MusicController/Marisa" to="MusicController" method="_on_Marisa_finished"]
 [connection signal="finished" from="MusicController/Mima" to="MusicController" method="_on_Mima_finished"]

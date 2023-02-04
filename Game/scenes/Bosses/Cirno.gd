@@ -166,6 +166,7 @@ func shoot(d, speed, rot, t):
     bullet.speed = speed
     bullet.movement = Vector2(50, 50)
     bullet.rotation = d
+    bullet.damage = 3 + t
     bullet.rotatespeed = rot
     bullet.position = position
     bullet.btype = t

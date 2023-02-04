@@ -44,6 +44,8 @@ func _process(_delta):
                 var credits = Credits.instance()
                 add_child(credits)
                 goal = 100000
+        5:
+                $CanvasLayer/Timer.running = true
         6:
             if Global.score > goal:
                 spawn_boss(E.MIMA)
@@ -148,10 +150,12 @@ func boss_died(who):
             Global.score += 20000
             level += 1
             goal = $Player.position.length() + 1000
+            $CanvasLayer/Timer.running = false
         E.MIMA:
             Global.score += 69000
             level += 1
             goal = $Player.position.length() + 500
+            $CanvasLayer/Timer.running = false
 
 
 func continue_game():

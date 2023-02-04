@@ -119,8 +119,11 @@ func add_bullet(d):
     bullet.global_position = player.global_position + Vector2(50,0).rotated(d+ rotation)
     bullet.color = color
     bullet.height = player.height + 20
+    bullet.castspeed = speed + launch.z*6
     bullet.speed = 400 + 400*fly.z
-    bullet.damage = 1 + hit.z*3 + trick_total*0.1 + extra_dmg
+    bullet.basedamage = 1 + hit.z*3
+    bullet.trickbonus = trick_total*0.5
+    bullet.powerupdmg = extra_dmg*0.5
     bullet.age -= trick_total*trick_total*5
     bullet.blinkspeed = (speed + launch.z*6)*0.2
     bullet.health = 1 + fly.y * 2.0
@@ -128,6 +131,7 @@ func add_bullet(d):
     bullet.spawn = hit.y
     bullet.track = fly.x
     bullet.dropscale = total
+    bullet.targetingscale = launch.x
     var bosses = get_tree().get_nodes_in_group("Boss")
     if len(bosses) > 0:
         bullet.rotation = lerp_angle(d + rotation, (bosses[0].global_position - global_position).angle(), launch.x*0.8)

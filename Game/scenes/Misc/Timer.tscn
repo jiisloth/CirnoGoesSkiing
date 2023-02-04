@@ -1,0 +1,342 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/Misc/Timer.gd" type="Script" id=1]
+[ext_resource path="res://misc/CyberSloth.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
+HBoxContainer/constants/separation = 0
+
+[node name="Timer" type="HBoxContainer"]
+modulate = Color( 0.14902, 0.180392, 0.462745, 1 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -368.0
+margin_bottom = 60.0
+theme = SubResource( 2 )
+alignment = 2
+script = ExtResource( 1 )
+decimal = 1
+
+[node name="Sign" type="Label" parent="."]
+margin_left = 74.0
+margin_top = 6.0
+margin_right = 92.0
+margin_bottom = 54.0
+text = "-"
+valign = 1
+
+[node name="Hour1000" type="Label" parent="."]
+margin_left = 92.0
+margin_right = 116.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Hour1000"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Hour100" type="Label" parent="."]
+margin_left = 116.0
+margin_right = 140.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Hour100"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Hour10" type="Label" parent="."]
+margin_left = 140.0
+margin_right = 164.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Hour10"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Hour" type="Label" parent="."]
+margin_left = 164.0
+margin_right = 188.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Hour"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="HourSeparator" type="Label" parent="."]
+margin_left = 188.0
+margin_right = 200.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = ":
+."
+
+[node name="Separator" type="Label" parent="HourSeparator"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = ":"
+align = 1
+valign = 1
+
+[node name="Minute10" type="Label" parent="."]
+margin_left = 200.0
+margin_right = 224.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Minute10"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Minute" type="Label" parent="."]
+margin_left = 224.0
+margin_right = 248.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Minute"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="MinuteSeparator" type="Label" parent="."]
+margin_left = 248.0
+margin_right = 260.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = ":
+."
+
+[node name="Separator" type="Label" parent="MinuteSeparator"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = ":"
+align = 1
+valign = 1
+
+[node name="Second10" type="Label" parent="."]
+margin_left = 260.0
+margin_right = 284.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Second10"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Second" type="Label" parent="."]
+margin_left = 284.0
+margin_right = 308.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Second"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="SecondSeparator" type="Label" parent="."]
+margin_left = 308.0
+margin_right = 320.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = ":
+."
+
+[node name="Separator" type="Label" parent="SecondSeparator"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "."
+align = 1
+valign = 1
+
+[node name="Tens" type="Label" parent="."]
+margin_left = 320.0
+margin_right = 344.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Tens"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1
+
+[node name="Hundreds" type="Label" parent="."]
+margin_left = 344.0
+margin_right = 368.0
+margin_bottom = 60.0
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0, 0, 0, 0 )
+custom_constants/line_spacing = -1000
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+0"
+
+[node name="Number" type="Label" parent="Hundreds"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+text = "0"
+align = 1
+valign = 1

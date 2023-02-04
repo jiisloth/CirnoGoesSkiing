@@ -9,6 +9,10 @@ var newoffset = Vector2()
 var player
 var movement = Vector2()
 var damage = 1
+var basedamage = 1
+var basedmg = 1
+var trickbonus = 0
+var powerupdmg = 0
 var wave = 0
 var yspeed = 0
 var age = 0
@@ -18,6 +22,7 @@ var shield = 0
 var track = 0
 var target = false
 var targeting = 0
+var targetingscale = 0
 var hb_scale = 1
 var color = false
 var dropscale = Vector3.ONE
@@ -25,8 +30,10 @@ var height = 20
 var blinkspeed = 5
 var castready = false
 var flytime = 3
+var castspeed = 0
 
 func _ready():
+    damage = basedmg + trickbonus + powerupdmg
     newoffset = offset
     if color:
         $Sprite.modulate = color

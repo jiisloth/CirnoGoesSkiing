@@ -15,7 +15,7 @@ radius = 4.12311
 [sub_resource type="CircleShape2D" id=2]
 radius = 85.0
 
-[node name="Bullet" type="Area2D" groups=["Bullet", "PlayerBullet"]]
+[node name="Bullet" type="Area2D" groups=["Bullet", "NormalPlayerBullet", "PlayerBullet"]]
 script = ExtResource( 1 )
 SmallBullet = ExtResource( 5 )
 
