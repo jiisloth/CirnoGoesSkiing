@@ -26,7 +26,8 @@ func _ready():
 
 func _process(_delta):
     if Input.is_action_just_pressed("ui_cancel"):
-        open_menu()
+        if not $Player.dead:
+            open_menu()
     check_chunks()
     match level:
         0:
@@ -176,3 +177,4 @@ func continue_game():
 func open_menu():
     $CanvasLayer/Menu.show()
     $CanvasLayer/Menu/Menu/Resume.grab_focus()
+    get_tree().paused = true

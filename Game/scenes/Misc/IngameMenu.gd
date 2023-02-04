@@ -15,8 +15,10 @@ func _on_HSlider_value_changed(value):
 
 
 func _on_Quit_pressed():
+    get_tree().paused = false
     get_tree().root.get_node("Main").quit_game()
 
 
 func _on_Resume_pressed():
+    get_tree().paused = false
     hide()

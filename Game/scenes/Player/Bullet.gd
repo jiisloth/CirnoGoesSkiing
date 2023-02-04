@@ -170,9 +170,7 @@ func _on_Bullet_area_entered(area):
         area.get_parent().boss_hit(damage)
         hit(2)
     if area.is_in_group("Bossbullet"):
-        if not moving and shield == 0:
-            health = 0
-        else:
+        if shield != 0:
             var areadmg = area.damage
             while health > 0 and area.health > 0:
                 area.hit(damage)
