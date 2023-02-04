@@ -3,11 +3,13 @@ extends VBoxContainer
 
 var b
 
-func _ready():
-    if not Global.show_bullet_info:
-        queue_free()
 
 func _process(_delta):
+    if Input.is_action_just_pressed("Debug"):
+        visible = !visible
+    if not visible:
+        return
+    
     var bullets = get_tree().get_nodes_in_group("NormalPlayerBullet")
     if len(bullets) == 0:
         hide()

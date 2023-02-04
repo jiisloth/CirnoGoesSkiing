@@ -200,9 +200,11 @@ margin_bottom = -84.0
 
 [node name="EffectTxts" type="Node2D" parent="Character"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="CamHolder" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="CamHolder"]
 current = true
-smoothing_enabled = true
+smoothing_speed = 50.0
 
 [node name="Damaged" type="Timer" parent="."]
 wait_time = 1.5

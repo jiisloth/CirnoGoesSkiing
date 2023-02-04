@@ -13,6 +13,8 @@ var graze = true
 var extra_drop = 0
 var dropscale = Vector3(0.2, 0.15, 0.15)
 
+var dead = false
+
 func _ready():
     if flippable:
         $Sprite.scale.x = $Sprite.scale.x * sign(randf()-0.5)
@@ -31,10 +33,20 @@ func _on_Area2D_body_entered(body):
             
             
 func die():
+    if dead:
+        return
+    dead = true
     if pkill:
         Global.score += 10
     drop()
-    queue_free()
+    var variants = $Sprite.vframes - 1
+    if variants > 0:
+        $Sprite.frame_coords.y = 1 + randi()%variants
+        $Sprite.z_index = -1
+        $Area2D.queue_free()
+        $Particles2D.emitting = true
+    else:
+        queue_free()
 
 
 func drop():

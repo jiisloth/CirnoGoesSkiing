@@ -324,7 +324,7 @@ func hide_circle(force=false):
 func _process(delta):
     if Input.is_action_pressed("cast"):
         cast_bullets()
-    $Camera2D.position = velocity/4
+    $CamHolder.position = $CamHolder.position.linear_interpolate(velocity/4.0,0.01)
     if health <= 0 and not dead:
         dead = true
         $Shadow.hide()
