@@ -101,8 +101,7 @@ func _process(delta):
         velocity.y = 200
         shooting = false
         moving = true
-        health = min(maxhealth, health + 5)
-        $OverTimer.start(10)
+        $OverTimer.start(6)
 
     if dying:
         velocity.x = 0
@@ -188,6 +187,7 @@ func _on_Area2D_body_entered(body):
 
 
 func _on_OverTimer_timeout():
+    health = min(maxhealth, health + 2.5)
     position = get_start_pos()
     velocity = player.velocity
     starting = true

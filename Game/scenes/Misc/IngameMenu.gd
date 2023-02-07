@@ -2,11 +2,12 @@ extends ColorRect
 
 
 func _ready():
-    $Menu/HSlider.value = Global.volume
+    $Menu/HSlider.value = Save.settings["volume"]
 
 
 func _on_HSlider_value_changed(value):
-    Global.volume = value
+    Save.settings["volume"] = value
+    Save.save_settings()
     if value == 0:
         AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), true)
     else:

@@ -7,6 +7,7 @@ var level
 var in_game = false
 
 func _ready():
+    $Menu/Main/HSlider.value = Save.settings["volume"]
     $Menu/Main.show()
     $Menu.hide()
     $Menu/Controls.hide()
@@ -34,7 +35,7 @@ func quit_game():
     level.queue_free()
     yield(get_tree().create_timer(0.2), "timeout")
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(1))
-    $Menu/Main/HSlider.value = Global.volume
+    $Menu/Main/HSlider.value = Save.settings["volume"]
     $AudioStreamPlayer.play()
     
     

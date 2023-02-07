@@ -50,6 +50,7 @@ var coyote = 0
 var was_on_ground = true
 var jumped = false
 var casting = false
+var castcount = 0
 
 var power = 0
 var graze_boost = 0
@@ -64,6 +65,7 @@ var max_height = 0
 
 var trick_coyote = [0.0,0.0,0.0]
 
+var powerups = 0
 
 func _physics_process(delta):
     if dead:
@@ -111,7 +113,6 @@ func _physics_process(delta):
             climb = Vector2(0,-80)
             movespeed = 0
             lift = 2.5
-        pass #climb hill
     if Input.is_action_just_pressed("jump") and was_on_ground and not jumped:
         max_height = 0
         jumped = true
@@ -468,11 +469,18 @@ func add_to_cast_que(cast):
     $Casts.add_child(cast)
 
 func cast_bullets(fail=false):
+    var casted = false
     for c in $Casts.get_children():
+        if c.launchwhenready == false:
+            casted = true
         if not c.loading or fail:
             c.launch_bullets(fail)
+            c.launchwhenready = true
         else:
             c.launchwhenready = true
+    
+    if not fail and casted:
+        castcount += 1
     hide_circle(true)
     
         
@@ -540,15 +548,18 @@ func add_graze():
     
 func add_power():
     add_effect_text(E.Effect.POWER)
-    power += 1  
+    power += 1
+    powerups += 1
     
 func add_health():
     add_effect_text(E.Effect.HEALTH)
     health = min(health+3, maxhealth)
+    powerups += 1
     
 func add_score():
     add_effect_text(E.Effect.SCORE)
     Global.score += 1000
+    powerups += 1
 
 func add_effect_text(t, will_drop=false):
     var txt = Effect_text.instance()

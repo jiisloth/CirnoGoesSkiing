@@ -59,12 +59,12 @@ func drop():
                 spawn_drop()
             if ds.z > randf():
                 spawn_drop()
-    elif randf() < dropchance/2.0:
+    elif randf() < dropchance/3.0:
         spawn_drop()
 
 func spawn_drop():
     var p = load("res://scenes/Player/Powerup.tscn").instance()
-    p.position = position + Vector2(randi()%12-6,randi()%12-6)
+    p.position = position + Vector2(randi()%24-12,randi()%12-6)
     p.dropscale = dropscale
     get_parent().add_child(p)
 

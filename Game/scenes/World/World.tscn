@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://scenes/World/World.gd" type="Script" id=1]
 [ext_resource path="res://scenes/World/Chunk.tscn" type="PackedScene" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://scenes/Misc/IngameMenu.gd" type="Script" id=18]
 [ext_resource path="res://scenes/Misc/BulletInfo.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/Misc/Timer.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scenes/Misc/Tutorial.tscn" type="PackedScene" id=21]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.360784, 0.388235, 0.45098, 0.568627 )
@@ -118,7 +119,10 @@ bus = "Music"
 stream = ExtResource( 11 )
 bus = "Music"
 
+[node name="Tutorial" parent="." instance=ExtResource( 21 )]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 4
 
 [node name="UI" parent="CanvasLayer" instance=ExtResource( 10 )]
 

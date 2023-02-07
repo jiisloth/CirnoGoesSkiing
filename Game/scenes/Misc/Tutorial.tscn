@@ -1,0 +1,112 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/Misc/Tutorial.gd" type="Script" id=1]
+[ext_resource path="res://misc/Merchant Copy.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://img/art/marisa.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+outline_size = 3
+font_data = ExtResource( 2 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 3 )
+Label/colors/font_color = Color( 0.94902, 1, 1, 1 )
+Label/colors/font_outline_modulate = Color( 0.184314, 0.0745098, 0.0980392, 1 )
+
+[node name="Tutorial" type="CanvasLayer"]
+layer = 3
+script = ExtResource( 1 )
+
+[node name="Marisa" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1351, 700 )
+scale = Vector2( 0.515, 0.515 )
+texture = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Dialogues" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( 2 )
+
+[node name="Intro" type="Control" parent="Dialogues"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 0.42
+margin_left = 45.0
+margin_top = 83.0
+margin_right = -45.0
+margin_bottom = -36.0
+
+[node name="Right" type="Label" parent="Dialogues/Intro"]
+visible = false
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+text = "What is that?"
+align = 2
+valign = 1
+autowrap = true
+
+[node name="Right2" type="Label" parent="Dialogues/Intro"]
+visible = false
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+text = "A giant snowball? "
+align = 2
+valign = 1
+autowrap = true
+
+[node name="Right3" type="Label" parent="Dialogues/Intro"]
+visible = false
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+text = "I'd better break it before someone gets hurt!"
+align = 2
+valign = 1
+autowrap = true
+
+[node name="Quests" type="Control" parent="Dialogues"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 0.42
+margin_left = 45.0
+margin_top = 83.0
+margin_right = -45.0
+margin_bottom = -36.0
+
+[node name="Text" type="Label" parent="Dialogues/Quests"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 59.0
+margin_bottom = -64.0
+align = 2
+valign = 2
+autowrap = true
+
+[node name="Count" type="Label" parent="Dialogues/Quests"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 161.0
+margin_top = 202.0
+margin_bottom = -24.0
+align = 2
+valign = 2
+autowrap = true
+
+[node name="Control" type="Control" parent="Dialogues/Quests"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Icons" type="Node2D" parent="Dialogues/Quests/Control"]

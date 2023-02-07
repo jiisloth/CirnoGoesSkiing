@@ -30,11 +30,11 @@ func _process(_delta):
             open_menu()
     check_chunks()
     match level:
-        0:
+        1:
             if $Player.position.length() > goal:
                 spawn_boss(E.SNOWBALL)
                 level += 1
-        2:
+        3:
             if $Player.position.length() > goal:
                 spawn_boss(E.CIRNO)
                 level += 1
@@ -44,13 +44,13 @@ func _process(_delta):
                 var credits = Credits.instance()
                 add_child(credits)
                 goal = 100000
-        5:
-                $CanvasLayer/Timer.running = true
         6:
+                $CanvasLayer/Timer.running = true
+        7:
             if Global.score > goal:
                 spawn_boss(E.MIMA)
                 level += 1
-        8:
+        9:
             if $Player.position.length() > goal:
                 level += 1
                 var credits = Credits.instance()
@@ -134,7 +134,11 @@ func spawn_boss(who):
     if boss:
         add_child(boss)
         play_dialoque(who)
-            
+
+func end_tutorial():
+    goal = $Player.position.length() + 25000
+    level += 1
+                
  
 func boss_died(who):
     var wait = 4
@@ -145,7 +149,7 @@ func boss_died(who):
         E.SNOWBALL:
             Global.score += 5000
             level += 1
-            goal = $Player.position.length() + 10000
+            goal = $Player.position.length() + 12000
         E.CIRNO:
             Global.score += 20000
             level += 1
@@ -169,13 +173,13 @@ func continue_game():
         bullet.queue_free()
     level = -level
     match level:
-        1:
+        2:
             level -= 1
             goal = $Player.position.length() + 1000
-        3:
+        4:
             level -= 1
             goal = $Player.position.length() + 1000
-        7:  
+        8:  
             level -= 1
             goal = $Player.position.length() + 1000
     

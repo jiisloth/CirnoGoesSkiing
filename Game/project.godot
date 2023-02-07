@@ -22,6 +22,7 @@ default_bus_layout="res://misc/default_bus_layout.tres"
 
 Global="*res://scenes/Autoload/Global.gd"
 E="*res://scenes/Autoload/Enum.gd"
+Save="*res://scenes/Autoload/Save.gd"
 
 [display]
 
