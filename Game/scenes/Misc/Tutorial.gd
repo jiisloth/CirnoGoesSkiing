@@ -18,10 +18,13 @@ enum {
     POWERUP2,
     POWERUP3,
     RAMP1,
-    RAMP2
+    RAMP2,
+    SIGN1,
+    SIGN2
    }
 
 var holds = [LEFT,RIGHT,STOP,JUMP1,JUMP2,MELON,INDY,NOSE]
+var timed = ["Start1", "Start2", "End1", "End2", "End3"]
 var animtime = 0
 var animpoint = 0
 var buttonpoint = 0
@@ -34,12 +37,14 @@ func _ready():
     next_quest(true)
 
 var quests = {
-    "Jumping": {"value": 0, "subvalue": 0, "goal": 1, "text": "Let's start by learning how to JUMP!", "icons": [JUMP1,JUMP2]},
+    "Start1": {"value": 0, "subvalue": 0, "goal": 3, "text": "Let's see..\nThis should be like flying with my broom.", "icons": []},
+    "Start2": {"value": 0, "subvalue": 0, "goal": 3, "text": "I'll go trough the basics quickly.", "icons": []},
+    "Jumping": {"value": 0, "subvalue": 0, "goal": 1, "text": "Let's start by JUMPing!", "icons": [JUMP1,JUMP2]},
     "JumpingHigh": {"value": 0, "subvalue": 0, "goal": 3, "text": "Wait for the 'Weak jump' bar to disapear and hold the button to JUMP higher!", "icons": [JUMP1,JUMP2]},
     "Turning": {"value": 0, "subvalue": 0, "goal": PI/3, "text": "Control your snowboard by rotating it with directional inputs.", "icons": [[LEFT, RIGHT]]},
     "TurningLeft": {"value": 0, "subvalue": 0, "goal": PI, "text": "Make a full TURN to Left!", "icons": [LEFT]},
     "TurningRight": {"value": 0, "subvalue": 0, "goal": PI, "text": "Make a full TURN to Right!", "icons": [RIGHT]},
-    "Speed": {"value": 0, "subvalue": 0, "goal": 350, "text": "Face the slope and get some SPEED!", "icons": [[LEFT, RIGHT]]},
+    "Speed": {"value": 0, "subvalue": 0, "goal": 350, "text": "Face down the slope to get some SPEED!", "icons": [[LEFT, RIGHT]]},
     "Stop": {"value": -INF, "subvalue": 0, "goal": -6, "text": "Now hold the STOP button to slow down!", "icons": [STOP]},
     "Climb": {"value": 0, "subvalue": 0, "goal": 2, "text": "While stopped, CLIMB up the hill with small hops.", "icons": [STOP, UP]},
     "Ramp": {"value": 0, "subvalue": 0, "goal": 2, "text": "Try to find a RAMP and get more air by timing your JUMP on it!", "icons": [JUMP1,JUMP2, RAMP1,RAMP2]},
@@ -50,7 +55,10 @@ var quests = {
     "180": {"value": 0, "subvalue": 0, "goal": 2, "text": "Now you should try spinning in the air and doing a 180!", "icons": [JUMP1,JUMP2, [LEFT,RIGHT]]},
     "180_trick": {"value": 0, "subvalue": 0, "goal": 3, "text": "Spinning gives you more bullets, Try adding a trick to it.", "icons": [JUMP1,JUMP2, [LEFT,RIGHT]]},
     "Combo": {"value": 0, "subvalue": 0, "goal": 3, "text": "Now try combining multiple tricks to cast a spell with combined properties!", "icons": [JUMP1,JUMP2, MELON, INDY, NOSE]},
-    "PowerUps": {"value": 0, "subvalue": 0, "goal": 2, "text": "Collect few Power Ups by destroying obstacles with your bullets!", "icons": [[POWERUP1,POWERUP2,POWERUP3]]},
+    "PowerUps": {"value": 0, "subvalue": 0, "goal": 1, "text": "Collect a Power Ups by destroying some trees and rocks!", "icons": [[POWERUP1,POWERUP2,POWERUP3]]},
+    "End1": {"value": 0, "subvalue": 0, "goal": 3, "text": "I should follow the slope signs if I get lost to the woods.", "icons": [SIGN1,SIGN2]},
+    "End2": {"value": 0, "subvalue": 0, "goal": 3, "text": "I think I can find more infromation about the tricks and their spell properties from the powerpoin in the menu.", "icons": []},
+    "End3": {"value": 0, "subvalue": 0, "goal": 3, "text": "Okay, I think I should manage.\nLet's go!", "icons": []},
    }
 var current_quest = 0
 var pre_current_quest = 0
@@ -58,6 +66,15 @@ var do_anim = false
 
 func _process(delta):
     animate_icons(delta)
+    check_quests(delta)
+    
+func check_quests(delta):
+    if pre_current_quest >= len(quests.keys()):
+        return
+    var q = quests.keys()[pre_current_quest]
+    if q in timed:
+        quests[q]["value"] += delta
+    
     #Turning
     quests["Turning"]["value"] += abs(angle_difference(quests["Turning"]["subvalue"], player.dir))
     quests["Turning"]["subvalue"] = player.dir
@@ -174,13 +191,18 @@ func animate_icons(delta):
     var i = 0
     var q = quests.keys()[current_quest]
     var icons = quests[q]["icons"]
-    if quests[q]["goal"] in [1,2,3,4,5]:
-        $Dialogues/Quests/Count.text = str(quests[q]["value"]) + "/" + str(quests[q]["goal"])
+    if q in timed:
+        $Dialogues/Quests/Count.text = "."
+        for s in int(quests[q]["value"]):
+            $Dialogues/Quests/Count.text += "."
     else:
-        if quests[q]["goal"] <= quests[q]["value"]:
-            $Dialogues/Quests/Count.text = "1/1"
+        if quests[q]["goal"] in [1,2,3,4,5]:
+            $Dialogues/Quests/Count.text = str(quests[q]["value"]) + "/" + str(quests[q]["goal"])
         else:
-            $Dialogues/Quests/Count.text = "0/1"
+            if quests[q]["goal"] <= quests[q]["value"]:
+                $Dialogues/Quests/Count.text = "1/1"
+            else:
+                $Dialogues/Quests/Count.text = "0/1"
             
     if len(icons) != $Dialogues/Quests/Control/Icons.get_child_count():
         return
@@ -254,7 +276,7 @@ func end_tutorial():
 func init_icon():
     var sprite = Sprite.new()
     sprite.texture = load("res://img/pixelart/tutorialicons.png")
-    sprite.hframes = 17
+    sprite.hframes = 19
     sprite.vframes = 4
     sprite.scale = Vector2(3,3)
     return sprite

@@ -106,7 +106,7 @@ stream = ExtResource( 13 )
 bus = "Music"
 
 [node name="Bg" type="Sprite" parent="Menu"]
-position = Vector2( 709, 444 )
+position = Vector2( 709, 446 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 9 )
 
@@ -137,17 +137,17 @@ margin_right = 378.0
 margin_bottom = 148.0
 text = "Start game"
 
-[node name="HowTo" type="Button" parent="Menu/Main"]
-margin_top = 158.0
-margin_right = 378.0
-margin_bottom = 191.0
-text = "Tutorial"
-
 [node name="Controls" type="Button" parent="Menu/Main"]
 margin_top = 201.0
 margin_right = 378.0
 margin_bottom = 234.0
 text = "Controls"
+
+[node name="HowTo" type="Button" parent="Menu/Main"]
+margin_top = 158.0
+margin_right = 378.0
+margin_bottom = 191.0
+text = "Tutorial"
 
 [node name="Credits" type="Button" parent="Menu/Main"]
 margin_top = 244.0
@@ -444,8 +444,8 @@ bus = "Music"
 visible = false
 
 [connection signal="pressed" from="Menu/Main/Start" to="Menu" method="_on_Start_pressed"]
-[connection signal="pressed" from="Menu/Main/HowTo" to="Menu" method="_on_HowTo_pressed"]
 [connection signal="pressed" from="Menu/Main/Controls" to="Menu" method="_on_Controls_pressed"]
+[connection signal="pressed" from="Menu/Main/HowTo" to="Menu" method="_on_HowTo_pressed"]
 [connection signal="pressed" from="Menu/Main/Credits" to="Menu" method="_on_Credits_pressed"]
 [connection signal="value_changed" from="Menu/Main/HSlider" to="Menu" method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="Menu/Controls/HowTo" to="Menu" method="_on_HowTo_pressed"]

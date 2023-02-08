@@ -39,7 +39,6 @@ func quit_game():
     $AudioStreamPlayer.play()
     
     
-    
 func end_intro():
     $Menu.show()
     $Menu.init_menu()
@@ -50,6 +49,7 @@ func end_intro():
 func _on_AudioStreamPlayer_finished():
     if not in_game:
         $AudioStreamPlayer.play()
+
 
 func start_audio():
     if not in_game:

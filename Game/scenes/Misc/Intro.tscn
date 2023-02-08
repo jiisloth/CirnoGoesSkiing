@@ -67,7 +67,7 @@ theme = SubResource( 10 )
 script = ExtResource( 5 )
 
 [node name="Bg" type="Sprite" parent="."]
-position = Vector2( 477, 444 )
+position = Vector2( 477, 447 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 
