@@ -38,7 +38,7 @@ func _process(_delta):
             if $Player.position.length() > goal:
                 spawn_boss(E.CIRNO)
                 level += 1
-        4:  
+        5:  
             if $Player.position.length() > goal:
                 level += 1
                 var credits = Credits.instance()
